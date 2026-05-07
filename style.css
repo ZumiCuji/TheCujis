@@ -267,3 +267,119 @@ footer {
     letter-spacing: 1px;
     width: 100%;
 }
+
+/* Custom Form Styling */
+.custom-form {
+    max-width: 500px;
+    margin: 2rem auto 0 auto;
+    text-align: left;
+}
+
+.form-group {
+    margin-bottom: 2rem;
+}
+
+.custom-form label {
+    display: block;
+    font-weight: bold;
+    color: var(--burgundy);
+    margin-bottom: 0.5rem;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+}
+
+.custom-form input[type="text"] {
+    width: 100%;
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-family: 'Lato', sans-serif;
+    font-size: 1rem;
+    background-color: var(--ivory);
+}
+
+.custom-form input[type="text"]:focus {
+    outline: none;
+    border-color: var(--burgundy);
+    box-shadow: 0 0 5px rgba(114, 47, 55, 0.3);
+}
+
+/* Custom Radio Buttons */
+.radio-group {
+    display: flex;
+    gap: 2rem;
+    margin-top: 1rem;
+}
+
+.radio-label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-weight: normal !important;
+    color: var(--text-dark) !important;
+    font-family: 'Lato', sans-serif !important;
+}
+
+.radio-label input[type="radio"] {
+    appearance: none;
+    background-color: #fff;
+    margin: 0;
+    font: inherit;
+    color: currentColor;
+    width: 1.15em;
+    height: 1.15em;
+    border: 2px solid var(--text-light);
+    border-radius: 50%;
+    display: grid;
+    place-content: center;
+    margin-right: 0.5rem;
+}
+
+.radio-label input[type="radio"]::before {
+    content: "";
+    width: 0.65em;
+    height: 0.65em;
+    border-radius: 50%;
+    transform: scale(0);
+    transition: 120ms transform ease-in-out;
+    box-shadow: inset 1em 1em var(--burgundy);
+}
+
+.radio-label input[type="radio"]:checked::before {
+    transform: scale(1);
+}
+
+.radio-label input[type="radio"]:checked {
+    border-color: var(--burgundy);
+}
+
+/* Submit Button */
+.submit-btn {
+    background-color: var(--burgundy);
+    color: var(--pure-white);
+    border: none;
+    padding: 15px 30px;
+    border-radius: 5px;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 1rem;
+    width: 100%;
+    transition: background-color 0.3s ease;
+}
+
+.submit-btn:hover {
+    background-color: var(--burgundy-light);
+}
+
+.success-message {
+    margin-top: 2rem;
+    padding: 2rem;
+    border: 2px solid var(--burgundy);
+    border-radius: 8px;
+    background-color: var(--ivory);
+}
+
+.success-message h3 {
+    margin-bottom: 0.5rem;
+}

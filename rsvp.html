@@ -26,13 +26,37 @@
             <h2>We can't wait to see you!</h2>
             <p>Please let us know if you can make it by July 1st, 2026.</p>
             
-            <!-- Pro Tip: Use a Google Form link for easy data collection -->
-            <div style="margin-top: 2rem;">
-                <a href="YOUR_GOOGLE_FORM_LINK_HERE" 
-                   style="background-color: #722F37; color: white; padding: 15px 30px; text-decoration: none; border-radius: 5px; text-transform: uppercase; letter-spacing: 2px;">
-                   Click Here to RSVP
-                </a>
+            <!-- The Native Form -->
+            <form id="rsvp-form" class="custom-form">
+                
+                <div class="form-group">
+                    <label for="guest-name">Guest Name(s)</label>
+                    <input type="text" id="guest-name" name="Name" placeholder="e.g., Jane & John Doe" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Will you be attending?</label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="Attendance" value="Joyfully Accepts" required>
+                            <span>Joyfully Accepts</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="Attendance" value="Regretfully Declines">
+                            <span>Regretfully Declines</span>
+                        </label>
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-btn" id="submit-button">Send RSVP</button>
+            </form>
+
+            <!-- Success Message (Hidden until submitted) -->
+            <div id="form-message" class="success-message" style="display: none;">
+                <h3>Thank you!</h3>
+                <p>Your response has been recorded.</p>
             </div>
+
         </section>
     </main>
 
@@ -40,5 +64,33 @@
         <p>Questions? Contact us at hello@ourwedding.com</p>
     </footer>
 
+    <!-- Form Submission Script -->
+    <script>
+        const form = document.getElementById('rsvp-form');
+        const messageDiv = document.getElementById('form-message');
+        const submitBtn = document.getElementById('submit-button');
+
+        // This is the URL we will get from Google Sheets in the next step
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbzQHsXaCnk76s__TIfsLKf7umTjFW3P0RieRuI0jbluPCSrvoKA_34Va9FPsyijt1wjMw/exec'; 
+
+        form.addEventListener('submit', e => {
+            e.preventDefault();
+            submitBtn.innerText = "Sending...";
+            
+            // Collect form data
+            const requestBody = new FormData(form);
+            
+            // Send to Google Sheets
+            fetch(scriptURL, { method: 'POST', body: requestBody })
+                .then(response => {
+                    form.style.display = 'none';
+                    messageDiv.style.display = 'block';
+                })
+                .catch(error => {
+                    console.error('Error!', error.message);
+                    submitBtn.innerText = "Error - Try Again";
+                });
+        });
+    </script>
 </body>
 </html>
