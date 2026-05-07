@@ -120,3 +120,20 @@ footer {
     font-size: 0.9rem;
     border-top: 1px solid #eaeaea;
 }
+
+/* Additional Layout Styles */
+.story-section {
+    margin-bottom: 5rem;
+}
+
+.story-section h2 {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+}
+
+.rsvp-content, .registry-intro {
+    background-color: var(--pure-white);
+    padding: 4rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+}
