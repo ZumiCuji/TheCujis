@@ -11,6 +11,7 @@
 
     <header>
         <div class="header-content">
+            <!-- You can use the logo the imagen_agent made for you here! -->
             <h1>Gift Registry</h1>
             <nav>
                 <a href="index.html">Home</a>
@@ -23,19 +24,111 @@
 
     <main>
         <section class="registry-intro">
-            <p>Your presence is the greatest gift of all. If you wish to give, we are registered at the following places:</p>
+            <h2>Our Wishlist</h2>
+            <p>Your presence is the greatest gift of all. If you wish to give, please browse our in-house registry below. Once you purchase an item from the retailer, simply click "I Bought This" so others know it's taken!</p>
+        </section>
+
+        <!-- Registry Items Grid -->
+        <section class="registry-grid">
             
-            <div class="registry-links" style="display: flex; justify-content: center; gap: 2rem; margin-top: 3rem;">
-                <a href="#" style="color: #722F37; font-weight: bold; text-decoration: underline;">Crate & Barrel</a>
-                <a href="#" style="color: #722F37; font-weight: bold; text-decoration: underline;">Zola</a>
-                <a href="#" style="color: #722F37; font-weight: bold; text-decoration: underline;">Honeymoon Fund</a>
+            <!-- Item 1: Honeymoon Fund -->
+            <div class="registry-card honeymoon">
+                <div class="card-image-placeholder">✈️</div>
+                <h3>Honeymoon Fund</h3>
+                <p class="counter">Any Amount Appreciated</p>
+                <a href="YOUR_VENMO_OR_PAYPAL_LINK" target="_blank" class="buy-link">Contribute Here</a>
+                <button class="mark-bought-btn" onclick="openModal('Honeymoon Contribution')">I Contributed!</button>
             </div>
+
+            <!-- Item 2 -->
+            <div class="registry-card">
+                <!-- Replace with actual image: <img src="images/mixer.jpg" alt="Mixer"> -->
+                <div class="card-image-placeholder">🥣</div>
+                <h3>Artisan Stand Mixer</h3>
+                <p class="counter" id="count-mixer">0/1 Purchased</p>
+                <a href="https://www.amazon.com/placeholder-mixer" target="_blank" class="buy-link">Buy from Amazon</a>
+                <button class="mark-bought-btn" onclick="openModal('Artisan Stand Mixer')">I Bought This!</button>
+            </div>
+
+            <!-- Item 3 -->
+            <div class="registry-card">
+                <div class="card-image-placeholder">☕</div>
+                <h3>Espresso Machine</h3>
+                <p class="counter" id="count-espresso">0/1 Purchased</p>
+                <a href="https://www.crateandbarrel.com/placeholder" target="_blank" class="buy-link">Buy from Crate & Barrel</a>
+                <button class="mark-bought-btn" onclick="openModal('Espresso Machine')">I Bought This!</button>
+            </div>
+
+            <!-- Item 4 -->
+            <div class="registry-card">
+                <div class="card-image-placeholder">🍽️</div>
+                <h3>Ceramic Dinnerware Set</h3>
+                <p class="counter" id="count-plates">0/2 Purchased</p>
+                <a href="https://www.potterybarn.com/placeholder" target="_blank" class="buy-link">Buy from Pottery Barn</a>
+                <button class="mark-bought-btn" onclick="openModal('Ceramic Dinnerware Set')">I Bought This!</button>
+            </div>
+
         </section>
     </main>
+
+    <!-- The Modal (Popup for entering name) -->
+    <div id="purchaseModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h3 id="modal-item-name">Mark Item as Bought</h3>
+            <p>Thank you so much! Please enter your name below so we know who to thank.</p>
+            <input type="text" id="guestName" placeholder="Your Name(s)">
+            <button class="confirm-btn" onclick="confirmPurchase()">Confirm Purchase</button>
+            <p id="successMessage" style="display:none; color: var(--burgundy); margin-top: 1rem; font-weight: bold;">Thank you! Registry updated locally.</p>
+        </div>
+    </div>
 
     <footer>
         <p>Thank you for your generosity!</p>
     </footer>
+
+    <!-- JavaScript for the Modal -->
+    <script>
+        const modal = document.getElementById("purchaseModal");
+        const itemNameDisplay = document.getElementById("modal-item-name");
+        let currentItem = "";
+
+        function openModal(itemName) {
+            currentItem = itemName;
+            itemNameDisplay.innerText = "Claim: " + itemName;
+            modal.style.display = "flex";
+            document.getElementById("successMessage").style.display = "none";
+            document.getElementById("guestName").value = "";
+        }
+
+        function closeModal() {
+            modal.style.display = "none";
+        }
+
+        function confirmPurchase() {
+            const guestName = document.getElementById("guestName").value;
+            if(guestName.trim() === "") {
+                alert("Please enter your name!");
+                return;
+            }
+            // Here is where we would eventually send data to a Google Sheet!
+            console.log(guestName + " bought " + currentItem);
+            
+            document.getElementById("successMessage").style.display = "block";
+            
+            // Close modal after 2 seconds
+            setTimeout(() => {
+                closeModal();
+            }, 2000);
+        }
+
+        // Close modal if clicking outside of it
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+    </script>
 
 </body>
 </html>
