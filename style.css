@@ -1,0 +1,122 @@
+/* Color Palette & Variables */
+:root {
+    --ivory: #FDFBF7;
+    --pure-white: #FFFFFF;
+    --burgundy: #722F37; /* Rich BOHO highlight */
+    --burgundy-light: #903c45;
+    --text-dark: #333333;
+    --text-light: #666666;
+}
+
+/* Global Reset & Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--ivory);
+    color: var(--text-dark);
+    font-family: 'Lato', sans-serif; /* Clean modern body text */
+    text-align: center;
+    line-height: 1.6;
+}
+
+/* Elegant Headings */
+h1, h2, h3 {
+    font-family: 'Playfair Display', serif; /* BOHO Serif */
+    color: var(--burgundy);
+    font-weight: 600;
+}
+
+/* Header Section */
+header {
+    background-color: var(--pure-white);
+    padding: 4rem 2rem 2rem 2rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03); /* Sleek modern shadow */
+}
+
+h1 {
+    font-size: 3rem;
+    letter-spacing: 2px;
+    margin-bottom: 0.5rem;
+}
+
+.subtitle {
+    font-size: 1.1rem;
+    font-style: italic;
+    color: var(--text-light);
+    margin-bottom: 2rem;
+}
+
+/* Navigation Bar */
+nav {
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+}
+
+nav a {
+    text-decoration: none;
+    color: var(--text-dark);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 0.9rem;
+    transition: color 0.3s ease, border-bottom 0.3s ease;
+    padding-bottom: 5px;
+    border-bottom: 2px solid transparent;
+}
+
+nav a:hover, nav a.active {
+    color: var(--burgundy);
+    border-bottom: 2px solid var(--burgundy);
+}
+
+/* Main Content & Spacing */
+main {
+    padding: 4rem 2rem;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+/* Image Styling - Modern & Sleek */
+.framed-photo {
+    max-width: 100%;
+    height: auto;
+    border-radius: 12px; /* Soft, sleek edges */
+    box-shadow: 0 10px 30px rgba(114, 47, 55, 0.1); /* Subtle burgundy shadow */
+    margin-bottom: 3rem;
+    border: 8px solid var(--pure-white); /* Creates a framed look */
+}
+
+/* Text Sections */
+.welcome-text h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.welcome-text p {
+    font-size: 1.1rem;
+    color: var(--text-light);
+    max-width: 600px;
+    margin: 0 auto 1.5rem auto;
+}
+
+.date-highlight {
+    font-weight: bold;
+    color: var(--burgundy) !important;
+    font-size: 1.2rem !important;
+    letter-spacing: 1px;
+}
+
+/* Footer */
+footer {
+    padding: 3rem 1rem;
+    background-color: var(--pure-white);
+    color: var(--text-light);
+    font-size: 0.9rem;
+    border-top: 1px solid #eaeaea;
+}
