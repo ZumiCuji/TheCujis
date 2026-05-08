@@ -9,7 +9,7 @@
     <!-- Import BOHO/Modern Fonts & Cursive Font for the Reveal -->
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Alex+Brush&display=swap" rel="stylesheet">
     
-    <!-- INLINE STYLES: This forces the curtain to work immediately, bypassing cache -->
+    <!-- INLINE STYLES -->
     <style>
         .curtain-overlay {
             position: fixed;
@@ -17,8 +17,8 @@
             left: 0;
             width: 100%;
             height: 100vh;
-            /* Public Domain Monet Painting - Water Lilies */
-            background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Claude_Monet_-_Water_Lilies_-_Google_Art_Project.jpg/1280px-Claude_Monet_-_Water_Lilies_-_Google_Art_Project.jpg');
+            /* Now looking for the image locally in your GitHub folder! */
+            background-image: url('images/monet.jpg');
             background-size: cover;
             background-position: center;
             z-index: 9999;
@@ -35,7 +35,8 @@
             content: "";
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.25); 
+            /* A slight dark tint so the white cursive text is easy to read */
+            background: rgba(0, 0, 0, 0.3); 
             z-index: -1;
         }
 
