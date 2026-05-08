@@ -383,3 +383,79 @@ footer {
 .success-message h3 {
     margin-bottom: 0.5rem;
 }
+
+/* =========================================
+   CURTAIN REVEAL STYLES
+   ========================================= */
+.curtain-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    /* Public Domain Monet Painting - Water Lilies */
+    background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Claude_Monet_-_Water_Lilies_-_Google_Art_Project.jpg/1280px-Claude_Monet_-_Water_Lilies_-_Google_Art_Project.jpg');
+    background-size: cover;
+    background-position: center;
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* Smooth slide up animation */
+    transition: transform 1.5s cubic-bezier(0.77, 0, 0.175, 1), opacity 1.5s ease;
+    cursor: pointer;
+}
+
+/* Adds a subtle dark tint so the white text is readable against the painting */
+.curtain-overlay::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.25); 
+    z-index: -1;
+}
+
+.curtain-content {
+    text-align: center;
+    z-index: 1;
+}
+
+.cursive-names {
+    font-family: 'Alex Brush', cursive !important; /* Cursive font */
+    font-size: 6rem;
+    color: #ffffff;
+    text-shadow: 2px 4px 10px rgba(0, 0, 0, 0.5); /* Soft drop shadow for legibility */
+    margin-bottom: 1rem;
+    font-weight: normal;
+}
+
+.enter-text {
+    font-family: 'Lato', sans-serif;
+    font-size: 1.2rem;
+    color: #ffffff;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    text-shadow: 1px 2px 5px rgba(0, 0, 0, 0.5);
+    animation: pulse 2.5s infinite;
+}
+
+/* Pulsing effect to encourage clicking */
+@keyframes pulse {
+    0% { opacity: 0.5; }
+    50% { opacity: 1; }
+    100% { opacity: 0.5; }
+}
+
+/* The class added by JavaScript to slide the curtain up */
+.curtain-open {
+    transform: translateY(-100%);
+    opacity: 0;
+    pointer-events: none; /* Allows user to click the website underneath once open */
+}
+
+/* Mobile Responsiveness for the Cursive Names */
+@media (max-width: 600px) {
+    .cursive-names {
+        font-size: 4rem;
+    }
+}
