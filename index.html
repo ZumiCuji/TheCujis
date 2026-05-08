@@ -4,10 +4,85 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Our Wedding | Welcome</title>
-    <!-- Link to our stylesheet -->
+    <!-- Link to our stylesheet for the rest of the site -->
     <link rel="stylesheet" href="style.css">
     <!-- Import BOHO/Modern Fonts & Cursive Font for the Reveal -->
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Alex+Brush&display=swap" rel="stylesheet">
+    
+    <!-- INLINE STYLES: This forces the curtain to work immediately, bypassing cache -->
+    <style>
+        .curtain-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            /* Public Domain Monet Painting - Water Lilies */
+            background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Claude_Monet_-_Water_Lilies_-_Google_Art_Project.jpg/1280px-Claude_Monet_-_Water_Lilies_-_Google_Art_Project.jpg');
+            background-size: cover;
+            background-position: center;
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: transform 1.5s cubic-bezier(0.77, 0, 0.175, 1), opacity 1.5s ease;
+            cursor: pointer;
+            margin: 0;
+            padding: 0;
+        }
+
+        .curtain-overlay::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.25); 
+            z-index: -1;
+        }
+
+        .curtain-content {
+            text-align: center;
+            z-index: 1;
+        }
+
+        .cursive-names {
+            font-family: 'Alex Brush', cursive !important;
+            font-size: 6rem;
+            color: #ffffff;
+            text-shadow: 2px 4px 10px rgba(0, 0, 0, 0.5);
+            margin: 0 0 1rem 0;
+            font-weight: normal;
+            line-height: 1;
+        }
+
+        .enter-text {
+            font-family: 'Lato', sans-serif;
+            font-size: 1.2rem;
+            color: #ffffff;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            text-shadow: 1px 2px 5px rgba(0, 0, 0, 0.5);
+            animation: pulse 2.5s infinite;
+            margin: 0;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.5; }
+            50% { opacity: 1; }
+            100% { opacity: 0.5; }
+        }
+
+        .curtain-open {
+            transform: translateY(-100%);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        @media (max-width: 600px) {
+            .cursive-names {
+                font-size: 4rem;
+            }
+        }
+    </style>
 </head>
 <body>
 
@@ -35,11 +110,6 @@
     <!-- Main Content Area -->
     <main>
         <section class="hero">
-            <!-- 
-              HOW TO ADD PHOTOS: 
-              1. Upload your photo to the "images" folder in GitHub.
-              2. Change the src below to match your filename (e.g., images/hero-photo.jpg)
-            -->
             <img src="images/hero-photo.jpg" alt="A lovely photo of the couple" class="framed-photo">
         </section>
 
