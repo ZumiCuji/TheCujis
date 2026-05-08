@@ -11,16 +11,14 @@
     
     <!-- INLINE STYLES -->
     <style>
+        /* The "White Wall" behind the painting */
         .curtain-overlay {
             position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
+            width: 100vw;
             height: 100vh;
-            /* Now looking for the image locally in your GitHub folder! */
-            background-image: url('images/monet.jpg');
-            background-size: cover;
-            background-position: center;
+            background-color: #ffffff; /* Fills the extra space with white */
             z-index: 9999;
             display: flex;
             justify-content: center;
@@ -31,39 +29,65 @@
             padding: 0;
         }
 
-        .curtain-overlay::before {
+        /* The container holding the painting and the text */
+        .painting-container {
+            position: relative;
+            max-width: 95vw; /* Keeps a small white border on the edges */
+            max-height: 95vh;
+            display: inline-block;
+        }
+
+        /* Forces the image to keep its original dimensions without blurring */
+        .monet-img {
+            max-width: 95vw;
+            max-height: 95vh;
+            width: auto;
+            height: auto;
+            display: block;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.15); /* Adds a soft elegant shadow */
+        }
+
+        /* Controls which image shows up based on screen size */
+        .desktop-img { display: block; }
+        .mobile-img { display: none; }
+
+        /* A subtle dark tint ONLY over the painting so the white text pops */
+        .painting-container::after {
             content: "";
             position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            /* A slight dark tint so the white cursive text is easy to read */
-            background: rgba(0, 0, 0, 0.3); 
-            z-index: -1;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.25);
+            pointer-events: none;
         }
 
+        /* Centers text over the painting */
         .curtain-content {
+            position: absolute;
+            top: 50%; 
+            left: 50%;
+            transform: translate(-50%, -50%);
             text-align: center;
-            z-index: 1;
+            z-index: 2; /* Places text above the tint */
+            width: 90%; /* Ensures text doesn't hit the edges of the painting */
         }
 
+        /* ALL Cursive Text Styling */
         .cursive-names {
             font-family: 'Alex Brush', cursive !important;
-            font-size: 6rem;
+            font-size: 6vw; /* Scales automatically with window width! */
             color: #ffffff;
             text-shadow: 2px 4px 10px rgba(0, 0, 0, 0.5);
-            margin: 0 0 1rem 0;
-            font-weight: normal;
-            line-height: 1;
+            margin: 0;
+            line-height: 1.2;
         }
 
         .enter-text {
-            font-family: 'Lato', sans-serif;
-            font-size: 1.2rem;
+            font-family: 'Alex Brush', cursive !important;
+            font-size: 3vw; /* Scales automatically */
             color: #ffffff;
-            text-transform: uppercase;
-            letter-spacing: 4px;
             text-shadow: 1px 2px 5px rgba(0, 0, 0, 0.5);
             animation: pulse 2.5s infinite;
-            margin: 0;
+            margin-top: 1rem;
         }
 
         @keyframes pulse {
@@ -78,20 +102,36 @@
             pointer-events: none;
         }
 
-        @media (max-width: 600px) {
-            .cursive-names {
-                font-size: 4rem;
-            }
+        /* =========================================
+           MOBILE PHONE SETTINGS
+           ========================================= */
+        @media (max-width: 768px) {
+            .desktop-img { display: none; } /* Hide wide painting */
+            .mobile-img { display: block; } /* Show tall painting */
+            
+            /* Make text much larger on small screens so it's readable */
+            .cursive-names { font-size: 13vw; }
+            .enter-text { font-size: 7vw; margin-top: 0.5rem; }
         }
     </style>
 </head>
 <body>
 
-    <!-- 🎨 THE CURTAIN REVEAL OVERLAY -->
+    <!-- 🎨 THE NEW CURTAIN REVEAL OVERLAY -->
     <div id="curtain" class="curtain-overlay">
-        <div class="curtain-content">
-            <h1 class="cursive-names">Morgan & Zumi</h1>
-            <p class="enter-text">Click to enter</p>
+        <div class="painting-container">
+            
+            <!-- Desktop Image (Wide) -->
+            <img src="images/monet.jpg" class="monet-img desktop-img" alt="Monet Painting">
+            
+            <!-- Mobile Image (Tall) -->
+            <img src="images/monet-mobile.jpg" class="monet-img mobile-img" alt="Monet Painting Mobile">
+            
+            <div class="curtain-content">
+                <h1 class="cursive-names">Morgan & Zumi</h1>
+                <p class="enter-text">Click to enter</p>
+            </div>
+            
         </div>
     </div>
 
