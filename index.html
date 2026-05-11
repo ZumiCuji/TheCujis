@@ -11,14 +11,18 @@
     
     <!-- INLINE STYLES -->
     <style>
-        /* The "White Wall" behind the painting */
+        /* The full-screen background */
         .curtain-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
-            background-color: #ffffff; /* Fills the extra space with white */
+            /* Default image for laptops/desktops */
+            background-image: url('images/monet.jpg');
+            background-size: cover; 
+            background-position: center center;
+            background-repeat: no-repeat;
             z-index: 9999;
             display: flex;
             justify-content: center;
@@ -29,65 +33,42 @@
             padding: 0;
         }
 
-        /* The container holding the painting and the text */
-        .painting-container {
-            position: relative;
-            max-width: 95vw; /* Keeps a small white border on the edges */
-            max-height: 95vh;
-            display: inline-block;
-        }
-
-        /* Forces the image to keep its original dimensions without blurring */
-        .monet-img {
-            max-width: 95vw;
-            max-height: 95vh;
-            width: auto;
-            height: auto;
-            display: block;
-            box-shadow: 0 5px 25px rgba(0,0,0,0.15); /* Adds a soft elegant shadow */
-        }
-
-        /* Controls which image shows up based on screen size */
-        .desktop-img { display: block; }
-        .mobile-img { display: none; }
-
-        /* A subtle dark tint ONLY over the painting so the white text pops */
-        .painting-container::after {
+        /* A subtle dark tint over the painting so the white text pops */
+        .curtain-overlay::before {
             content: "";
             position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0, 0, 0, 0.25);
-            pointer-events: none;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.25); 
+            z-index: -1;
         }
 
         /* Centers text over the painting */
         .curtain-content {
-            position: absolute;
-            top: 50%; 
-            left: 50%;
-            transform: translate(-50%, -50%);
             text-align: center;
-            z-index: 2; /* Places text above the tint */
-            width: 90%; /* Ensures text doesn't hit the edges of the painting */
+            z-index: 1;
+            width: 90%; 
         }
 
-        /* ALL Cursive Text Styling */
+        /* The Names */
         .cursive-names {
             font-family: 'Alex Brush', cursive !important;
-            font-size: 6vw; /* Scales automatically with window width! */
+            font-size: 8vw; /* Scales automatically with window width */
             color: #ffffff;
-            text-shadow: 2px 4px 10px rgba(0, 0, 0, 0.5);
-            margin: 0;
-            line-height: 1.2;
+            text-shadow: 2px 4px 10px rgba(0, 0, 0, 0.6);
+            margin: 0 0 0.5rem 0;
+            line-height: 1.1;
+            font-weight: normal;
         }
 
+        /* Click to enter text - Much smaller, same font */
         .enter-text {
             font-family: 'Alex Brush', cursive !important;
-            font-size: 3vw; /* Scales automatically */
+            font-size: 2.5vw; /* Much smaller than the names */
             color: #ffffff;
-            text-shadow: 1px 2px 5px rgba(0, 0, 0, 0.5);
+            text-shadow: 1px 2px 5px rgba(0, 0, 0, 0.6);
             animation: pulse 2.5s infinite;
-            margin-top: 1rem;
+            margin: 0;
+            font-weight: normal;
         }
 
         @keyframes pulse {
@@ -103,35 +84,32 @@
         }
 
         /* =========================================
-           MOBILE PHONE SETTINGS
+           MOBILE PHONE SETTINGS (Screens smaller than 768px)
            ========================================= */
         @media (max-width: 768px) {
-            .desktop-img { display: none; } /* Hide wide painting */
-            .mobile-img { display: block; } /* Show tall painting */
+            .curtain-overlay {
+                /* Swaps to the tall image for phones! */
+                background-image: url('images/monet-mobile.jpg');
+            }
             
-            /* Make text much larger on small screens so it's readable */
-            .cursive-names { font-size: 13vw; }
-            .enter-text { font-size: 7vw; margin-top: 0.5rem; }
+            /* Adjust text sizes for small screens */
+            .cursive-names { 
+                font-size: 16vw; 
+            }
+            .enter-text { 
+                font-size: 5vw; /* Still much smaller than the names on mobile */
+                margin-top: 0.5rem; 
+            }
         }
     </style>
 </head>
 <body>
 
-    <!-- 🎨 THE NEW CURTAIN REVEAL OVERLAY -->
+    <!-- 🎨 THE FULL-SCREEN CURTAIN REVEAL OVERLAY -->
     <div id="curtain" class="curtain-overlay">
-        <div class="painting-container">
-            
-            <!-- Desktop Image (Wide) -->
-            <img src="images/monet.jpg" class="monet-img desktop-img" alt="Monet Painting">
-            
-            <!-- Mobile Image (Tall) -->
-            <img src="images/monet-mobile.jpg" class="monet-img mobile-img" alt="Monet Painting Mobile">
-            
-            <div class="curtain-content">
-                <h1 class="cursive-names">Morgan & Zumi</h1>
-                <p class="enter-text">Click to enter</p>
-            </div>
-            
+        <div class="curtain-content">
+            <h1 class="cursive-names">Morgan & Zumi</h1>
+            <p class="enter-text">Click to enter</p>
         </div>
     </div>
 
