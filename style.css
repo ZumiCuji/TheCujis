@@ -464,3 +464,45 @@ footer {
         font-size: 4rem;
     }
 }
+
+/* Container for the story sections */
+.story-section {
+    display: flex;
+    align-items: center; /* Vertically centers the text and image */
+    justify-content: space-between;
+    gap: 40px; /* Space between the image and text */
+    margin-bottom: 60px;
+    padding: 20px;
+}
+
+/* This class flips the order of the second section */
+.story-section.reverse {
+    flex-direction: row-reverse;
+}
+
+/* Ensure the photo doesn't take up too much space */
+.framed-photo {
+    flex: 1;
+    max-width: 45%;
+    height: auto;
+    border: 10px solid #fff; /* Optional: adds to that 'framed' look */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+/* Ensure the text stays readable */
+.text-content {
+    flex: 1;
+    text-align: left;
+}
+
+/* Mobile Responsive: Stack them on top of each other for small screens */
+@media (max-width: 768px) {
+    .story-section, .story-section.reverse {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .framed-photo {
+        max-width: 100%;
+    }
+}
