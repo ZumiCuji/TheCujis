@@ -212,4 +212,100 @@
             width: 100%;
             transition: background-color 0.3s ease;
         }
-        .sleek-btn:hov
+        .sleek-btn:hover {
+            background-color: #333333;
+        }
+
+        /* Mobile Adjustments */
+        @media (max-width: 768px) {
+            .curtain-overlay {
+                background-image: url('images/monet-mobile.jpg');
+            }
+            .cursive-names { font-size: 16vw; }
+            .enter-text { font-size: 5vw; margin-top: 0.5rem; }
+            nav { gap: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 🎨 THE MONET CURTAIN REVEAL -->
+    <div id="curtain" class="curtain-overlay">
+        <div class="curtain-content">
+            <h1 class="cursive-names">Morgan & Zumi</h1>
+            <p class="enter-text">Click to Enter</p>
+        </div>
+    </div>
+
+    <!-- Header & Navigation -->
+    <header>
+        <div class="header-content">
+            <h1>The Cujis</h1>
+            <nav>
+                <a href="#home" class="active">Home</a>
+                <a href="#our-story">Our Story</a>
+                <a href="#rsvp">RSVP</a>
+                <a href="#registry">Registry</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main>
+        <!-- Home Section -->
+        <section id="home">
+            <img src="images/hero-photo.jpg" alt="A lovely photo of the couple" class="sleek-photo">
+            <h2>Welcome to our Beginning</h2>
+            <p>We are so excited to celebrate our special day with our favorite people.</p>
+            <p class="date-highlight">May 03, 2027 • Raleigh, NC</p>
+        </section>
+
+        <!-- Our Story Section -->
+        <section id="our-story">
+            <h2>Our Story</h2>
+            <p style="max-width: 600px; margin: 0 auto; font-size: 1.8rem;">
+                Share a brief, modern summary of your relationship here. The calligraphy layout makes reading your story feel like reading a handwritten letter.
+            </p>
+        </section>
+
+        <!-- RSVP Section -->
+        <section id="rsvp">
+            <h2>Kindly Respond</h2>
+            <form id="rsvp-form" class="sleek-form">
+                <label for="guest-name">Guest Name(s)</label>
+                <input type="text" id="guest-name" name="Name" placeholder="Jane & John Doe" required>
+                
+                <label>Will you be attending?</label>
+                <div class="radio-group">
+                    <label class="radio-label">
+                        <input type="radio" name="Attendance" value="Joyfully Accepts" required> Joyfully Accepts
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="Attendance" value="Regretfully Declines"> Regretfully Declines
+                    </label>
+                </div>
+                
+                <button type="submit" class="sleek-btn">Send RSVP</button>
+            </form>
+        </section>
+        
+        <!-- Registry Section -->
+        <section id="registry">
+            <h2>Registry</h2>
+            <p>Coming soon...</p>
+        </section>
+    </main>
+
+    <footer style="padding: 3rem 0;">
+        <p>1 Corinthians 13:4-8</p>
+    </footer>
+
+    <!-- Script to trigger the curtain reveal -->
+    <script>
+        document.getElementById('curtain').addEventListener('click', function() {
+            this.classList.add('curtain-open');
+        });
+    </script>
+
+</body>
+</html>
