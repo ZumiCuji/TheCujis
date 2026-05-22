@@ -5,12 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Cujis | Our Wedding</title>
     
-    <!-- Import Elegant Calligraphy Font (Alex Brush) -->
-    <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&display=swap" rel="stylesheet">
+    <!-- Import Ultra-Modern Font (Inter) & Cursive Font (Alex Brush) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;400;600&family=Alex+Brush&display=swap" rel="stylesheet">
     
     <style>
         /* =========================================
-           GLOBAL CALLIGRAPHY STYLES
+           GLOBAL MODERN B&W STYLES
            ========================================= */
         html {
             scroll-behavior: smooth;
@@ -18,21 +18,13 @@
         body {
             margin: 0;
             padding: 0;
-            font-family: 'Alex Brush', cursive !important;
+            font-family: 'Inter', sans-serif; /* Clean modern body text */
             background-color: #ffffff;
             color: #000000;
-            line-height: 1.4;
+            line-height: 1.6;
             text-align: center;
-            font-size: 1.8rem; /* Increased size for readable handwriting */
         }
         
-        /* Apply Calligraphy to all interactive elements */
-        input, button, select, textarea, a, label {
-            font-family: 'Alex Brush', cursive !important;
-            text-transform: none !important; /* Keeps letters connected */
-            letter-spacing: 0 !important; /* Prevents gaps in cursive script */
-        }
-
         /* Forces all images into crystal clear Black & White */
         img {
             filter: grayscale(100%);
@@ -40,12 +32,15 @@
             height: auto;
         }
         
+        /* Major Text: Elegant Calligraphy */
         h1, h2, h3 {
+            font-family: 'Alex Brush', cursive;
             font-weight: normal;
-            text-transform: none !important;
-            letter-spacing: 0 !important;
-            margin-bottom: 1rem;
-            font-size: 3.5rem; /* Larger sizes for calligraphic titles */
+            text-transform: none;
+            letter-spacing: 0;
+            font-size: 4rem; /* Kept large so cursive is readable */
+            margin-bottom: 0.5rem;
+            color: #000000;
         }
         
         /* =========================================
@@ -80,13 +75,15 @@
             width: 90%; 
         }
         .cursive-names {
+            font-family: 'Alex Brush', cursive;
             font-size: 8vw; 
             color: #ffffff;
             margin: 0 0 0.5rem 0;
             line-height: 1.1;
         }
         .enter-text {
-            font-size: 2.5vw; 
+            font-family: 'Alex Brush', cursive;
+            font-size: 2vw; 
             color: #ffffff;
             animation: pulse 2.5s infinite;
             margin: 0;
@@ -115,28 +112,32 @@
             z-index: 1000;
         }
         header h1 {
-            font-size: 3.5rem;
-            margin-bottom: 0.5rem;
-            font-weight: normal;
+            font-size: 3.5rem; /* Slightly smaller for the header logo */
+            margin-bottom: 0.2rem;
+            margin-top: 0;
         }
         nav {
             display: flex;
             justify-content: center;
-            gap: 2.5rem;
+            gap: 2rem;
             flex-wrap: wrap;
         }
         nav a {
+            font-family: 'Inter', sans-serif;
             text-decoration: none;
             color: #000000;
-            font-size: 1.8rem;
+            font-size: 0.8rem;
+            text-transform: uppercase; /* Clean modern look */
+            letter-spacing: 2px;
             transition: opacity 0.3s ease;
+            font-weight: 600;
         }
         nav a:hover {
             opacity: 0.5;
         }
 
         /* =========================================
-           PAGE SECTIONS (One Page Layout)
+           PAGE SECTIONS
            ========================================= */
         section {
             padding: 6rem 2rem;
@@ -154,8 +155,11 @@
             display: block;
         }
         .date-highlight {
-            font-size: 2.2rem;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            letter-spacing: 2px;
             margin-top: 1rem;
+            text-transform: uppercase;
         }
 
         /* =========================================
@@ -165,22 +169,31 @@
             max-width: 500px;
             margin: 2rem auto;
             text-align: left;
+            font-family: 'Inter', sans-serif;
         }
         .sleek-form label {
             display: block;
+            font-weight: 600;
             margin-bottom: 0.5rem;
-            font-size: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.8rem;
             color: #000000;
         }
         .sleek-form input[type="text"] {
             width: 100%;
-            padding: 10px 15px;
+            padding: 15px;
             border: 1px solid #000000;
             background-color: transparent;
-            font-size: 1.8rem;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
             margin-bottom: 1.5rem;
             box-sizing: border-box;
+            transition: border-width 0.2s ease;
+        }
+        .sleek-form input[type="text"]:focus {
             outline: none;
+            border-width: 2px;
         }
         
         /* Radio Buttons */
@@ -188,26 +201,28 @@
             margin-bottom: 2rem;
         }
         .radio-label {
-            display: flex;
-            align-items: center;
-            font-size: 1.8rem;
+            display: block;
+            font-weight: 400;
+            font-size: 1rem;
             margin-bottom: 0.5rem;
             cursor: pointer;
+            text-transform: none;
+            letter-spacing: 0;
         }
         .radio-label input {
-            margin-right: 15px;
-            width: 20px;
-            height: 20px;
-            accent-color: #000000; /* Uses black to match the theme */
+            margin-right: 10px;
         }
         
-        /* Elegant Calligraphy Button */
+        /* Sleek Black Button */
         .sleek-btn {
             background-color: #000000;
             color: #ffffff;
             border: none;
-            padding: 10px 30px;
-            font-size: 2rem;
+            padding: 15px 30px;
+            font-family: 'Inter', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.9rem;
             cursor: pointer;
             width: 100%;
             transition: background-color 0.3s ease;
@@ -222,8 +237,8 @@
                 background-image: url('images/monet-mobile.jpg');
             }
             .cursive-names { font-size: 16vw; }
-            .enter-text { font-size: 5vw; margin-top: 0.5rem; }
-            nav { gap: 1.5rem; }
+            .enter-text { font-size: 4vw; margin-top: 0.5rem; }
+            h1, h2, h3 { font-size: 3rem; } /* Scale down titles for mobile */
         }
     </style>
 </head>
@@ -263,8 +278,8 @@
         <!-- Our Story Section -->
         <section id="our-story">
             <h2>Our Story</h2>
-            <p style="max-width: 600px; margin: 0 auto; font-size: 1.8rem;">
-                Share a brief, modern summary of your relationship here. The calligraphy layout makes reading your story feel like reading a handwritten letter.
+            <p style="max-width: 600px; margin: 0 auto;">
+                Share a brief, modern summary of your relationship here. The elegant titles perfectly balance the crisp, easy-to-read text of your story.
             </p>
         </section>
 
@@ -273,7 +288,7 @@
             <h2>Kindly Respond</h2>
             <form id="rsvp-form" class="sleek-form">
                 <label for="guest-name">Guest Name(s)</label>
-                <input type="text" id="guest-name" name="Name" placeholder="Jane & John Doe" required>
+                <input type="text" id="guest-name" name="Name" placeholder="e.g., Jane & John Doe" required>
                 
                 <label>Will you be attending?</label>
                 <div class="radio-group">
@@ -297,7 +312,7 @@
     </main>
 
     <footer style="padding: 3rem 0;">
-        <p>1 Corinthians 13:4-8</p>
+        <p style="font-style: italic;">1 Corinthians 13:4-8</p>
     </footer>
 
     <!-- Script to trigger the curtain reveal -->
