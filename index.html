@@ -3,22 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Our Wedding | Welcome</title>
-    <!-- Link to our stylesheet for the rest of the site -->
-    <link rel="stylesheet" href="style.css">
-    <!-- Import BOHO/Modern Fonts & Cursive Font for the Reveal -->
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Alex+Brush&display=swap" rel="stylesheet">
+    <title>The Cujis | Our Wedding</title>
     
-    <!-- INLINE STYLES -->
+    <!-- Import Ultra-Modern Font (Inter) & Cursive Font (Alex Brush) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;400;600&family=Alex+Brush&display=swap" rel="stylesheet">
+    
     <style>
-        /* The full-screen background */
+        /* =========================================
+           GLOBAL MODERN B&W STYLES
+           ========================================= */
+        html {
+            scroll-behavior: smooth; /* Makes clicking the menu glide smoothly down the page */
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: #ffffff;
+            color: #000000;
+            line-height: 1.6;
+            text-align: center;
+        }
+
+        /* Forces all images into crystal clear Black & White */
+        img {
+            filter: grayscale(100%);
+            max-width: 100%;
+            height: auto;
+        }
+
+        h1, h2, h3 {
+            font-weight: 200;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            margin-bottom: 1rem;
+        }
+
+        /* =========================================
+           THE MONET CURTAIN REVEAL
+           ========================================= */
         .curtain-overlay {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            /* Default image for laptops/desktops */
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
             background-image: url('images/monet.jpg');
             background-size: cover; 
             background-position: center center;
@@ -27,54 +55,52 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            transition: transform 1.5s cubic-bezier(0.77, 0, 0.175, 1), opacity 1.5s ease;
+            transition: transform 1.2s cubic-bezier(0.86, 0, 0.07, 1), opacity 1.2s ease;
             cursor: pointer;
-            margin: 0;
-            padding: 0;
+            /* Makes the Monet painting B&W to match the modern theme! */
+            filter: grayscale(100%); 
         }
 
-        /* A subtle dark tint over the painting so the white text pops */
         .curtain-overlay::before {
             content: "";
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.25); 
+            background: rgba(0, 0, 0, 0.4); /* Darker tint for high contrast */
             z-index: -1;
         }
 
-        /* Centers text over the painting */
         .curtain-content {
             text-align: center;
             z-index: 1;
             width: 90%; 
         }
 
-        /* The Names */
         .cursive-names {
             font-family: 'Alex Brush', cursive !important;
-            font-size: 8vw; /* Scales automatically with window width */
+            font-size: 8vw; 
             color: #ffffff;
-            text-shadow: 2px 4px 10px rgba(0, 0, 0, 0.6);
             margin: 0 0 0.5rem 0;
             line-height: 1.1;
+            text-transform: none;
+            letter-spacing: 0;
             font-weight: normal;
         }
 
-        /* Click to enter text - Much smaller, same font */
         .enter-text {
             font-family: 'Alex Brush', cursive !important;
-            font-size: 1.5vw; /* Reduced significantly for desktop */
+            font-size: 1.5vw; 
             color: #ffffff;
-            text-shadow: 1px 2px 5px rgba(0, 0, 0, 0.6);
             animation: pulse 2.5s infinite;
             margin: 0;
+            text-transform: none;
+            letter-spacing: 0;
             font-weight: normal;
         }
 
         @keyframes pulse {
-            0% { opacity: 0.5; }
+            0% { opacity: 0.4; }
             50% { opacity: 1; }
-            100% { opacity: 0.5; }
+            100% { opacity: 0.4; }
         }
 
         .curtain-open {
@@ -84,71 +110,79 @@
         }
 
         /* =========================================
-           MOBILE PHONE SETTINGS (Screens smaller than 768px)
+           STICKY HEADER & NAVIGATION
            ========================================= */
-        @media (max-width: 768px) {
-            .curtain-overlay {
-                /* Swaps to the tall image for phones! */
-                background-image: url('images/monet-mobile.jpg');
-            }
-            
-            /* Adjust text sizes for small screens */
-            .cursive-names { 
-                font-size: 16vw; 
-            }
-            .enter-text { 
-                font-size: 3.5vw; /* Reduced significantly for mobile */
-                margin-top: 0.5rem; 
-            }
+        header {
+            position: sticky;
+            top: 0;
+            background: rgba(255, 255, 255, 0.95); /* Slightly transparent white */
+            backdrop-filter: blur(10px); /* Sleek blurred glass effect */
+            border-bottom: 1px solid #eeeeee;
+            padding: 1.5rem 0;
+            z-index: 1000;
         }
-    </style>
-</head>
-<body>
 
-    <!-- 🎨 THE FULL-SCREEN CURTAIN REVEAL OVERLAY -->
-    <div id="curtain" class="curtain-overlay">
-        <div class="curtain-content">
-            <h1 class="cursive-names">Morgan & Zumi</h1>
-            <p class="enter-text">Click to Enter</p>
-        </div>
-    </div>
+        header h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
 
-    <!-- Header & Navigation -->
-    <header>
-        <div class="header-content">
-            <h1>The Cujis</h1>
-            <nav>
-                <a href="index.html" class="active">Home</a>
-                <a href="our-story.html">Our Story</a>
-                <a href="rsvp.html">RSVP</a>
-                <a href="registry.html">Registry</a>
-            </nav>
-        </div>
-    </header>
+        nav {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
 
-    <!-- Main Content Area -->
-    <main>
-        <section class="hero">
-            <img src="images/hero-photo.jpg" alt="A lovely photo of the couple" class="framed-photo">
-        </section>
+        nav a {
+            text-decoration: none;
+            color: #000000;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: opacity 0.3s ease;
+        }
 
-        <section class="welcome-text">
-            <h2>Welcome to our Beginning</h2>
-            <p>We are so excited to celebrate our special day with our favorite people.</p>
-            <p class="date-highlight">May 03, 2027 • Raleigh, NC</p>
-        </section>
-    </main>
+        nav a:hover {
+            opacity: 0.5;
+        }
 
-    <footer>
-        <p>1 Corinthians 13:4-8</p>
-    </footer>
+        /* =========================================
+           PAGE SECTIONS (One Page Layout)
+           ========================================= */
+        section {
+            padding: 6rem 2rem;
+            max-width: 900px;
+            margin: 0 auto;
+            border-bottom: 1px solid #eeeeee;
+        }
 
-    <!-- Script to trigger the curtain reveal -->
-    <script>
-        document.getElementById('curtain').addEventListener('click', function() {
-            this.classList.add('curtain-open');
-        });
-    </script>
+        /* Removes border from the last section */
+        section:last-of-type {
+            border-bottom: none;
+        }
 
-</body>
-</html>
+        .sleek-photo {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto 2rem auto;
+            display: block;
+        }
+
+        .date-highlight {
+            font-weight: 600;
+            letter-spacing: 2px;
+            margin-top: 1rem;
+        }
+
+        /* =========================================
+           FORMS & BUTTONS (RSVP & REGISTRY)
+           ========================================= */
+        .sleek-form {
+            max-width: 500px;
+            margin: 2rem auto;
+            text-align: left;
+        }
+
+        .sleek-form labelSomething went wrong while answering your question. Please try again later.
