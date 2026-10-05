@@ -5,322 +5,340 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Cujis | Our Wedding</title>
     
-    <!-- Import Ultra-Modern Font (Inter) & Cursive Font (Alex Brush) -->
+    <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;400;600&family=Alex+Brush&display=swap" rel="stylesheet">
     
     <style>
         /* =========================================
-           GLOBAL MODERN B&W STYLES
+           GLOBAL STYLES
            ========================================= */
-        html {
-            scroll-behavior: smooth;
-        }
+        html { scroll-behavior: smooth; }
         body {
             margin: 0;
             padding: 0;
-            font-family: 'Inter', sans-serif; /* Clean modern body text */
+            font-family: 'Inter', sans-serif;
             background-color: #ffffff;
             color: #000000;
             line-height: 1.6;
             text-align: center;
         }
         
-        /* Forces all images into crystal clear Black & White */
         img {
             filter: grayscale(100%);
             max-width: 100%;
             height: auto;
         }
         
-        /* Major Text: Elegant Calligraphy */
         h1, h2, h3 {
             font-family: 'Alex Brush', cursive;
             font-weight: normal;
-            text-transform: none;
-            letter-spacing: 0;
-            font-size: 4rem; /* Kept large so cursive is readable */
+            font-size: 4rem;
             margin-bottom: 0.5rem;
             color: #000000;
         }
-        
-        /* =========================================
-           THE MONET CURTAIN REVEAL
-           ========================================= */
-        .curtain-overlay {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100vw; height: 100vh;
-            background-image: url('images/monet.jpg');
-            background-size: cover; 
-            background-position: center center;
-            background-repeat: no-repeat;
-            z-index: 9999;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            transition: transform 1.2s cubic-bezier(0.86, 0, 0.07, 1), opacity 1.2s ease;
-            cursor: pointer;
-            filter: grayscale(100%); 
-        }
-        .curtain-overlay::before {
-            content: "";
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.4); 
-            z-index: -1;
-        }
-        .curtain-content {
-            text-align: center;
-            z-index: 1;
-            width: 90%; 
-        }
-        .cursive-names {
-            font-family: 'Alex Brush', cursive;
-            font-size: 8vw; 
-            color: #ffffff;
-            margin: 0 0 0.5rem 0;
-            line-height: 1.1;
-        }
-        .enter-text {
-            font-family: 'Alex Brush', cursive;
-            font-size: 2vw; 
-            color: #ffffff;
-            animation: pulse 2.5s infinite;
-            margin: 0;
-        }
-        @keyframes pulse {
-            0% { opacity: 0.4; }
-            50% { opacity: 1; }
-            100% { opacity: 0.4; }
-        }
-        .curtain-open {
-            transform: translateY(-100%);
-            opacity: 0;
-            pointer-events: none;
-        }
 
         /* =========================================
-           STICKY HEADER & NAVIGATION
+           HEADER
            ========================================= */
         header {
             position: sticky;
             top: 0;
-            background: rgba(255, 255, 255, 0.95); 
-            backdrop-filter: blur(10px); 
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
             border-bottom: 1px solid #eeeeee;
-            padding: 1rem 0;
+            padding: 1.2rem 0;
             z-index: 1000;
         }
         header h1 {
-            font-size: 3.5rem; /* Slightly smaller for the header logo */
-            margin-bottom: 0.2rem;
-            margin-top: 0;
+            font-size: 3.8rem;
+            margin: 0;
         }
         nav {
             display: flex;
             justify-content: center;
-            gap: 2rem;
+            gap: 2.2rem;
             flex-wrap: wrap;
+            margin-top: 0.8rem;
         }
         nav a {
             font-family: 'Inter', sans-serif;
             text-decoration: none;
-            color: #000000;
-            font-size: 0.8rem;
-            text-transform: uppercase; /* Clean modern look */
+            color: #000;
+            font-size: 0.85rem;
+            text-transform: uppercase;
             letter-spacing: 2px;
-            transition: opacity 0.3s ease;
             font-weight: 600;
         }
-        nav a:hover {
-            opacity: 0.5;
+        nav a:hover { opacity: 0.6; }
+
+        /* =========================================
+           LAYOUT WITH SIDE GALLERY
+           ========================================= */
+        .wrapper {
+            display: flex;
+            max-width: 1400px;
+            margin: 0 auto;
+            gap: 3rem;
+        }
+        .main-content {
+            flex: 1;
+            max-width: 900px;
+        }
+        .side-gallery {
+            display: none;
+            flex-direction: column;
+            gap: 20px;
+            padding: 2rem 0;
+            position: sticky;
+            top: 100px;
+            height: fit-content;
+        }
+        .side-gallery img {
+            width: 100%;
+            height: 320px;
+            object-fit: cover;
+            border: 1px solid #ddd;
+        }
+
+        @media (min-width: 1024px) {
+            .side-gallery { display: flex; }
         }
 
         /* =========================================
-           PAGE SECTIONS
+           SECTIONS
            ========================================= */
         section {
             padding: 6rem 2rem;
-            max-width: 900px;
-            margin: 0 auto;
             border-bottom: 1px solid #eeeeee;
-        }
-        section:last-of-type {
-            border-bottom: none;
-        }
-        .sleek-photo {
-            width: 100%;
-            max-width: 600px;
-            margin: 0 auto 2rem auto;
-            display: block;
         }
         .date-highlight {
             font-family: 'Inter', sans-serif;
             font-weight: 600;
             letter-spacing: 2px;
-            margin-top: 1rem;
             text-transform: uppercase;
+            margin-top: 1rem;
         }
 
-        /* =========================================
-           FORMS & BUTTONS (RSVP)
-           ========================================= */
+        /* Memory Wall */
+        .memory-wall {
+            max-width: 700px;
+            margin: 3rem auto;
+            text-align: left;
+        }
+        .memory-card {
+            background: white;
+            border: 1px solid #eee;
+            padding: 1.8rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.06);
+        }
+        .memory-author {
+            margin-top: 1rem;
+            font-weight: 600;
+            color: #222;
+        }
+        .submit-memory {
+            max-width: 520px;
+            margin: 2.5rem auto;
+            text-align: left;
+        }
+        .submit-memory textarea, .submit-memory input {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid #000;
+            font-family: 'Inter', sans-serif;
+            margin-bottom: 1rem;
+            font-size: 1rem;
+        }
+        .success { color: green; font-weight: 600; }
+
+        /* Form Styles */
         .sleek-form {
             max-width: 500px;
             margin: 2rem auto;
             text-align: left;
-            font-family: 'Inter', sans-serif;
         }
         .sleek-form label {
             display: block;
             font-weight: 600;
             margin-bottom: 0.5rem;
             text-transform: uppercase;
+            font-size: 0.85rem;
             letter-spacing: 1px;
-            font-size: 0.8rem;
-            color: #000000;
         }
         .sleek-form input[type="text"] {
             width: 100%;
             padding: 15px;
-            border: 1px solid #000000;
-            background-color: transparent;
-            font-family: 'Inter', sans-serif;
-            font-size: 1rem;
+            border: 1px solid #000;
+            background: transparent;
             margin-bottom: 1.5rem;
-            box-sizing: border-box;
-            transition: border-width 0.2s ease;
         }
-        .sleek-form input[type="text"]:focus {
-            outline: none;
-            border-width: 2px;
-        }
-        
-        /* Radio Buttons */
-        .radio-group {
-            margin-bottom: 2rem;
-        }
-        .radio-label {
-            display: block;
-            font-weight: 400;
-            font-size: 1rem;
-            margin-bottom: 0.5rem;
-            cursor: pointer;
-            text-transform: none;
-            letter-spacing: 0;
-        }
-        .radio-label input {
-            margin-right: 10px;
-        }
-        
-        /* Sleek Black Button */
         .sleek-btn {
-            background-color: #000000;
-            color: #ffffff;
+            background-color: #000;
+            color: white;
             border: none;
-            padding: 15px 30px;
+            padding: 16px 32px;
+            width: 100%;
             font-family: 'Inter', sans-serif;
             text-transform: uppercase;
             letter-spacing: 2px;
             font-size: 0.9rem;
             cursor: pointer;
-            width: 100%;
-            transition: background-color 0.3s ease;
         }
-        .sleek-btn:hover {
-            background-color: #333333;
-        }
+        .sleek-btn:hover { background-color: #333; }
 
         /* Mobile Adjustments */
         @media (max-width: 768px) {
-            .curtain-overlay {
-                background-image: url('images/monet-mobile.jpg');
-            }
-            .cursive-names { font-size: 16vw; }
-            .enter-text { font-size: 4vw; margin-top: 0.5rem; }
-            h1, h2, h3 { font-size: 3rem; } /* Scale down titles for mobile */
+            h1, h2, h3 { font-size: 3rem; }
+            .side-gallery { display: none; }
         }
     </style>
 </head>
 <body>
 
-    <!-- 🎨 THE MONET CURTAIN REVEAL -->
-    <div id="curtain" class="curtain-overlay">
-        <div class="curtain-content">
-            <h1 class="cursive-names">Morgan & Zumi</h1>
-            <p class="enter-text">Click to Enter</p>
+    <!-- Header -->
+    <header>
+        <h1>The Cujis</h1>
+        <nav>
+            <a href="#home">Home</a>
+            <a href="#our-story">Our Story</a>
+            <a href="#rsvp">RSVP</a>
+            <a href="#registry">Registry</a>
+        </nav>
+    </header>
+
+    <div class="wrapper">
+        
+        <!-- Side Gallery - Only visible on laptops/desktops -->
+        <div class="side-gallery">
+            <img src="images/side1.jpg" alt="">
+            <img src="images/side2.jpg" alt="">
+            <img src="images/side3.jpg" alt="">
+            <img src="images/side4.jpg" alt="">
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+
+            <!-- Home -->
+            <section id="home">
+                <img src="images/IMG_0095.jpeg" alt="Morgan & Zumi" style="max-width: 650px; margin-bottom: 2rem;">
+                <h2>Welcome to our Beginning</h2>
+                <p>We are so excited to celebrate our special day with our favorite people.</p>
+                <p class="date-highlight">May 03, 2027 • Raleigh, NC</p>
+            </section>
+
+            <!-- Our Story + Community Memory Board -->
+            <section id="our-story">
+                <h2>Our Story</h2>
+                <p style="max-width: 600px; margin: 0 auto 3rem auto;">
+                    If you are reading this right now, you should already know our story. Instead of telling it from our point of view, 
+                    we want you to share your favorite memory or memories with us.
+                </p>
+
+                <!-- Submit Memory -->
+                <div class="submit-memory">
+                    <h3>Share a Memory</h3>
+                    <textarea id="memory-text" rows="5" placeholder="Write your favorite memory with us..."></textarea>
+                    <input type="text" id="memory-name" placeholder="Your Name">
+                    <button onclick="submitMemory()" class="sleek-btn">Submit Memory</button>
+                    <p id="memory-status"></p>
+                </div>
+
+                <h3 style="text-align:center; margin: 3rem 0 2rem 0;">Memories from Our Loved Ones</h3>
+                <div id="memories-container" class="memory-wall">
+                    <!-- Memories will be loaded here -->
+                </div>
+            </section>
+
+            <!-- RSVP -->
+            <section id="rsvp">
+                <h2>Kindly Respond</h2>
+                <form id="rsvp-form" class="sleek-form">
+                    <label for="guest-name">Guest Name(s)</label>
+                    <input type="text" id="guest-name" placeholder="e.g., Jane & John Doe" required>
+                    
+                    <label>Will you be attending?</label>
+                    <div style="margin: 1.5rem 0;">
+                        <label style="display:block; margin: 0.8rem 0;">
+                            <input type="radio" name="attendance" value="accepts"> Joyfully Accepts
+                        </label>
+                        <label style="display:block; margin: 0.8rem 0;">
+                            <input type="radio" name="attendance" value="declines"> Regretfully Declines
+                        </label>
+                    </div>
+                    <button type="submit" class="sleek-btn">Send RSVP</button>
+                </form>
+            </section>
+
+            <!-- Registry -->
+            <section id="registry">
+                <h2>Registry</h2>
+                <p>Coming soon...</p>
+            </section>
+
         </div>
     </div>
 
-    <!-- Header & Navigation -->
-    <header>
-        <div class="header-content">
-            <h1>The Cujis</h1>
-            <nav>
-                <a href="#home" class="active">Home</a>
-                <a href="#our-story">Our Story</a>
-                <a href="#rsvp">RSVP</a>
-                <a href="#registry">Registry</a>
-            </nav>
-        </div>
-    </header>
-
-    <!-- Main Content Area -->
-    <main>
-        <!-- Home Section -->
-        <section id="home">
-            <img src="images/IMG_0095.jpeg" alt="A lovely photo of the couple" class="sleek-photo">
-            <h2>Welcome to our Beginning</h2>
-            <p>We are so excited to celebrate our special day with our favorite people.</p>
-            <p class="date-highlight">May 03, 2027 • Raleigh, NC</p>
-        </section>
-
-        <!-- Our Story Section -->
-        <section id="our-story">
-            <h2>Our Story</h2>
-            <p style="max-width: 600px; margin: 0 auto;">
-                If you are reading this right now, you should already know our story. Instead of telling it from our point of view, we want you to share your favorite memory or memories with us. 
-            </p>
-        </section>
-
-        <!-- RSVP Section -->
-        <section id="rsvp">
-            <h2>Kindly Respond</h2>
-            <form id="rsvp-form" class="sleek-form">
-                <label for="guest-name">Guest Name(s)</label>
-                <input type="text" id="guest-name" name="Name" placeholder="e.g., Jane & John Doe" required>
-                
-                <label>Will you be attending?</label>
-                <div class="radio-group">
-                    <label class="radio-label">
-                        <input type="radio" name="Attendance" value="Joyfully Accepts" required> Joyfully Accepts
-                    </label>
-                    <label class="radio-label">
-                        <input type="radio" name="Attendance" value="Regretfully Declines"> Regretfully Declines
-                    </label>
-                </div>
-                
-                <button type="submit" class="sleek-btn">Send RSVP</button>
-            </form>
-        </section>
-        
-        <!-- Registry Section -->
-        <section id="registry">
-            <h2>Registry</h2>
-            <p>Coming soon...</p>
-        </section>
-    </main>
-
-    <footer style="padding: 3rem 0;">
-        <p style="font-style: italic;">1 Corinthians 13:4-8</p>
+    <footer style="padding: 4rem 2rem; font-style: italic; border-top: 1px solid #eee;">
+        <p>1 Corinthians 13:4-8</p>
     </footer>
 
-    <!-- Script to trigger the curtain reveal -->
     <script>
-        document.getElementById('curtain').addEventListener('click', function() {
-            this.classList.add('curtain-open');
+        // Memory Wall System
+        let memories = [];
+
+        function submitMemory() {
+            const text = document.getElementById('memory-text').value.trim();
+            const name = document.getElementById('memory-name').value.trim() || "Anonymous";
+
+            if (!text) {
+                alert("Please write a memory before submitting.");
+                return;
+            }
+
+            memories.unshift({
+                text: text,
+                name: name,
+                date: new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
+            });
+
+            document.getElementById('memory-status').innerHTML = 
+                '<span class="success">Thank you! Your memory has been submitted and is pending approval.</span>';
+
+            // Clear form
+            document.getElementById('memory-text').value = '';
+            document.getElementById('memory-name').value = '';
+
+            renderMemories();
+        }
+
+        function renderMemories() {
+            const container = document.getElementById('memories-container');
+            container.innerHTML = '';
+
+            if (memories.length === 0) {
+                container.innerHTML = '<p style="text-align:center; color:#666; font-style:italic;">No memories yet. Be the first to share one!</p>';
+                return;
+            }
+
+            memories.forEach(mem => {
+                const card = document.createElement('div');
+                card.className = 'memory-card';
+                card.innerHTML = `
+                    <p style="font-size:1.05rem; line-height:1.7;">“${mem.text}”</p>
+                    <div class="memory-author">— ${mem.name}</div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // RSVP Form
+        document.getElementById('rsvp-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert("Thank you! Your RSVP has been received.");
+            this.reset();
         });
     </script>
-
 </body>
 </html>
