@@ -40,7 +40,7 @@
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
             border-bottom: 1px solid #eeeeee;
-            padding: 1.2rem 0;
+            padding: 1rem 0;
             z-index: 1000;
         }
         header h1 {
@@ -52,7 +52,6 @@
             justify-content: center;
             gap: 2rem;
             flex-wrap: wrap;
-            margin-top: 0.5rem;
         }
         nav a {
             font-family: 'Inter', sans-serif;
@@ -108,7 +107,6 @@
             margin-top: 1rem;
         }
 
-        /* Memory Wall */
         .memory-wall {
             max-width: 700px;
             margin: 3rem auto;
@@ -144,19 +142,21 @@
             background-color: #000000;
             color: #ffffff;
             border: none;
-            padding: 16px 32px;
-            width: 100%;
+            padding: 15px 30px;
             font-family: 'Inter', sans-serif;
             text-transform: uppercase;
             letter-spacing: 2px;
             font-size: 0.9rem;
             cursor: pointer;
+            width: 100%;
         }
-        .sleek-btn:hover { background-color: #333; }
+        .sleek-btn:hover { background-color: #333333; }
         .success { color: green; font-weight: 600; }
 
-        /* Hide Admin from normal users */
-        #admin { display: none; }
+        /* Completely hidden from normal users */
+        #admin-section {
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -172,7 +172,7 @@
     </header>
 
     <div class="wrapper">
-        <!-- Left Gallery -->
+        <!-- Left Side Pictures -->
         <div class="side-gallery">
             <img src="images/side1.jpg" alt="">
             <img src="images/side2.jpg" alt="">
@@ -210,13 +210,14 @@
             <section id="rsvp">
                 <h2>Kindly Respond</h2>
                 <form id="rsvp-form" style="max-width:500px;margin:2rem auto;text-align:left;">
-                    <label>Guest Name(s)</label>
-                    <input type="text" id="guest-name" placeholder="e.g., Jane & John Doe" required><br><br>
+                    <label for="guest-name">Guest Name(s)</label>
+                    <input type="text" id="guest-name" placeholder="e.g., Jane & John Doe" required>
                     
-                    <label>Will you be attending?</label><br><br>
-                    <label><input type="radio" name="attending" value="yes"> Joyfully Accepts</label><br><br>
-                    <label><input type="radio" name="attending" value="no"> Regretfully Declines</label><br><br>
-                    
+                    <label style="margin-top:1.5rem; display:block;">Will you be attending?</label>
+                    <div style="margin:1rem 0 2rem 0;">
+                        <label><input type="radio" name="attending" value="yes"> Joyfully Accepts</label><br><br>
+                        <label><input type="radio" name="attending" value="no"> Regretfully Declines</label>
+                    </div>
                     <button type="submit" class="sleek-btn">Send RSVP</button>
                 </form>
             </section>
@@ -226,16 +227,15 @@
                 <p>Coming soon...</p>
             </section>
 
-            <!-- ADMIN PANEL (Hidden from public) -->
-            <section id="admin">
-                <h2>Admin - Approve Memories</h2>
-                <p style="color:#c00; font-weight:600;">Only for Morgan & Zumi</p>
+            <!-- Hidden Admin Section -->
+            <section id="admin-section">
+                <h2>Approve Memories</h2>
                 <div id="pending-container"></div>
             </section>
 
         </div>
 
-        <!-- Right Gallery -->
+        <!-- Right Side Pictures -->
         <div class="side-gallery">
             <img src="images/side4.jpg" alt="">
             <img src="images/side5.jpg" alt="">
@@ -243,7 +243,7 @@
         </div>
     </div>
 
-    <footer>
+    <footer style="padding: 4rem 2rem; font-style: italic;">
         <p>1 Corinthians 13:4-8</p>
     </footer>
 
@@ -259,18 +259,13 @@
 
             if (!text) return alert("Please write a memory.");
 
-            const { error } = await supabaseClient.from('memories').insert([
-                { text: text, name: name, approved: false }
-            ]);
-
-            if (error) return alert("Error submitting memory.");
+            await supabaseClient.from('memories').insert([{ text: text, name: name, approved: false }]);
 
             document.getElementById('memory-status').innerHTML = 
-                '<span class="success">Thank you! Memory submitted for approval.</span>';
+                '<span class="success">Thank you! Your memory has been submitted for approval.</span>';
             
             document.getElementById('memory-text').value = '';
             document.getElementById('memory-name').value = '';
-            
             loadApprovedMemories();
         }
 
@@ -294,6 +289,12 @@
                 div.innerHTML = `<p>“${mem.text}”</p><div class="memory-author">— ${mem.name}</div>`;
                 container.appendChild(div);
             });
+        }
+
+        // Only load admin panel if user manually goes to #admin
+        if (window.location.hash === '#admin') {
+            document.getElementById('admin-section').style.display = 'block';
+            loadPendingMemories();
         }
 
         async function loadPendingMemories() {
@@ -337,18 +338,13 @@
             }
         };
 
-        document.getElementById('rsvp-form').addEventListener('submit', e => {
+        document.getElementById('rsvp-form').addEventListener('submit', function(e) {
             e.preventDefault();
             alert("Thank you! Your RSVP has been received.");
-            e.target.reset();
+            this.reset();
         });
 
-        // Show Admin only if user goes directly to #admin
-        if (window.location.hash === '#admin') {
-            document.getElementById('admin').style.display = 'block';
-            loadPendingMemories();
-        }
-
+        // Initial load
         loadApprovedMemories();
     </script>
 </body>
