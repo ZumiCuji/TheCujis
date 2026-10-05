@@ -64,11 +64,13 @@
         }
         nav a:hover { opacity: 0.5; }
 
+        /* CENTERED LAYOUT FIX */
         .wrapper {
             display: flex;
             max-width: 1700px;
             margin: 0 auto;
             gap: 2.5rem;
+            justify-content: center;
         }
         .side-gallery {
             display: none;
@@ -93,6 +95,7 @@
         .main-content {
             flex: 1;
             max-width: 820px;
+            text-align: center;
         }
         section {
             padding: 6rem 2rem;
@@ -153,10 +156,7 @@
         .sleek-btn:hover { background-color: #333333; }
         .success { color: green; font-weight: 600; }
 
-        /* Completely hidden from normal users */
-        #admin-section {
-            display: none;
-        }
+        #admin-section { display: none; }
     </style>
 </head>
 <body>
@@ -291,7 +291,7 @@
             });
         }
 
-        // Only load admin panel if user manually goes to #admin
+        // Show admin panel only when accessing via #admin
         if (window.location.hash === '#admin') {
             document.getElementById('admin-section').style.display = 'block';
             loadPendingMemories();
@@ -331,10 +331,14 @@
             loadPendingMemories();
         };
 
+        // This function now works on BOTH pending AND approved memories
         window.deleteMemory = async function(id) {
-            if (confirm("Delete this memory?")) {
+            if (confirm("Are you sure you want to permanently delete this memory?")) {
                 await supabaseClient.from('memories').delete().eq('id', id);
-                loadPendingMemories();
+                loadApprovedMemories();
+                if (document.getElementById('admin-section').style.display === 'block') {
+                    loadPendingMemories();
+                }
             }
         };
 
@@ -344,7 +348,6 @@
             this.reset();
         });
 
-        // Initial load
         loadApprovedMemories();
     </script>
 </body>
