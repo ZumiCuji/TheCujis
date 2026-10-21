@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Cujis | Our Wedding</title>
 
-    <!-- Google Fonts: Alex Brush -->
+    <!-- Google Fonts: Cursive + All 4 Candidate Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cinzel:wght@400;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Montserrat:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 
     <style>
         /* CSS Reset & Box Sizing */
@@ -21,16 +21,25 @@
             -webkit-text-size-adjust: 100%;
         }
 
+        /* Root CSS Variables for Font Switching */
+        :root {
+            --script-font: 'Alex Brush', cursive;
+            --body-font: 'Cormorant Garamond', serif;
+            --nav-letter-spacing: 2px;
+            --base-font-size: 1.25rem;
+        }
+
         body {
             margin: 0;
             padding: 0;
-            font-family: 'Alex Brush', cursive, sans-serif;
+            font-family: var(--body-font);
             background-color: #ffffff;
-            color: #111111;
-            line-height: 1.6;
+            color: #1a1a1a;
+            line-height: 1.7;
             text-align: center;
             overflow-x: hidden;
-            font-size: 1.45rem;
+            font-size: var(--base-font-size);
+            transition: font-family 0.2s ease;
         }
 
         img { 
@@ -40,9 +49,9 @@
             display: inline-block;
         }
 
-        /* Typography */
+        /* Headings: Alex Brush Cursive */
         h1, h2, h3 {
-            font-family: 'Alex Brush', cursive, sans-serif;
+            font-family: var(--script-font);
             font-weight: normal;
             margin-top: 0;
             margin-bottom: 0.5rem;
@@ -55,24 +64,27 @@
         h3 { font-size: clamp(2.2rem, 7vw, 3rem); }
 
         p {
-            font-size: 1.5rem;
+            font-family: var(--body-font);
             margin: 0 0 1.25rem 0;
         }
 
         .date-highlight {
-            font-size: 1.6rem;
-            margin-top: 1rem;
-            color: #333333;
+            font-family: var(--body-font);
+            font-size: 1.15rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-top: 1.25rem;
+            color: #444444;
         }
 
         /* Header & Navigation */
         header {
             position: sticky;
             top: 0;
-            background: rgba(255, 255, 255, 0.94);
+            background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
-            border-bottom: 1px solid #f0f0f0;
+            border-bottom: 1px solid #eeeeee;
             padding: 0.85rem 1rem;
             z-index: 1000;
         }
@@ -91,16 +103,150 @@
         }
 
         nav a {
-            font-family: 'Alex Brush', cursive, sans-serif;
+            font-family: var(--body-font);
             text-decoration: none;
             color: #111;
-            font-size: 1.6rem;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: var(--nav-letter-spacing);
+            font-weight: 500;
             padding: 0.2rem 0.5rem;
             transition: opacity 0.2s ease;
         }
 
         nav a:hover, nav a:active { 
-            opacity: 0.6; 
+            opacity: 0.5; 
+        }
+
+        /* =========================================
+           TEMPORARY FONT PREVIEW CONTROLS
+           ========================================= */
+        .font-preview-bar {
+            background: #111111;
+            color: #ffffff;
+            padding: 1.2rem 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 2000;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        }
+
+        .font-preview-bar p {
+            margin: 0 0 0.6rem 0;
+            font-size: 0.9rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: #dcdcdc;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        .font-switcher-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+        }
+
+        .font-btn {
+            background: #262626;
+            color: #ffffff;
+            border: 1px solid #444;
+            padding: 6px 14px;
+            font-size: 0.85rem;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        .font-btn:hover {
+            background: #444;
+        }
+
+        .font-btn.active {
+            background: #ffffff;
+            color: #000000;
+            font-weight: 600;
+            border-color: #ffffff;
+        }
+
+        /* Font Comparison Box inside page */
+        .font-comparison-section {
+            background: #fafafa;
+            border: 1px dashed #cccccc;
+            border-radius: 8px;
+            padding: 2rem 1.5rem;
+            margin: 2.5rem auto;
+            max-width: 800px;
+            text-align: left;
+        }
+
+        .font-comparison-section h3 {
+            text-align: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .comparison-subtitle {
+            text-align: center;
+            font-size: 0.95rem;
+            color: #666;
+            margin-bottom: 2rem;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        .font-cards-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        @media (min-width: 600px) {
+            .font-cards-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .font-card {
+            background: #ffffff;
+            border: 1px solid #e2e2e2;
+            padding: 1.5rem;
+            border-radius: 6px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+            cursor: pointer;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .font-card:hover {
+            border-color: #000000;
+            transform: translateY(-2px);
+        }
+
+        .font-card.selected-card {
+            border: 2px solid #000000;
+        }
+
+        .font-card-badge {
+            display: inline-block;
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-weight: 600;
+            color: #666;
+            margin-bottom: 0.75rem;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        .font-card h4 {
+            margin: 0 0 0.5rem 0;
+            font-size: 1.2rem;
+            font-weight: normal;
+        }
+
+        .font-card p {
+            margin: 0;
+            font-size: 1.05rem;
+            line-height: 1.5;
+            color: #333;
         }
 
         /* Layout */
@@ -171,7 +317,7 @@
         .memory-card {
             background: #ffffff;
             border: 1px solid #f0f0f0;
-            padding: 1.5rem;
+            padding: 1.75rem;
             margin-bottom: 1.25rem;
             box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
             border-radius: 4px;
@@ -179,13 +325,17 @@
 
         .memory-card p {
             margin: 0;
-            font-size: 1.45rem;
+            font-size: 1.15rem;
+            font-style: italic;
         }
 
         .memory-author { 
             margin-top: 0.85rem; 
             color: #222; 
-            font-size: 1.4rem;
+            font-size: 0.95rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            font-style: normal;
         }
 
         .submit-memory { 
@@ -202,8 +352,8 @@
             border: 1px solid #222222;
             margin-bottom: 1rem;
             border-radius: 0;
-            font-family: 'Alex Brush', cursive, sans-serif;
-            font-size: 1.45rem;
+            font-family: var(--body-font);
+            font-size: 1.05rem;
             background: #fff;
             color: #111;
         }
@@ -222,9 +372,11 @@
             background-color: #000000;
             color: #ffffff;
             border: none;
-            padding: 12px 28px;
-            font-family: 'Alex Brush', cursive, sans-serif;
-            font-size: 1.7rem;
+            padding: 14px 28px;
+            font-family: var(--body-font);
+            font-size: 0.9rem;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
             cursor: pointer;
             width: 100%;
             display: inline-block;
@@ -249,10 +401,10 @@
             align-items: center;
             gap: 14px;
             cursor: pointer;
-            padding: 10px 14px;
+            padding: 12px 16px;
             border: 1px solid #e5e5e5;
             border-radius: 4px;
-            font-size: 1.45rem;
+            font-size: 1.05rem;
             transition: border-color 0.2s, background 0.2s;
         }
 
@@ -262,8 +414,8 @@
         }
 
         .radio-label input[type="radio"] {
-            width: 20px;
-            height: 20px;
+            width: 18px;
+            height: 18px;
             margin: 0;
             accent-color: #000000;
         }
@@ -271,26 +423,39 @@
         .form-label {
             display: block;
             margin-bottom: 0.5rem;
-            font-size: 1.5rem;
+            font-size: 1.05rem;
         }
 
-        .status-msg { margin-top: 0.75rem; font-size: 1.35rem; }
+        .status-msg { margin-top: 0.75rem; font-size: 1rem; }
         .success { color: #1b7a2d; }
         .error { color: #b71c1c; }
 
         footer {
             padding: 3.5rem 1.5rem;
-            font-size: 1.5rem;
+            font-size: 1.1rem;
+            font-style: italic;
             color: #555;
         }
     </style>
 </head>
 
 <body>
+    <!-- TEMPORARY FONT TESTING BAR -->
+    <div class="font-preview-bar">
+        <p><strong>Live Font Previewer:</strong> Click a font to test the entire page</p>
+        <div class="font-switcher-buttons">
+            <button class="font-btn active" onclick="switchFont('cormorant')">1. Cormorant Garamond</button>
+            <button class="font-btn" onclick="switchFont('playfair')">2. Playfair Display</button>
+            <button class="font-btn" onclick="switchFont('montserrat')">3. Montserrat</button>
+            <button class="font-btn" onclick="switchFont('cinzel')">4. Cinzel</button>
+        </div>
+    </div>
+
     <header>
         <h1>The Cujis</h1>
         <nav>
             <a href="#home">Home</a>
+            <a href="#font-sampler">Font Box</a>
             <a href="#our-story">Our Story</a>
             <a href="#rsvp">RSVP</a>
             <a href="#registry">Registry</a>
@@ -310,6 +475,64 @@
                 <h2>Welcome to our Beginning</h2>
                 <p>We are so excited to celebrate our special day with our favorite people.</p>
                 <p class="date-highlight">May 03, 2027 • Raleigh, NC</p>
+            </section>
+
+            <!-- TEMPORARY FONT COMPARISON BOX -->
+            <section id="font-sampler" style="padding-top: 3rem; padding-bottom: 3rem;">
+                <div class="font-comparison-section">
+                    <h3>Font Comparison Box</h3>
+                    <p class="comparison-subtitle">Click any box to apply that font to the whole website</p>
+
+                    <div class="font-cards-grid">
+                        <!-- Option 1 -->
+                        <div class="font-card selected-card" id="card-cormorant" onclick="switchFont('cormorant')">
+                            <span class="font-card-badge">Option 1 • Editorial Serif</span>
+                            <h4 style="font-family: 'Cormorant Garamond', serif;">Cormorant Garamond</h4>
+                            <p style="font-family: 'Cormorant Garamond', serif; font-size: 1.25rem;">
+                                "We are so excited to celebrate our special day with our favorite people."
+                            </p>
+                            <small style="display:block; margin-top:8px; color:#777; font-family: -apple-system, sans-serif; font-size: 0.8rem;">
+                                Style: Classic, romantic, Vogue / letterpress invitation feel.
+                            </small>
+                        </div>
+
+                        <!-- Option 2 -->
+                        <div class="font-card" id="card-playfair" onclick="switchFont('playfair')">
+                            <span class="font-card-badge">Option 2 • Stately Serif</span>
+                            <h4 style="font-family: 'Playfair Display', serif;">Playfair Display</h4>
+                            <p style="font-family: 'Playfair Display', serif; font-size: 1.05rem;">
+                                "We are so excited to celebrate our special day with our favorite people."
+                            </p>
+                            <small style="display:block; margin-top:8px; color:#777; font-family: -apple-system, sans-serif; font-size: 0.8rem;">
+                                Style: Warm, bold contrast, formal evening celebration feel.
+                            </small>
+                        </div>
+
+                        <!-- Option 3 -->
+                        <div class="font-card" id="card-montserrat" onclick="switchFont('montserrat')">
+                            <span class="font-card-badge">Option 3 • Clean Modern Luxe</span>
+                            <h4 style="font-family: 'Montserrat', sans-serif; letter-spacing: 1px;">Montserrat (Light)</h4>
+                            <p style="font-family: 'Montserrat', sans-serif; font-size: 0.95rem; font-weight: 300;">
+                                "We are so excited to celebrate our special day with our favorite people."
+                            </p>
+                            <small style="display:block; margin-top:8px; color:#777; font-family: -apple-system, sans-serif; font-size: 0.8rem;">
+                                Style: Minimalist gallery luxury, crisp & mature without looking like an app.
+                            </small>
+                        </div>
+
+                        <!-- Option 4 -->
+                        <div class="font-card" id="card-cinzel" onclick="switchFont('cinzel')">
+                            <span class="font-card-badge">Option 4 • Regal Inscription</span>
+                            <h4 style="font-family: 'Cinzel', serif; letter-spacing: 1px;">Cinzel</h4>
+                            <p style="font-family: 'Cinzel', serif; font-size: 0.95rem;">
+                                "We are so excited to celebrate our special day with our favorite people."
+                            </p>
+                            <small style="display:block; margin-top:8px; color:#777; font-family: -apple-system, sans-serif; font-size: 0.8rem;">
+                                Style: Roman engraving, timeless, ceremonial elegance.
+                            </small>
+                        </div>
+                    </div>
+                </div>
             </section>
 
             <section id="our-story">
@@ -372,7 +595,55 @@
 
     <script>
         // -------------------------------------------------------------
-        // PASTE YOUR GOOGLE APPS SCRIPT WEB APP URL HERE:
+        // LIVE FONT SWITCHER SCRIPT
+        // -------------------------------------------------------------
+        const fontConfig = {
+            cormorant: {
+                family: "'Cormorant Garamond', serif",
+                size: '1.25rem',
+                spacing: '2.5px'
+            },
+            playfair: {
+                family: "'Playfair Display', serif",
+                size: '1.1rem',
+                spacing: '2px'
+            },
+            montserrat: {
+                family: "'Montserrat', sans-serif",
+                size: '0.98rem',
+                spacing: '2px'
+            },
+            cinzel: {
+                family: "'Cinzel', serif",
+                size: '1.05rem',
+                spacing: '2px'
+            }
+        };
+
+        function switchFont(fontKey) {
+            const selected = fontConfig[fontKey];
+            if (!selected) return;
+
+            // Update Root CSS Variables across the entire page
+            document.documentElement.style.setProperty('--body-font', selected.family);
+            document.documentElement.style.setProperty('--base-font-size', selected.size);
+            document.documentElement.style.setProperty('--nav-letter-spacing', selected.spacing);
+
+            // Update button active state
+            document.querySelectorAll('.font-btn').forEach(btn => btn.classList.remove('active'));
+            const activeBtn = Array.from(document.querySelectorAll('.font-btn')).find(btn => 
+                btn.textContent.toLowerCase().includes(fontKey)
+            );
+            if (activeBtn) activeBtn.classList.add('active');
+
+            // Update card active state
+            document.querySelectorAll('.font-card').forEach(card => card.classList.remove('selected-card'));
+            const activeCard = document.getElementById(`card-${fontKey}`);
+            if (activeCard) activeCard.classList.add('selected-card');
+        }
+
+        // -------------------------------------------------------------
+        // GOOGLE APPS SCRIPT WEB APP URL:
         // -------------------------------------------------------------
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwIwzcMUfcDS8phJ6EBTNXCgufqrjDyp50wKKZwQ7qsTVAqbYL5tCtZyXgL-kzdB11ZWw/exec';
 
