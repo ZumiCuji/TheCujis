@@ -10,9 +10,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;400;500;600&family=Alex+Brush&display=swap" rel="stylesheet">
 
-    <!-- Supabase Client -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
     <style>
         /* CSS Reset & Box Sizing */
         *, *::before, *::after {
@@ -52,7 +49,6 @@
             line-height: 1.2;
         }
 
-        /* Responsive Script Headings */
         h1 { font-size: clamp(2.5rem, 8vw, 4rem); }
         h2 { font-size: clamp(2.2rem, 7vw, 3.5rem); }
         h3 { font-size: clamp(1.8rem, 6vw, 2.5rem); }
@@ -167,7 +163,6 @@
             }
         }
 
-        /* Featured Couple Image */
         .hero-img {
             width: 100%;
             max-width: 650px;
@@ -209,7 +204,6 @@
             text-align: left; 
         }
 
-        /* Form Controls (Optimized for iOS Safari touch zoom prevention) */
         .submit-memory textarea, 
         .submit-memory input,
         #rsvp-form input[type="text"] {
@@ -217,9 +211,9 @@
             padding: 14px 16px;
             border: 1px solid #222222;
             margin-bottom: 1rem;
-            border-radius: 0; /* Prevents iOS default rounded corners */
+            border-radius: 0;
             font-family: inherit;
-            font-size: 16px; /* Prevents auto-zoom on iOS focus */
+            font-size: 16px; /* Prevents auto-zoom on iOS Safari */
             background: #fff;
             color: #111;
         }
@@ -234,7 +228,6 @@
             outline: 2px solid #000;
         }
 
-        /* Buttons */
         .sleek-btn {
             background-color: #000000;
             color: #ffffff;
@@ -254,8 +247,9 @@
 
         .sleek-btn:hover { background-color: #333333; }
         .sleek-btn:active { transform: scale(0.99); }
+        .sleek-btn:disabled { background-color: #888888; cursor: not-allowed; }
 
-        /* RSVP Radio Option Buttons (Touch-Friendly) */
+        /* RSVP Radio Group */
         .radio-group {
             display: flex;
             flex-direction: column;
@@ -294,9 +288,9 @@
             font-size: 0.95rem;
         }
 
-        .success { color: #1b7a2d; font-weight: 600; margin-top: 0.5rem; }
-
-        #admin-section { display: none; }
+        .status-msg { margin-top: 0.75rem; font-size: 0.9rem; font-weight: 500; }
+        .success { color: #1b7a2d; }
+        .error { color: #b71c1c; }
 
         footer {
             padding: 3.5rem 1.5rem;
@@ -319,7 +313,6 @@
     </header>
 
     <div class="wrapper">
-        <!-- Desktop Left Gallery -->
         <div class="side-gallery">
             <img src="images/side1.jpg" alt="Gallery Photo 1">
             <img src="images/side2.jpg" alt="Gallery Photo 2">
@@ -345,8 +338,8 @@
                     <h3 style="text-align: center; margin-bottom: 1.5rem;">Share a Memory</h3>
                     <textarea id="memory-text" rows="4" placeholder="Write your favorite memory with us..."></textarea>
                     <input type="text" id="memory-name" placeholder="Your Name">
-                    <button onclick="submitMemory()" class="sleek-btn">Submit Memory</button>
-                    <p id="memory-status"></p>
+                    <button id="submit-memory-btn" onclick="submitMemory()" class="sleek-btn">Submit Memory</button>
+                    <p id="memory-status" class="status-msg"></p>
                 </div>
 
                 <h3 style="text-align: center; margin: 3rem 0 1.5rem 0;">Memories from Our Loved Ones</h3>
@@ -379,15 +372,8 @@
                 <h2>Registry</h2>
                 <p>Coming soon...</p>
             </section>
-
-            <!-- Hidden Admin Section -->
-            <section id="admin-section">
-                <h2>Memory Management</h2>
-                <div id="pending-container"></div>
-            </section>
         </main>
 
-        <!-- Desktop Right Gallery -->
         <div class="side-gallery">
             <img src="images/side4.jpg" alt="Gallery Photo 4">
             <img src="images/side5.jpg" alt="Gallery Photo 5">
@@ -400,59 +386,83 @@
     </footer>
 
     <script>
-        const SUPABASE_URL = 'https://xxkfgaqbvdvvelnqhfxq.supabase.co';
-        const SUPABASE_ANON_KEY = 'sb_publishable_68FFocX5gTKmPoay-NtRzQ_0Nj7NznM';
-        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        // -------------------------------------------------------------
+        // PASTE YOUR GOOGLE APPS SCRIPT WEB APP URL HERE:
+        // -------------------------------------------------------------
+        const SCRIPT_URL = 'PASTE_YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE';
 
+        // Submit Memory to Google Sheet
         async function submitMemory() {
             const text = document.getElementById('memory-text').value.trim();
             const name = document.getElementById('memory-name').value.trim() || "Anonymous";
+            const btn = document.getElementById('submit-memory-btn');
+            const statusEl = document.getElementById('memory-status');
 
-            if (!text) return alert("Please write a memory.");
-
-            const { error } = await supabaseClient
-                .from('memories')
-                .insert([{ text, name, approved: false }]);
-
-            if (error) {
-                alert("Error saving memory. Please try again.");
-                console.error(error);
+            if (!text) {
+                alert("Please write a memory.");
                 return;
             }
 
-            document.getElementById('memory-status').innerHTML = '<span class="success">Thank you! Memory submitted for approval.</span>';
-            document.getElementById('memory-text').value = '';
-            document.getElementById('memory-name').value = '';
+            if (SCRIPT_URL === 'PASTE_YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE') {
+                alert("Please configure your Google Apps Script URL in index.html first.");
+                return;
+            }
 
-            loadApprovedMemories();
+            btn.disabled = true;
+            btn.textContent = "Submitting...";
+            statusEl.textContent = "";
+
+            try {
+                // Using text/plain avoids CORS preflight OPTIONS request
+                await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify({ name: name, text: text })
+                });
+
+                statusEl.className = 'status-msg success';
+                statusEl.textContent = 'Thank you! Your memory was submitted for approval.';
+                document.getElementById('memory-text').value = '';
+                document.getElementById('memory-name').value = '';
+            } catch (err) {
+                console.error(err);
+                statusEl.className = 'status-msg error';
+                statusEl.textContent = 'Error sending memory. Please try again.';
+            } finally {
+                btn.disabled = false;
+                btn.textContent = "Submit Memory";
+            }
         }
 
+        // Fetch Approved Memories from Google Sheet
         async function loadApprovedMemories() {
             const container = document.getElementById('memories-container');
-            const { data, error } = await supabaseClient
-                .from('memories')
-                .select('*')
-                .eq('approved', true)
-                .order('created_at', { ascending: false });
-
-            if (error) {
-                console.error(error);
+            if (SCRIPT_URL === 'PASTE_YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE') {
+                container.innerHTML = '<p style="text-align:center; color:#777;">Google Sheets API URL not yet set.</p>';
                 return;
             }
 
-            container.innerHTML = '';
+            try {
+                const response = await fetch(SCRIPT_URL);
+                const data = await response.json();
 
-            if (!data || data.length === 0) {
-                container.innerHTML = '<p style="text-align: center; color: #777;">No approved memories yet.</p>';
-                return;
+                container.innerHTML = '';
+
+                if (!data.memories || data.memories.length === 0) {
+                    container.innerHTML = '<p style="text-align: center; color: #777;">No approved memories yet.</p>';
+                    return;
+                }
+
+                data.memories.forEach(mem => {
+                    const div = document.createElement('div');
+                    div.className = 'memory-card';
+                    div.innerHTML = `<p>“${escapeHtml(mem.text)}”</p><div class="memory-author">— ${escapeHtml(mem.name)}</div>`;
+                    container.appendChild(div);
+                });
+            } catch (err) {
+                console.error(err);
+                container.innerHTML = '<p style="text-align: center; color: #999;">Unable to load memories right now.</p>';
             }
-
-            data.forEach(mem => {
-                const div = document.createElement('div');
-                div.className = 'memory-card';
-                div.innerHTML = `<p>“${escapeHtml(mem.text)}”</p><div class="memory-author">— ${escapeHtml(mem.name)}</div>`;
-                container.appendChild(div);
-            });
         }
 
         // Helper to avoid HTML injection
@@ -462,71 +472,14 @@
             return div.innerHTML;
         }
 
-        // Show admin panel when URL hash is #admin
-        function checkAdminHash() {
-            if (window.location.hash === '#admin') {
-                document.getElementById('admin-section').style.display = 'block';
-                loadAllMemories();
-            }
-        }
-
-        window.addEventListener('hashchange', checkAdminHash);
-        checkAdminHash();
-
-        async function loadAllMemories() {
-            const container = document.getElementById('pending-container');
-            container.innerHTML = '<h3>All Memories (Approved + Pending)</h3>';
-
-            const { data, error } = await supabaseClient
-                .from('memories')
-                .select('*')
-                .order('created_at', { ascending: false });
-
-            if (error) {
-                console.error(error);
-                return;
-            }
-
-            if (!data || data.length === 0) {
-                container.innerHTML += '<p>No memories found.</p>';
-                return;
-            }
-
-            data.forEach(mem => {
-                const div = document.createElement('div');
-                div.style.cssText = 'border: 1px solid #ddd; padding: 15px; margin: 10px 0; text-align: left;';
-                div.innerHTML = `
-                    <p><strong>From:</strong> ${escapeHtml(mem.name)} 
-                       <span style="color: ${mem.approved ? 'green' : 'orange'};">(${mem.approved ? 'Approved' : 'Pending'})</span></p>
-                    <p>"${escapeHtml(mem.text)}"</p>
-                    <button onclick="deleteMemory('${mem.id}')" class="sleek-btn" 
-                            style="width: auto; background: #c00; margin-right: 8px; padding: 10px 16px;">Delete</button>
-                `;
-                container.appendChild(div);
-            });
-        }
-
-        window.deleteMemory = async function(id) {
-            if (confirm("Are you sure you want to permanently delete this memory?")) {
-                const { error } = await supabaseClient.from('memories').delete().eq('id', id);
-                if (error) {
-                    alert("Error deleting memory.");
-                    console.error(error);
-                } else {
-                    loadApprovedMemories();
-                    if (document.getElementById('admin-section').style.display === 'block') {
-                        loadAllMemories();
-                    }
-                }
-            }
-        };
-
+        // RSVP Form Handling
         document.getElementById('rsvp-form').addEventListener('submit', function(e) {
             e.preventDefault();
             alert("Thank you! Your RSVP has been received.");
             this.reset();
         });
 
+        // Initialize on load
         loadApprovedMemories();
     </script>
 </body>
