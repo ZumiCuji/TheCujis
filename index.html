@@ -36,11 +36,11 @@
             --line: #e5dfd5;
             --soft-line: #eeeae3;
 
-            /* Balanced is the default photo size */
-            --photo-scale: 1;
+            /* Balanced photo-size defaults */
             --hero-width: 500px;
             --portrait-width: 230px;
             --note-width: 210px;
+            --mix-image-height: 205px;
         }
 
         body {
@@ -220,7 +220,7 @@
         }
 
         /* =========================================
-           BASE PAGE STRUCTURE
+           PAGE STRUCTURE
            ========================================= */
         .site-shell {
             width: min(100%, 1100px);
@@ -241,8 +241,8 @@
 
         /* =========================================
            HOME / HERO
-           Image Assignment:
-           images/IMG_0095.jpeg is used only here.
+           Unique Image:
+           images/IMG_0095.jpeg
            ========================================= */
         .welcome-layout {
             display: grid;
@@ -283,7 +283,7 @@
         }
 
         .comparison-wrapper {
-            max-width: 900px;
+            max-width: 920px;
             margin: 0 auto;
             padding: 2rem 1rem;
             text-align: left;
@@ -324,7 +324,7 @@
             border-bottom: 2px solid transparent;
             cursor: pointer;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            font-size: 0.75rem;
+            font-size: 0.72rem;
             font-weight: 700;
             letter-spacing: 1px;
             text-transform: uppercase;
@@ -358,6 +358,8 @@
         .preview-card {
             min-height: 150px;
             padding: 1.2rem;
+            color: inherit;
+            text-align: left;
             background: #ffffff;
             border: 1px solid #e3ded5;
             border-radius: 5px;
@@ -366,7 +368,7 @@
         }
 
         .preview-card:hover,
-        .preview-card:focus-within {
+        .preview-card:focus-visible {
             border-color: #91816b;
             transform: translateY(-2px);
         }
@@ -402,10 +404,118 @@
         }
 
         /* =========================================
+           PHOTO MIX PREVIEW
+           Dynamically populated by JavaScript.
+           ========================================= */
+        .photo-mix-controls {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 0.65rem;
+            margin-bottom: 1rem;
+        }
+
+        .photo-mix-btn {
+            padding: 0.6rem 0.85rem;
+            color: var(--ink);
+            background: #ffffff;
+            border: 1px solid #bdb5a8;
+            border-radius: 2px;
+            cursor: pointer;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-size: 0.74rem;
+            font-weight: 700;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+            transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+        }
+
+        .photo-mix-btn:hover,
+        .photo-mix-btn:focus-visible {
+            border-color: var(--ink);
+            background: #f5f0e8;
+        }
+
+        .photo-mix-btn.active {
+            color: #ffffff;
+            background: var(--ink);
+            border-color: var(--ink);
+        }
+
+        .photo-mix-status {
+            max-width: 650px;
+            margin: 0 auto 1.5rem;
+            color: var(--muted-ink);
+            text-align: center;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-size: 0.83rem;
+        }
+
+        .photo-mix-gallery {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            align-items: start;
+            gap: 1rem;
+            max-width: 850px;
+            margin: 0 auto;
+        }
+
+        .photo-mix-item {
+            margin: 0;
+        }
+
+        .photo-mix-item:nth-child(3n + 1) {
+            margin-top: 0.8rem;
+        }
+
+        .photo-mix-item:nth-child(4n + 2) {
+            margin-top: 1.5rem;
+        }
+
+        .photo-mix-image-frame {
+            padding: 0.4rem;
+            background: #ffffff;
+            border: 1px solid var(--line);
+            box-shadow: 0 8px 18px rgba(67, 55, 37, 0.06);
+        }
+
+        .photo-mix-item img {
+            width: 100%;
+            height: var(--mix-image-height);
+            object-fit: cover;
+        }
+
+        .photo-mix-item:nth-child(3n + 2) img {
+            aspect-ratio: 1 / 1;
+        }
+
+        .photo-mix-item:nth-child(3n + 3) img {
+            aspect-ratio: 4 / 5;
+        }
+
+        .photo-mix-caption {
+            margin-top: 0.55rem;
+            color: var(--muted-ink);
+            font-size: 0.88rem;
+            font-style: italic;
+            text-align: center;
+        }
+
+        @media (min-width: 680px) {
+            .photo-mix-gallery {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+                gap: 1.15rem;
+            }
+        }
+
+        @media (min-width: 980px) {
+            .photo-mix-gallery {
+                grid-template-columns: repeat(4, minmax(0, 1fr));
+            }
+        }
+
+        /* =========================================
            SHARED PHOTO PRESENTATION
-           No image file is duplicated in the HTML.
-           Layout switching changes the presentation
-           of these same unique photo assignments.
            ========================================= */
         .photo-frame {
             padding: 0.45rem;
@@ -427,9 +537,9 @@
         }
 
         /* =========================================
-           STORY SECTION
-           Image Assignment:
-           images/IMG_2947.jpeg is used only here.
+           STORY
+           Unique Image:
+           images/IMG_2947.jpeg
            ========================================= */
         .story-layout {
             display: grid;
@@ -458,13 +568,12 @@
         }
 
         /* =========================================
-           GALLERY NOTES SECTION
-           Unique Image Assignments:
-           images/IMG_1507.jpeg
+           GALLERY NOTES
+           Unique Images:
+           images/side2.jpg
            images/IMG_1536.jpeg.jpg
-           images/IMG_9994.jpeg
-           images/IMG_2947.jpeg
-           Each image appears once only.
+           images/side5.jpg
+           images/side6.jpg
            ========================================= */
         #gallery-notes {
             padding-top: 4.5rem;
@@ -493,10 +602,7 @@
             width: 100%;
         }
 
-        .gallery-note:nth-child(1) {
-            margin-top: 1.2rem;
-        }
-
+        .gallery-note:nth-child(1),
         .gallery-note:nth-child(4) {
             margin-top: 1.2rem;
         }
@@ -537,14 +643,12 @@
         }
 
         body[data-layout="editorial"] .gallery-notes-grid {
-            grid-template-columns: repeat(2, minmax(0, 1fr));
             max-width: 570px;
             gap: 2.5rem 1rem;
         }
 
-        body[data-layout="editorial"] .gallery-note:nth-child(1),
-        body[data-layout="editorial"] .gallery-note:nth-child(4) {
-            margin-top: 1.5rem;
+        .photo-mix-gallery {
+            max-width: 700px;
         }
 
         /* =========================================
@@ -620,6 +724,10 @@
             margin-top: 2.8rem;
         }
 
+        body[data-layout="gallery"] .photo-mix-gallery {
+            max-width: 860px;
+        }
+
         @media (min-width: 720px) {
             body[data-layout="gallery"] .gallery-notes-grid {
                 grid-template-columns: 0.9fr 1.1fr 1.1fr 0.9fr;
@@ -672,32 +780,36 @@
             box-shadow: none;
         }
 
+        body[data-layout="quiet"] .photo-mix-gallery {
+            max-width: 650px;
+        }
+
         /* =========================================
            PHOTO-SIZE CONTROLS
            ========================================= */
         body[data-photo-size="compact"] {
-            --photo-scale: 0.8;
             --hero-width: 420px;
             --portrait-width: 185px;
             --note-width: 165px;
+            --mix-image-height: 150px;
         }
 
         body[data-photo-size="balanced"] {
-            --photo-scale: 1;
             --hero-width: 500px;
             --portrait-width: 230px;
             --note-width: 210px;
+            --mix-image-height: 205px;
         }
 
         body[data-photo-size="statement"] {
-            --photo-scale: 1.15;
             --hero-width: 520px;
             --portrait-width: 265px;
             --note-width: 240px;
+            --mix-image-height: 245px;
         }
 
         /* =========================================
-           MEMORY WALL / FORMS
+           MEMORY WALL / FORMS / RSVP
            ========================================= */
         .submit-memory {
             max-width: 540px;
@@ -881,7 +993,6 @@
             </div>
         </div>
 
-        <!-- Photo-size controls -->
         <div class="preview-bar-row">
             <p class="preview-bar-label">Photo Size</p>
             <div class="switcher-buttons">
@@ -931,17 +1042,19 @@
         <section id="test-lab">
             <div class="comparison-wrapper">
                 <h3>Design Testing Lab</h3>
+
                 <p class="comparison-subtitle">
-                    Compare typography, editorial image arrangements, and understated photo sizing.
+                    Compare typography, editorial layouts, photo sizing, and a rotating mix of uploaded photos.
                 </p>
 
                 <div class="sampler-tabs" role="tablist" aria-label="Design Lab options">
                     <button type="button" class="sampler-tab-btn" id="tab-btn-fonts" onclick="openSamplerTab('fonts')">Fonts</button>
                     <button type="button" class="sampler-tab-btn active" id="tab-btn-layouts" onclick="openSamplerTab('layouts')">Layouts</button>
                     <button type="button" class="sampler-tab-btn" id="tab-btn-sizes" onclick="openSamplerTab('sizes')">Photo Sizes</button>
+                    <button type="button" class="sampler-tab-btn" id="tab-btn-photo-mix" onclick="openSamplerTab('photo-mix')">Photo Mix</button>
                 </div>
 
-                <!-- Font comparison panel -->
+                <!-- FONT OPTIONS -->
                 <div id="panel-fonts" class="sampler-panel">
                     <div class="preview-cards-grid">
                         <button type="button" class="preview-card selected-card" id="card-cormorant" onclick="switchFont('cormorant')">
@@ -970,7 +1083,7 @@
                     </div>
                 </div>
 
-                <!-- Layout comparison panel -->
+                <!-- LAYOUT OPTIONS -->
                 <div id="panel-layouts" class="sampler-panel active">
                     <div class="preview-cards-grid">
                         <button type="button" class="preview-card selected-card" id="card-layout-editorial" onclick="switchLayout('editorial')">
@@ -999,13 +1112,13 @@
                     </div>
                 </div>
 
-                <!-- Photo-size comparison panel -->
+                <!-- PHOTO SIZE OPTIONS -->
                 <div id="panel-sizes" class="sampler-panel">
                     <div class="preview-cards-grid">
                         <button type="button" class="preview-card" id="card-size-compact" onclick="switchPhotoSize('compact')">
                             <span class="preview-card-badge">Option 1</span>
                             <h4>Compact</h4>
-                            <p>The most restrained option. Best when typography, guest information, and written content should lead the design.</p>
+                            <p>The most restrained option. Best when typography, guest information, and written content lead the design.</p>
                         </button>
 
                         <button type="button" class="preview-card selected-card" id="card-size-balanced" onclick="switchPhotoSize('balanced')">
@@ -1017,9 +1130,31 @@
                         <button type="button" class="preview-card" id="card-size-statement" onclick="switchPhotoSize('statement')">
                             <span class="preview-card-badge">Option 3</span>
                             <h4>Statement</h4>
-                            <p>The largest revised option. It gives photos a little more presence while avoiding oversized imagery.</p>
+                            <p>The largest revised option. It gives photos more presence while avoiding oversized imagery.</p>
                         </button>
                     </div>
+                </div>
+
+                <!-- PHOTO MIX PREVIEW -->
+                <div id="panel-photo-mix" class="sampler-panel">
+                    <div class="photo-mix-controls">
+                        <button type="button" class="photo-mix-btn active" id="btn-show-10" onclick="setPhotoMixCount(10)" aria-pressed="true">
+                            Show 10 Photos
+                        </button>
+
+                        <button type="button" class="photo-mix-btn" id="btn-show-20" onclick="setPhotoMixCount(20)" aria-pressed="false">
+                            Show All 20
+                        </button>
+
+                        <button type="button" class="photo-mix-btn" id="btn-shuffle-photos" onclick="renderPhotoMix()">
+                            Shuffle Photos
+                        </button>
+                    </div>
+
+                    <p id="photo-mix-status" class="photo-mix-status" aria-live="polite"></p>
+
+                    <!-- JavaScript dynamically creates unique photo elements here. -->
+                    <div id="photo-mix-gallery" class="photo-mix-gallery" aria-label="Randomized uploaded photo preview"></div>
                 </div>
             </div>
         </section>
@@ -1065,11 +1200,11 @@
 
         <!-- =========================================
              GALLERY NOTES
-             Unique images used one time each:
-             images/IMG_1507.jpeg
-             images/IMG_1533.jpeg
-             images/IMG_9994.jpeg
-             images/IMG_2947.jpeg
+             Unique Images:
+             images/side2.jpg
+             images/IMG_1536.jpeg.jpg
+             images/side5.jpg
+             images/side6.jpg
              ========================================= -->
         <section id="gallery-notes">
             <div class="gallery-heading">
@@ -1081,28 +1216,28 @@
             <div class="gallery-notes-grid">
                 <figure class="gallery-note">
                     <div class="photo-frame">
-                        <img src="images/IMG_1507.jpeg" alt="A favorite moment from Morgan and Zumi's journey">
+                        <img src="images/side2.jpg" alt="A favorite moment from Morgan and Zumi's journey">
                     </div>
                     <figcaption class="photo-caption">A favorite moment</figcaption>
                 </figure>
 
                 <figure class="gallery-note">
                     <div class="photo-frame">
-                        <img src="images/IMG_1533.jpeg" alt="A meaningful moment together">
+                        <img src="images/IMG_1536.jpeg.jpg" alt="A meaningful moment together">
                     </div>
                     <figcaption class="photo-caption">The beginning</figcaption>
                 </figure>
 
                 <figure class="gallery-note">
                     <div class="photo-frame">
-                        <img src="images/IMG_9994.jpeg" alt="A joyful memory shared together">
+                        <img src="images/side5.jpg" alt="A joyful memory shared together">
                     </div>
                     <figcaption class="photo-caption">With all our love</figcaption>
                 </figure>
 
                 <figure class="gallery-note">
                     <div class="photo-frame">
-                        <img src="images/IMG_2947.jpeg" alt="A quiet portrait from a special day">
+                        <img src="images/side6.jpg" alt="A quiet portrait from a special day">
                     </div>
                     <figcaption class="photo-caption">Forever starts here</figcaption>
                 </figure>
@@ -1272,6 +1407,96 @@
         }
 
         /* =========================================
+           PHOTO MIX
+           Sources: images/1.JPEG through images/20.JPEG
+           ========================================= */
+        const uploadedPhotoSources = Array.from(
+            { length: 20 },
+            (_, index) => `images/${index + 1}.JPEG`
+        );
+
+        const photoMixCaptions = [
+            "A favorite moment",
+            "The beginning",
+            "With love",
+            "A beautiful memory",
+            "Forever starts here",
+            "A moment to remember",
+            "Together, always",
+            "A little joy",
+            "The sweetest days",
+            "Our favorite people"
+        ];
+
+        let selectedPhotoCount = 10;
+
+        /* Fisher-Yates shuffle for unbiased random ordering */
+        function shuffleArray(items) {
+            const shuffled = [...items];
+
+            for (let index = shuffled.length - 1; index > 0; index--) {
+                const randomIndex = Math.floor(Math.random() * (index + 1));
+
+                [shuffled[index], shuffled[randomIndex]] = [
+                    shuffled[randomIndex],
+                    shuffled[index]
+                ];
+            }
+
+            return shuffled;
+        }
+
+        function setPhotoMixCount(count) {
+            selectedPhotoCount = count;
+
+            const showTenButton = document.getElementById("btn-show-10");
+            const showTwentyButton = document.getElementById("btn-show-20");
+
+            showTenButton.classList.toggle("active", count === 10);
+            showTwentyButton.classList.toggle("active", count === 20);
+
+            showTenButton.setAttribute("aria-pressed", count === 10 ? "true" : "false");
+            showTwentyButton.setAttribute("aria-pressed", count === 20 ? "true" : "false");
+
+            renderPhotoMix();
+        }
+
+        function renderPhotoMix() {
+            const gallery = document.getElementById("photo-mix-gallery");
+            const status = document.getElementById("photo-mix-status");
+
+            const randomizedPhotos = shuffleArray(uploadedPhotoSources);
+            const selectedPhotos = randomizedPhotos.slice(0, selectedPhotoCount);
+
+            gallery.innerHTML = "";
+
+            selectedPhotos.forEach((source, index) => {
+                const figure = document.createElement("figure");
+                figure.className = "photo-mix-item";
+
+                const imageFrame = document.createElement("div");
+                imageFrame.className = "photo-mix-image-frame";
+
+                const image = document.createElement("img");
+                image.src = source;
+                image.alt = `Wedding memory ${index + 1}`;
+                image.loading = "lazy";
+
+                const caption = document.createElement("figcaption");
+                caption.className = "photo-mix-caption";
+                caption.textContent = photoMixCaptions[index % photoMixCaptions.length];
+
+                imageFrame.appendChild(image);
+                figure.appendChild(imageFrame);
+                figure.appendChild(caption);
+                gallery.appendChild(figure);
+            });
+
+            status.textContent =
+                `Showing ${selectedPhotoCount} randomly selected ${selectedPhotoCount === 1 ? "photo" : "photos"}. Select Shuffle Photos for another mix.`;
+        }
+
+        /* =========================================
            GOOGLE APPS SCRIPT MEMORY INTEGRATION
            ========================================= */
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwIwzcMUfcDS8phJ6EBTNXCgufqrjDyp50wKKZwQ7qsTVAqbYL5tCtZyXgL-kzdB11ZWw/exec";
@@ -1375,6 +1600,10 @@
             this.reset();
         });
 
+        /* =========================================
+           INITIAL PAGE LOAD
+           ========================================= */
+        renderPhotoMix();
         loadApprovedMemories();
     </script>
 </body>
