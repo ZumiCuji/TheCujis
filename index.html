@@ -11,7 +11,7 @@
 
     <style>
         /* =========================================
-           RESET / VARIABLES
+           RESET / GLOBAL VARIABLES
            ========================================= */
         *, *::before, *::after {
             box-sizing: border-box;
@@ -25,22 +25,21 @@
         :root {
             --script-font: "Alex Brush", cursive;
             --body-font: "Cormorant Garamond", serif;
-            --base-font-size: 1.22rem;
+            --base-font-size: 1.2rem;
             --nav-letter-spacing: 2.3px;
 
             --paper: #fffdf9;
             --warm-white: #faf7f1;
             --ink: #22211f;
             --muted-ink: #68635b;
-            --line: #e6dfd4;
+            --line: #e5dfd4;
             --soft-line: #f0ece5;
 
-            /* Balanced photo-size defaults */
-            --hero-width: 490px;
-            --portrait-width: 240px;
-            --interlude-width: 240px;
-            --gallery-image-height: 205px;
-            --small-image-height: 190px;
+            /* Balanced photo size */
+            --hero-width: 500px;
+            --story-width: 255px;
+            --interlude-width: 255px;
+            --gallery-columns: 2;
         }
 
         body {
@@ -76,7 +75,7 @@
             color: var(--ink);
             font-family: var(--script-font);
             font-weight: 400;
-            line-height: 1.05;
+            line-height: 1.06;
         }
 
         h1 {
@@ -96,7 +95,7 @@
         }
 
         .eyebrow {
-            margin-bottom: 0.6rem;
+            margin-bottom: 0.65rem;
             color: var(--muted-ink);
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             font-size: 0.68rem;
@@ -106,9 +105,9 @@
         }
 
         .date-highlight {
-            margin-top: 1.4rem;
+            margin-top: 1.35rem;
             color: #4d4942;
-            font-size: 0.92rem;
+            font-size: 0.9rem;
             letter-spacing: 2.5px;
             text-transform: uppercase;
         }
@@ -116,12 +115,16 @@
         .site-shell {
             width: min(100%, 1120px);
             margin: 0 auto;
-            padding: 0 1.2rem;
+            padding: 0 1.25rem;
         }
 
         section {
             padding: 5rem 0;
             border-bottom: 1px solid var(--soft-line);
+        }
+
+        section.is-empty-section {
+            display: none;
         }
 
         @media (min-width: 768px) {
@@ -131,7 +134,7 @@
         }
 
         /* =========================================
-           LIVE DESIGN CONTROLS
+           LIVE CONTROL BAR
            ========================================= */
         .preview-bar {
             padding: 1rem;
@@ -141,7 +144,7 @@
         }
 
         .preview-bar-row + .preview-bar-row {
-            margin-top: 0.8rem;
+            margin-top: 0.85rem;
         }
 
         .preview-bar-label {
@@ -175,7 +178,7 @@
 
         .switcher-btn:hover,
         .switcher-btn:focus-visible {
-            background: #4d4942;
+            background: #4c4841;
         }
 
         .switcher-btn.active {
@@ -208,7 +211,7 @@
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
-            gap: 0.2rem 1.15rem;
+            gap: 0.25rem 1.1rem;
         }
 
         nav a {
@@ -225,6 +228,150 @@
         nav a:hover,
         nav a:focus-visible {
             color: #8b765a;
+        }
+
+        /* =========================================
+           SHARED IMAGE STYLES
+           ========================================= */
+        .photo-slot.is-empty {
+            display: none;
+        }
+
+        .photo-figure {
+            margin: 0;
+        }
+
+        .photo-frame {
+            padding: 0.42rem;
+            background: #ffffff;
+            border: 1px solid var(--line);
+            box-shadow: 0 8px 20px rgba(66, 54, 36, 0.07);
+        }
+
+        /* Standalone images retain natural proportions. */
+        .photo-frame img {
+            width: 100%;
+            height: auto;
+        }
+
+        .photo-caption {
+            margin: 0.65rem 0 0;
+            color: var(--muted-ink);
+            font-size: 0.88rem;
+            font-style: italic;
+            text-align: center;
+        }
+
+        /* =========================================
+           HOME
+           ========================================= */
+        .welcome-layout {
+            display: grid;
+            justify-items: center;
+            gap: 2.25rem;
+            max-width: 920px;
+            margin: 0 auto;
+        }
+
+        .welcome-copy {
+            max-width: 540px;
+        }
+
+        .welcome-copy h2 {
+            margin-bottom: 1rem;
+        }
+
+        .home-photo-slot {
+            width: min(100%, var(--hero-width));
+        }
+
+        /* =========================================
+           PHOTO INTERLUDE
+           ========================================= */
+        .photo-interlude-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            align-items: start;
+            gap: 1rem;
+            max-width: 620px;
+            margin: 0 auto;
+        }
+
+        .interlude-photo-slot {
+            width: min(100%, var(--interlude-width));
+            justify-self: center;
+        }
+
+        /* =========================================
+           OUR STORY
+           ========================================= */
+        .story-layout {
+            display: grid;
+            justify-items: center;
+            align-items: center;
+            gap: 2.25rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .story-copy {
+            max-width: 580px;
+        }
+
+        .story-copy h2 {
+            margin-bottom: 1rem;
+        }
+
+        .story-photo-slot {
+            width: min(100%, var(--story-width));
+        }
+
+        /* =========================================
+           PHOTO JOURNEY / CONTACT SHEET
+           ========================================= */
+        .gallery-heading {
+            max-width: 600px;
+            margin: 0 auto 2.4rem;
+        }
+
+        .gallery-heading h2 {
+            margin-bottom: 0.8rem;
+        }
+
+        .photo-journey-grid {
+            display: grid;
+            grid-template-columns: repeat(var(--gallery-columns), minmax(0, 1fr));
+            align-items: start;
+            gap: 1rem;
+            max-width: 920px;
+            margin: 0 auto;
+        }
+
+        .gallery-photo-slot {
+            min-width: 0;
+        }
+
+        /*
+            Controlled gallery framing:
+            object-fit is used only inside this contact-sheet section.
+        */
+        .gallery-photo-slot .photo-frame img {
+            width: 100%;
+            aspect-ratio: 4 / 5;
+            object-fit: cover;
+            object-position: center;
+        }
+
+        @media (min-width: 700px) {
+            :root {
+                --gallery-columns: 3;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            :root {
+                --gallery-columns: 4;
+            }
         }
 
         /* =========================================
@@ -358,10 +505,9 @@
 
         /* =========================================
            PHOTO MIX CONTROLS
-           Controls update the actual page images.
            ========================================= */
         .photo-mix-intro {
-            max-width: 650px;
+            max-width: 680px;
             margin: 0 auto 1.25rem;
             color: #5f5b55;
             text-align: center;
@@ -405,7 +551,7 @@
         }
 
         .photo-mix-status {
-            max-width: 690px;
+            max-width: 700px;
             margin: 0 auto;
             color: var(--muted-ink);
             text-align: center;
@@ -414,251 +560,22 @@
         }
 
         /* =========================================
-           DYNAMIC PHOTO SLOT STYLES
-           JavaScript inserts each image into one
-           unique placement across the actual page.
-           ========================================= */
-        .page-photo-slot.is-empty {
-            display: none;
-        }
-
-        .dynamic-photo {
-            margin: 0;
-        }
-
-        .dynamic-photo-frame {
-            padding: 0.42rem;
-            background: #ffffff;
-            border: 1px solid var(--line);
-            box-shadow: 0 10px 24px rgba(67, 55, 37, 0.07);
-        }
-
-        .dynamic-photo img {
-            width: 100%;
-            object-fit: cover;
-        }
-
-        .dynamic-photo-caption {
-            margin-top: 0.65rem;
-            color: var(--muted-ink);
-            font-size: 0.88rem;
-            font-style: italic;
-            text-align: center;
-        }
-
-        /* =========================================
-           HOME
-           ========================================= */
-        .welcome-layout {
-            display: grid;
-            justify-items: center;
-            gap: 2.25rem;
-            max-width: 920px;
-            margin: 0 auto;
-        }
-
-        .welcome-copy {
-            max-width: 540px;
-        }
-
-        .welcome-copy h2 {
-            margin-bottom: 1rem;
-        }
-
-        .home-photo-slot {
-            width: min(100%, var(--hero-width));
-        }
-
-        .home-photo-slot .dynamic-photo img {
-            aspect-ratio: 4 / 5;
-        }
-
-        /* =========================================
-           INTERLUDE PHOTOS
-           ========================================= */
-        .photo-interlude-grid {
-            display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            align-items: start;
-            gap: 1rem;
-            max-width: 570px;
-            margin: 0 auto;
-        }
-
-        .interlude-photo-slot {
-            width: min(100%, var(--interlude-width));
-            justify-self: center;
-        }
-
-        .interlude-photo-slot:nth-child(2) {
-            margin-top: 2rem;
-        }
-
-        .interlude-photo-slot .dynamic-photo img {
-            height: var(--small-image-height);
-        }
-
-        /* =========================================
-           OUR STORY
-           ========================================= */
-        .story-layout {
-            display: grid;
-            align-items: center;
-            gap: 2.3rem;
-            max-width: 900px;
-            margin: 0 auto;
-        }
-
-        .story-copy {
-            max-width: 580px;
-            margin: 0 auto;
-        }
-
-        .story-copy h2 {
-            margin-bottom: 1rem;
-        }
-
-        .story-photo-slot {
-            width: min(100%, var(--portrait-width));
-            justify-self: center;
-        }
-
-        .story-photo-slot .dynamic-photo img {
-            aspect-ratio: 3 / 4;
-        }
-
-        /* =========================================
-           MEMORY IMAGE
-           ========================================= */
-        .memory-photo-slot {
-            width: min(100%, var(--portrait-width));
-            margin: 3rem auto 0;
-        }
-
-        .memory-photo-slot .dynamic-photo img {
-            aspect-ratio: 4 / 5;
-        }
-
-        /* =========================================
-           PAGE GALLERY
-           ========================================= */
-        .gallery-heading {
-            max-width: 570px;
-            margin: 0 auto 2.5rem;
-        }
-
-        .gallery-heading h2 {
-            margin-bottom: 0.8rem;
-        }
-
-        .photo-journey-grid {
-            display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            align-items: start;
-            gap: 1rem;
-            max-width: 760px;
-            margin: 0 auto;
-        }
-
-        .journey-photo-slot {
-            width: 100%;
-        }
-
-        .journey-photo-slot:nth-child(3n + 1) {
-            margin-top: 1.2rem;
-        }
-
-        .journey-photo-slot:nth-child(4n + 2) {
-            margin-top: 2.1rem;
-        }
-
-        .journey-photo-slot .dynamic-photo-frame {
-            width: min(100%, 245px);
-            margin: 0 auto;
-        }
-
-        .journey-photo-slot .dynamic-photo img {
-            height: var(--gallery-image-height);
-        }
-
-        @media (min-width: 760px) {
-            .photo-journey-grid {
-                grid-template-columns: repeat(4, minmax(0, 1fr));
-                gap: 1.05rem;
-            }
-        }
-
-        /* =========================================
-           RSVP / REGISTRY / CLOSING PHOTOS
-           ========================================= */
-        .rsvp-layout {
-            display: grid;
-            align-items: center;
-            gap: 2.25rem;
-            max-width: 820px;
-            margin: 0 auto;
-        }
-
-        .rsvp-photo-slot,
-        .registry-photo-slot {
-            width: min(100%, var(--portrait-width));
-            justify-self: center;
-        }
-
-        .rsvp-photo-slot .dynamic-photo img,
-        .registry-photo-slot .dynamic-photo img {
-            aspect-ratio: 3 / 4;
-        }
-
-        .closing-photos {
-            display: grid;
-            grid-template-columns: repeat(3, minmax(0, 1fr));
-            align-items: start;
-            gap: 0.85rem;
-            max-width: 700px;
-            margin: 0 auto;
-        }
-
-        .closing-photo-slot:nth-child(2) {
-            margin-top: 1.5rem;
-        }
-
-        .closing-photo-slot .dynamic-photo-frame {
-            width: min(100%, 185px);
-            margin: 0 auto;
-        }
-
-        .closing-photo-slot .dynamic-photo img {
-            height: var(--small-image-height);
-        }
-
-        /* =========================================
            LAYOUT 1: EDITORIAL ASYMMETRY
            ========================================= */
-        body[data-layout="editorial"] .home-photo-slot {
-            transform: translateX(9%);
+        body[data-layout="editorial"] .welcome-layout {
+            max-width: 720px;
         }
 
-        body[data-layout="editorial"] .story-photo-slot {
-            justify-self: start;
-            margin-left: 9%;
+        body[data-layout="editorial"] .photo-interlude-grid {
+            max-width: 520px;
         }
 
-        body[data-layout="editorial"] .memory-photo-slot {
-            margin-left: 12%;
+        body[data-layout="editorial"] .story-layout {
+            max-width: 680px;
         }
 
         body[data-layout="editorial"] .photo-journey-grid {
-            max-width: 640px;
-            gap: 2rem 1rem;
-        }
-
-        body[data-layout="editorial"] .rsvp-photo-slot {
-            transform: translateX(-12%);
-        }
-
-        body[data-layout="editorial"] .registry-photo-slot {
-            transform: translateX(12%);
+            max-width: 760px;
         }
 
         /* =========================================
@@ -667,58 +584,49 @@
         @media (min-width: 760px) {
             body[data-layout="split"] .welcome-layout {
                 grid-template-columns: minmax(0, 1.1fr) minmax(240px, 0.9fr);
+                justify-items: stretch;
                 text-align: left;
             }
 
             body[data-layout="split"] .welcome-copy {
+                align-self: center;
                 justify-self: end;
             }
 
             body[data-layout="split"] .home-photo-slot {
+                align-self: center;
                 justify-self: start;
             }
 
             body[data-layout="split"] .story-layout {
                 grid-template-columns: minmax(220px, 0.8fr) minmax(0, 1.2fr);
+                justify-items: stretch;
                 text-align: left;
             }
 
             body[data-layout="split"] .story-photo-slot {
+                align-self: center;
                 justify-self: end;
             }
 
             body[data-layout="split"] .story-copy {
+                align-self: center;
                 justify-self: start;
-                margin: 0;
-            }
-
-            body[data-layout="split"] .rsvp-layout {
-                grid-template-columns: minmax(220px, 0.75fr) minmax(0, 1.25fr);
-                text-align: left;
-            }
-
-            body[data-layout="split"] .rsvp-photo-slot {
-                justify-self: end;
-            }
-
-            body[data-layout="split"] #rsvp-form {
-                justify-self: start;
-                margin: 0;
             }
         }
 
         body[data-layout="split"] .photo-interlude-grid {
-            max-width: 760px;
+            max-width: 720px;
         }
 
         body[data-layout="split"] .photo-journey-grid {
-            max-width: 900px;
+            max-width: 980px;
         }
 
         /* =========================================
            LAYOUT 3: GALLERY NOTES
            ========================================= */
-        body[data-layout="gallery"] .dynamic-photo-frame {
+        body[data-layout="gallery"] .photo-frame {
             box-shadow: none;
         }
 
@@ -727,64 +635,30 @@
         }
 
         body[data-layout="gallery"] .photo-journey-grid {
-            max-width: 920px;
-        }
-
-        body[data-layout="gallery"] .journey-photo-slot:nth-child(3n + 1) {
-            margin-top: 1.7rem;
-        }
-
-        body[data-layout="gallery"] .journey-photo-slot:nth-child(4n + 2) {
-            margin-top: 0;
+            max-width: 1000px;
         }
 
         /* =========================================
            LAYOUT 4: QUIET PORTRAITS
            ========================================= */
         body[data-layout="quiet"] .home-photo-slot {
-            width: min(100%, calc(var(--hero-width) * 0.72));
+            width: min(100%, calc(var(--hero-width) * 0.75));
         }
 
-        body[data-layout="quiet"] .story-photo-slot,
-        body[data-layout="quiet"] .memory-photo-slot,
-        body[data-layout="quiet"] .rsvp-photo-slot,
-        body[data-layout="quiet"] .registry-photo-slot {
-            width: min(100%, calc(var(--portrait-width) * 0.8));
+        body[data-layout="quiet"] .story-photo-slot {
+            width: min(100%, calc(var(--story-width) * 0.82));
         }
 
-        body[data-layout="quiet"] .dynamic-photo-frame {
+        body[data-layout="quiet"] .photo-frame {
             box-shadow: none;
         }
 
         body[data-layout="quiet"] .photo-interlude-grid {
-            grid-template-columns: 1fr;
-            max-width: 250px;
-            gap: 2.4rem;
-        }
-
-        body[data-layout="quiet"] .interlude-photo-slot:nth-child(2) {
-            margin-top: 0;
-            transform: translateX(15%);
+            max-width: 430px;
         }
 
         body[data-layout="quiet"] .photo-journey-grid {
-            grid-template-columns: 1fr;
-            max-width: 260px;
-            gap: 2.7rem;
-        }
-
-        body[data-layout="quiet"] .journey-photo-slot,
-        body[data-layout="quiet"] .journey-photo-slot:nth-child(3n + 1),
-        body[data-layout="quiet"] .journey-photo-slot:nth-child(4n + 2) {
-            margin-top: 0;
-        }
-
-        body[data-layout="quiet"] .journey-photo-slot:nth-child(even) {
-            transform: translateX(13%);
-        }
-
-        body[data-layout="quiet"] .journey-photo-slot:nth-child(odd) {
-            transform: translateX(-13%);
+            max-width: 680px;
         }
 
         /* =========================================
@@ -792,30 +666,24 @@
            ========================================= */
         body[data-photo-size="compact"] {
             --hero-width: 410px;
-            --portrait-width: 185px;
-            --interlude-width: 185px;
-            --gallery-image-height: 145px;
-            --small-image-height: 145px;
+            --story-width: 190px;
+            --interlude-width: 190px;
         }
 
         body[data-photo-size="balanced"] {
-            --hero-width: 490px;
-            --portrait-width: 240px;
-            --interlude-width: 240px;
-            --gallery-image-height: 205px;
-            --small-image-height: 190px;
+            --hero-width: 500px;
+            --story-width: 255px;
+            --interlude-width: 255px;
         }
 
         body[data-photo-size="statement"] {
             --hero-width: 520px;
-            --portrait-width: 270px;
-            --interlude-width: 275px;
-            --gallery-image-height: 245px;
-            --small-image-height: 225px;
+            --story-width: 285px;
+            --interlude-width: 285px;
         }
 
         /* =========================================
-           MEMORY WALL / FORMS
+           MEMORY WALL / FORMS / RSVP
            ========================================= */
         .submit-memory {
             max-width: 540px;
@@ -924,6 +792,11 @@
             text-transform: uppercase;
         }
 
+        .section-intro {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
         .form-label {
             display: block;
             margin-bottom: 0.45rem;
@@ -976,7 +849,7 @@
 <body data-layout="editorial" data-photo-size="balanced">
 
     <!-- =========================================
-         GLOBAL LIVE DESIGN CONTROLS
+         LIVE DESIGN CONTROLS
          ========================================= -->
     <div class="preview-bar">
         <div class="preview-bar-row">
@@ -1025,7 +898,7 @@
 
         <!-- =========================================
              HOME
-             Dynamic photo slot 0
+             Dynamic photo slot: first selected photo
              ========================================= -->
         <section id="home">
             <div class="welcome-layout">
@@ -1036,19 +909,19 @@
                     <p class="date-highlight">May 03, 2027 • Raleigh, NC</p>
                 </div>
 
-                <div class="page-photo-slot home-photo-slot" data-photo-slot="0"></div>
+                <div id="home-photo-slot" class="photo-slot home-photo-slot"></div>
             </div>
         </section>
 
         <!-- =========================================
-             DESIGN TESTING LAB
+             DESIGN LAB
              ========================================= -->
         <section id="test-lab">
             <div class="comparison-wrapper">
                 <h3>Design Testing Lab</h3>
 
                 <p class="comparison-subtitle">
-                    Each selection below updates the actual wedding page preview, including where your uploaded photos appear.
+                    Each choice updates the actual wedding page preview, including photo placement and sizing.
                 </p>
 
                 <div class="sampler-tabs" role="tablist" aria-label="Design Lab options">
@@ -1093,25 +966,25 @@
                         <button type="button" class="preview-card selected-card" id="card-layout-editorial" onclick="switchLayout('editorial')">
                             <span class="preview-card-badge">Layout 1</span>
                             <h4>Editorial Asymmetry</h4>
-                            <p>Text-focused sections with small photographs placed asymmetrically to create an intentional editorial rhythm.</p>
+                            <p>Typography remains central, with photos used in balanced editorial groups rather than randomly offset placements.</p>
                         </button>
 
                         <button type="button" class="preview-card" id="card-layout-split" onclick="switchLayout('split')">
                             <span class="preview-card-badge">Layout 2</span>
                             <h4>Split-Frame Moments</h4>
-                            <p>Refined image-and-text pairings across the Home, Story, and RSVP sections. The arrangement stacks naturally on mobile.</p>
+                            <p>Clean, aligned image-and-text pairings on desktop that stack into a calm reading order on mobile.</p>
                         </button>
 
                         <button type="button" class="preview-card" id="card-layout-gallery" onclick="switchLayout('gallery')">
                             <span class="preview-card-badge">Layout 3</span>
                             <h4>Gallery Notes</h4>
-                            <p>Images are displayed as a calm, curated contact-sheet collection using clean frames and balanced spacing.</p>
+                            <p>A polished, consistent contact-sheet gallery that keeps frames, captions, and column spacing controlled.</p>
                         </button>
 
                         <button type="button" class="preview-card" id="card-layout-quiet" onclick="switchLayout('quiet')">
                             <span class="preview-card-badge">Layout 4</span>
                             <h4>Quiet Portraits</h4>
-                            <p>Smaller isolated photographs create intentional pauses between major sections of the wedding website.</p>
+                            <p>Smaller centered portrait moments paired with content, plus a restrained gallery for the remaining photos.</p>
                         </button>
                     </div>
                 </div>
@@ -1122,27 +995,27 @@
                         <button type="button" class="preview-card" id="card-size-compact" onclick="switchPhotoSize('compact')">
                             <span class="preview-card-badge">Option 1</span>
                             <h4>Compact</h4>
-                            <p>The most restrained image treatment. Best for a typography-led and minimal editorial appearance.</p>
+                            <p>The most restrained image treatment for a minimal, typography-led wedding website.</p>
                         </button>
 
                         <button type="button" class="preview-card selected-card" id="card-size-balanced" onclick="switchPhotoSize('balanced')">
                             <span class="preview-card-badge">Option 2 · Recommended</span>
                             <h4>Balanced</h4>
-                            <p>A refined middle ground that keeps photos meaningful without allowing them to overpower the page.</p>
+                            <p>A refined middle ground where images remain meaningful without overpowering the page.</p>
                         </button>
 
                         <button type="button" class="preview-card" id="card-size-statement" onclick="switchPhotoSize('statement')">
                             <span class="preview-card-badge">Option 3</span>
                             <h4>Statement</h4>
-                            <p>The largest revised option, still designed to feel polished and editorial rather than oversized.</p>
+                            <p>A larger but still controlled image treatment for couples who want photography to have more presence.</p>
                         </button>
                     </div>
                 </div>
 
-                <!-- PHOTO MIX CONTROLS -->
+                <!-- PHOTO MIX OPTIONS -->
                 <div id="panel-photo-mix" class="sampler-panel">
                     <p class="photo-mix-intro">
-                        These controls update the photos across the actual page. Scroll through Home, Our Story, the photo collection, RSVP, and Registry to preview the selected arrangement.
+                        The selected images appear across Home, the interlude, Our Story, and the curated photo journey. In 20-photo mode, the additional photographs remain in the gallery rather than being forced into unrelated sections.
                     </p>
 
                     <div class="photo-mix-controls">
@@ -1165,23 +1038,23 @@
         </section>
 
         <!-- =========================================
-             INTERLUDE
-             Dynamic photo slots 1 and 2
+             PHOTO INTERLUDE
+             Dynamic photos 2 and 3
              ========================================= -->
         <section id="photo-interlude">
             <div class="photo-interlude-grid">
-                <div class="page-photo-slot interlude-photo-slot" data-photo-slot="1"></div>
-                <div class="page-photo-slot interlude-photo-slot" data-photo-slot="2"></div>
+                <div id="interlude-photo-slot-1" class="photo-slot interlude-photo-slot"></div>
+                <div id="interlude-photo-slot-2" class="photo-slot interlude-photo-slot"></div>
             </div>
         </section>
 
         <!-- =========================================
              OUR STORY
-             Dynamic photo slot 3
+             Dynamic photo 4 paired with story text
              ========================================= -->
         <section id="our-story">
             <div class="story-layout">
-                <div class="page-photo-slot story-photo-slot" data-photo-slot="3"></div>
+                <div id="story-photo-slot" class="photo-slot story-photo-slot"></div>
 
                 <div class="story-copy">
                     <p class="eyebrow">The Story Continues</p>
@@ -1208,16 +1081,13 @@
                 <p id="memory-status" class="status-msg" aria-live="polite"></p>
             </div>
 
-            <!-- Dynamic photo slot 4 -->
-            <div class="page-photo-slot memory-photo-slot" data-photo-slot="4"></div>
-
             <h3 style="margin: 3.5rem 0 1.4rem;">Memories from Our Loved Ones</h3>
             <div id="memories-container" class="memory-wall" aria-live="polite"></div>
         </section>
 
         <!-- =========================================
              PHOTO JOURNEY
-             Dynamic photo slots 5 through 14
+             Dynamic photos 5 through 20
              ========================================= -->
         <section id="photo-journey">
             <div class="gallery-heading">
@@ -1226,82 +1096,49 @@
                 <p>Small pieces of the story that brought us here.</p>
             </div>
 
-            <div class="photo-journey-grid">
-                <div class="page-photo-slot journey-photo-slot" data-photo-slot="5"></div>
-                <div class="page-photo-slot journey-photo-slot" data-photo-slot="6"></div>
-                <div class="page-photo-slot journey-photo-slot" data-photo-slot="7"></div>
-                <div class="page-photo-slot journey-photo-slot" data-photo-slot="8"></div>
-                <div class="page-photo-slot journey-photo-slot" data-photo-slot="9"></div>
-                <div class="page-photo-slot journey-photo-slot" data-photo-slot="10"></div>
-                <div class="page-photo-slot journey-photo-slot" data-photo-slot="11"></div>
-                <div class="page-photo-slot journey-photo-slot" data-photo-slot="12"></div>
-                <div class="page-photo-slot journey-photo-slot" data-photo-slot="13"></div>
-                <div class="page-photo-slot journey-photo-slot" data-photo-slot="14"></div>
-            </div>
+            <div id="photo-journey-grid" class="photo-journey-grid"></div>
         </section>
 
         <!-- =========================================
              RSVP
-             Dynamic photo slot 15
              ========================================= -->
         <section id="rsvp">
-            <div class="rsvp-layout">
-                <div class="page-photo-slot rsvp-photo-slot" data-photo-slot="15"></div>
-
-                <div>
-                    <div class="section-intro">
-                        <p class="eyebrow">Celebrate With Us</p>
-                        <h2>Kindly Respond</h2>
-                        <p>Please let us know whether you will be able to join us.</p>
-                    </div>
-
-                    <form id="rsvp-form">
-                        <label class="form-label" for="guest-name">Guest Name(s)</label>
-                        <input type="text" id="guest-name" placeholder="e.g., Jane & John Doe" required>
-
-                        <span class="form-label">Will you be attending?</span>
-
-                        <div class="radio-group">
-                            <label class="radio-label">
-                                <input type="radio" name="attending" value="yes" required>
-                                <span>Joyfully Accepts</span>
-                            </label>
-
-                            <label class="radio-label">
-                                <input type="radio" name="attending" value="no" required>
-                                <span>Regretfully Declines</span>
-                            </label>
-                        </div>
-
-                        <button type="submit" class="sleek-btn">Send RSVP</button>
-                    </form>
-                </div>
+            <div class="section-intro">
+                <p class="eyebrow">Celebrate With Us</p>
+                <h2>Kindly Respond</h2>
+                <p>Please let us know whether you will be able to join us.</p>
             </div>
+
+            <form id="rsvp-form">
+                <label class="form-label" for="guest-name">Guest Name(s)</label>
+                <input type="text" id="guest-name" placeholder="e.g., Jane & John Doe" required>
+
+                <span class="form-label">Will you be attending?</span>
+
+                <div class="radio-group">
+                    <label class="radio-label">
+                        <input type="radio" name="attending" value="yes" required>
+                        <span>Joyfully Accepts</span>
+                    </label>
+
+                    <label class="radio-label">
+                        <input type="radio" name="attending" value="no" required>
+                        <span>Regretfully Declines</span>
+                    </label>
+                </div>
+
+                <button type="submit" class="sleek-btn">Send RSVP</button>
+            </form>
         </section>
 
         <!-- =========================================
              REGISTRY
-             Dynamic photo slot 16
              ========================================= -->
         <section id="registry">
             <div class="section-intro">
                 <p class="eyebrow">With Gratitude</p>
                 <h2>Registry</h2>
                 <p>Coming soon...</p>
-            </div>
-
-            <div class="page-photo-slot registry-photo-slot" data-photo-slot="16" style="margin: 2.5rem auto 0;"></div>
-        </section>
-
-        <!-- =========================================
-             CLOSING PHOTOS
-             Dynamic photo slots 17, 18, and 19
-             ========================================= -->
-        <section id="closing-gallery">
-            <div class="closing-photos">
-                <div class="page-photo-slot closing-photo-slot" data-photo-slot="17"></div>
-                <div class="page-photo-slot closing-photo-slot" data-photo-slot="18"></div>
-                <div class="page-photo-slot closing-photo-slot" data-photo-slot="19"></div>
             </div>
         </section>
     </main>
@@ -1317,7 +1154,7 @@
         const fontConfig = {
             cormorant: {
                 family: "'Cormorant Garamond', serif",
-                size: "1.22rem",
+                size: "1.2rem",
                 spacing: "2.3px"
             },
             playfair: {
@@ -1385,7 +1222,7 @@
         }
 
         /* =========================================
-           PHOTO SIZE CONTROLS
+           PHOTO SIZE SWITCHING
            ========================================= */
         function switchPhotoSize(sizeKey) {
             document.body.setAttribute("data-photo-size", sizeKey);
@@ -1425,8 +1262,7 @@
         }
 
         /* =========================================
-           PHOTO MIX / PAGE PREVIEW
-           images/1.JPEG through images/20.JPEG
+           DYNAMIC IMAGE RENDERING
            ========================================= */
         const uploadedPhotoSources = Array.from(
             { length: 20 },
@@ -1447,16 +1283,6 @@
         ];
 
         let selectedPhotoCount = 10;
-
-        /*
-            This order spreads the first 10 selected photos
-            throughout the actual wedding site instead of placing
-            all 10 in only one gallery section.
-        */
-        const displaySlotOrder = [
-            0, 1, 3, 4, 5, 7, 9, 11, 15, 17,
-            2, 6, 8, 10, 12, 14, 16, 18, 19, 13
-        ];
 
         /* Fisher-Yates shuffle */
         function shuffleArray(items) {
@@ -1489,59 +1315,119 @@
             renderPagePhotoPreview();
         }
 
-        function createDynamicPhoto(source, position) {
+        function createPhotoFigure(source, position, isHomePhoto = false, isGalleryPhoto = false) {
             const figure = document.createElement("figure");
-            figure.className = "dynamic-photo";
+            figure.className = "photo-figure";
 
             const frame = document.createElement("div");
-            frame.className = "dynamic-photo-frame";
+            frame.className = "photo-frame";
 
             const image = document.createElement("img");
             image.src = source;
             image.alt = `Wedding photo ${position + 1}`;
-            image.loading = "lazy";
+            image.decoding = "async";
+
+            if (isHomePhoto) {
+                image.loading = "eager";
+                image.fetchPriority = "high";
+            } else {
+                image.loading = "lazy";
+            }
 
             const caption = document.createElement("figcaption");
-            caption.className = "dynamic-photo-caption";
+            caption.className = "photo-caption";
             caption.textContent = photoCaptions[position % photoCaptions.length];
 
             frame.appendChild(image);
             figure.appendChild(frame);
-            figure.appendChild(caption);
+
+            if (!isHomePhoto || isGalleryPhoto) {
+                figure.appendChild(caption);
+            }
 
             return figure;
+        }
+
+        function clearPhotoSlot(slotId) {
+            const slot = document.getElementById(slotId);
+
+            if (!slot) return;
+
+            slot.innerHTML = "";
+            slot.classList.add("is-empty");
+        }
+
+        function fillPhotoSlot(slotId, source, position, isHomePhoto = false) {
+            const slot = document.getElementById(slotId);
+
+            if (!slot || !source) return;
+
+            slot.innerHTML = "";
+            slot.appendChild(createPhotoFigure(source, position, isHomePhoto));
+            slot.classList.remove("is-empty");
+        }
+
+        function updateSectionVisibility() {
+            const interludeSection = document.getElementById("photo-interlude");
+            const journeySection = document.getElementById("photo-journey");
+
+            const interludeHasPhotos = document.querySelectorAll(
+                "#photo-interlude .photo-slot:not(.is-empty)"
+            ).length > 0;
+
+            const journeyHasPhotos = document.querySelectorAll(
+                "#photo-journey-grid .gallery-photo-slot"
+            ).length > 0;
+
+            interludeSection.classList.toggle("is-empty-section", !interludeHasPhotos);
+            journeySection.classList.toggle("is-empty-section", !journeyHasPhotos);
         }
 
         function renderPagePhotoPreview() {
             const randomizedPhotos = shuffleArray(uploadedPhotoSources);
             const selectedPhotos = randomizedPhotos.slice(0, selectedPhotoCount);
-            const allSlots = document.querySelectorAll(".page-photo-slot");
-
-            /* Clear and hide all photo locations first. */
-            allSlots.forEach(slot => {
-                slot.innerHTML = "";
-                slot.classList.add("is-empty");
-            });
 
             /*
-                Each selected image is inserted only once.
-                The slot order ensures 10-photo mode is still
-                distributed across the actual page.
+                The first four selected images are intentionally paired
+                with existing page content:
+                1. Home
+                2-3. Photo interlude
+                4. Our Story
+
+                The remaining six (or sixteen) photos are placed in the
+                controlled Photo Journey gallery.
             */
-            selectedPhotos.forEach((source, index) => {
-                const slotNumber = displaySlotOrder[index];
-                const slot = document.querySelector(`[data-photo-slot="${slotNumber}"]`);
+            clearPhotoSlot("home-photo-slot");
+            clearPhotoSlot("interlude-photo-slot-1");
+            clearPhotoSlot("interlude-photo-slot-2");
+            clearPhotoSlot("story-photo-slot");
 
-                if (!slot) return;
+            fillPhotoSlot("home-photo-slot", selectedPhotos[0], 0, true);
+            fillPhotoSlot("interlude-photo-slot-1", selectedPhotos[1], 1);
+            fillPhotoSlot("interlude-photo-slot-2", selectedPhotos[2], 2);
+            fillPhotoSlot("story-photo-slot", selectedPhotos[3], 3);
 
-                slot.appendChild(createDynamicPhoto(source, index));
-                slot.classList.remove("is-empty");
+            const gallery = document.getElementById("photo-journey-grid");
+            gallery.innerHTML = "";
+
+            selectedPhotos.slice(4).forEach((source, index) => {
+                const gallerySlot = document.createElement("div");
+                gallerySlot.className = "gallery-photo-slot";
+
+                const actualPosition = index + 4;
+                const photoFigure = createPhotoFigure(source, actualPosition, false, true);
+
+                gallerySlot.appendChild(photoFigure);
+                gallery.appendChild(gallerySlot);
             });
 
+            updateSectionVisibility();
+
             const status = document.getElementById("photo-mix-status");
+            const galleryPhotoCount = Math.max(selectedPhotoCount - 4, 0);
 
             status.textContent =
-                `Showing ${selectedPhotoCount} randomly selected photos across the actual website preview. Select Shuffle Photos to preview a different mix and placement order.`;
+                `Showing ${selectedPhotoCount} unique photos: 4 photos are paired with Home and Our Story, and ${galleryPhotoCount} photo${galleryPhotoCount === 1 ? "" : "s"} appear in the curated Photo Journey gallery. Select Shuffle Photos for a different mix.`;
         }
 
         /* =========================================
