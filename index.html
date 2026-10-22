@@ -5,23 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Cujis | Our Wedding</title>
 
-    <!-- Google Fonts: Cursive + All 4 Candidate Fonts -->
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cinzel:wght@400;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Montserrat:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 
     <style>
-        /* CSS Reset & Box Sizing */
+        /* =========================================
+           RESET / ROOT VARIABLES
+           ========================================= */
         *, *::before, *::after {
             box-sizing: border-box;
         }
 
-        html { 
-            scroll-behavior: smooth; 
+        html {
+            scroll-behavior: smooth;
             -webkit-text-size-adjust: 100%;
         }
 
-        /* Root CSS Variables for Font Switching */
         :root {
             --script-font: 'Alex Brush', cursive;
             --body-font: 'Cormorant Garamond', serif;
@@ -42,15 +43,14 @@
             transition: font-family 0.2s ease;
         }
 
-        img { 
-            filter: grayscale(100%); 
-            max-width: 100%; 
-            height: auto; 
+        img {
+            filter: grayscale(100%);
+            max-width: 100%;
+            height: auto;
             display: inline-block;
             transition: filter 0.3s ease, transform 0.3s ease;
         }
 
-        /* Headings: Alex Brush Cursive */
         h1, h2, h3 {
             font-family: var(--script-font);
             font-weight: normal;
@@ -60,9 +60,17 @@
             line-height: 1.2;
         }
 
-        h1 { font-size: clamp(3rem, 10vw, 4.5rem); }
-        h2 { font-size: clamp(2.6rem, 8vw, 3.8rem); }
-        h3 { font-size: clamp(2.2rem, 7vw, 3rem); }
+        h1 {
+            font-size: clamp(3rem, 10vw, 4.5rem);
+        }
+
+        h2 {
+            font-size: clamp(2.6rem, 8vw, 3.8rem);
+        }
+
+        h3 {
+            font-size: clamp(2.2rem, 7vw, 3rem);
+        }
 
         p {
             font-family: var(--body-font);
@@ -78,7 +86,9 @@
             color: #444444;
         }
 
-        /* Header & Navigation */
+        /* =========================================
+           HEADER / NAVIGATION
+           ========================================= */
         header {
             position: sticky;
             top: 0;
@@ -90,9 +100,9 @@
             z-index: 1000;
         }
 
-        header h1 { 
-            font-size: clamp(2.8rem, 8vw, 3.8rem); 
-            margin: 0 0 0.3rem 0; 
+        header h1 {
+            font-size: clamp(2.8rem, 8vw, 3.8rem);
+            margin: 0 0 0.3rem 0;
         }
 
         nav {
@@ -115,30 +125,32 @@
             transition: opacity 0.2s ease;
         }
 
-        nav a:hover, nav a:active { 
-            opacity: 0.5; 
+        nav a:hover,
+        nav a:active {
+            opacity: 0.5;
         }
 
         /* =========================================
-           TEMPORARY TESTING & PREVIEW CONTROLS
+           TEMPORARY PREVIEW / DESIGN CONTROLS
            ========================================= */
         .preview-bar {
             background: #111111;
             color: #ffffff;
-            padding: 1rem 1rem 1.2rem 1rem;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            padding: 1rem 1rem 1.2rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
             border-bottom: 1px solid #333;
         }
 
         .preview-bar-row {
-            margin-bottom: 0.75rem;
+            margin-bottom: 0.85rem;
         }
+
         .preview-bar-row:last-child {
             margin-bottom: 0;
         }
 
         .preview-bar-label {
-            margin: 0 0 0.5rem 0;
+            margin: 0 0 0.5rem;
             font-size: 0.75rem;
             letter-spacing: 2px;
             text-transform: uppercase;
@@ -177,7 +189,9 @@
             border-color: #ffffff;
         }
 
-        /* Comparison Section */
+        /* =========================================
+           DESIGN LAB
+           ========================================= */
         .comparison-wrapper {
             background: #fafafa;
             border: 1px dashed #d5d5d5;
@@ -204,7 +218,8 @@
         .sampler-tabs {
             display: flex;
             justify-content: center;
-            gap: 1rem;
+            gap: 0.35rem;
+            flex-wrap: wrap;
             margin-bottom: 1.5rem;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
         }
@@ -212,11 +227,11 @@
         .sampler-tab-btn {
             background: none;
             border: none;
-            font-size: 0.95rem;
+            font-size: 0.82rem;
             letter-spacing: 1px;
             text-transform: uppercase;
             font-weight: 600;
-            padding: 6px 14px;
+            padding: 7px 12px;
             cursor: pointer;
             border-bottom: 2px solid transparent;
             color: #777;
@@ -227,8 +242,13 @@
             border-bottom-color: #000;
         }
 
-        .sampler-panel { display: none; }
-        .sampler-panel.active { display: block; }
+        .sampler-panel {
+            display: none;
+        }
+
+        .sampler-panel.active {
+            display: block;
+        }
 
         .preview-cards-grid {
             display: grid;
@@ -247,7 +267,7 @@
             border: 1px solid #e2e2e2;
             padding: 1.4rem;
             border-radius: 6px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
             cursor: pointer;
             transition: transform 0.2s, border-color 0.2s;
         }
@@ -273,7 +293,7 @@
         }
 
         .preview-card h4 {
-            margin: 0 0 0.4rem 0;
+            margin: 0 0 0.4rem;
             font-size: 1.15rem;
             font-weight: 600;
             color: #111;
@@ -301,21 +321,22 @@
             transition: all 0.3s ease;
         }
 
-        .main-content { 
-            flex: 1; 
+        .main-content {
+            flex: 1;
             max-width: 820px;
             width: 100%;
         }
 
-        section { 
-            padding: 4rem 1.25rem; 
-            border-bottom: 1px solid #f0f0f0; 
+        section {
+            padding: 4rem 1.25rem;
+            border-bottom: 1px solid #f0f0f0;
         }
 
         @media (min-width: 768px) {
             section {
                 padding: 6rem 2rem;
             }
+
             nav {
                 gap: 2.5rem;
             }
@@ -323,42 +344,45 @@
 
         .hero-img {
             width: 100%;
-            max-width: 650px;
+            max-width: 520px;
             border-radius: 2px;
             margin-bottom: 2rem;
         }
 
-        /* Side Gallery (Original) */
+        /* =========================================
+           FLANKING SIDE GALLERIES
+           ========================================= */
         .side-gallery {
             display: none;
             flex-direction: column;
-            gap: 20px;
+            gap: 14px;
             padding: 2rem 0;
             position: sticky;
             top: 100px;
-            width: 210px;
+            width: 165px;
         }
 
-        .side-gallery img { 
-            width: 100%; 
-            height: 310px; 
-            object-fit: cover; 
-            border: 1px solid #eaeaea; 
+        .side-gallery img {
+            width: 100%;
+            height: 230px;
+            object-fit: cover;
+            border: 1px solid #eaeaea;
         }
 
-        @media (min-width: 1100px) { 
-            body[data-layout="flanking"] .side-gallery { 
-                display: flex; 
-            } 
+        @media (min-width: 1100px) {
+            body[data-layout="flanking"] .side-gallery {
+                display: flex;
+            }
         }
 
         /* =========================================
-           DYNAMIC PHOTO LAYOUTS (MOBILE & DESKTOP)
+           PHOTO LAYOUTS
            ========================================= */
 
-        /* INLINE EDITORIAL VIGNETTES (Used by Editorial & Grid layouts) */
+        /* Editorial photo spreads */
         .editorial-photo-spread {
             display: none;
+            max-width: 620px;
             margin: 2.5rem auto;
             gap: 1rem;
         }
@@ -366,10 +390,10 @@
         .editorial-photo-spread img {
             width: 100%;
             object-fit: cover;
-            border: 1px solid #eee;
+            border: 1px solid #eeeeee;
         }
 
-        /* --- LAYOUT 1: FLANKING RAILS (DEFAULT) --- */
+        /* Layout 1: Flanking columns */
         body[data-layout="flanking"] .mobile-gallery-strip {
             display: flex;
             overflow-x: auto;
@@ -382,19 +406,19 @@
 
         body[data-layout="flanking"] .mobile-gallery-strip img {
             scroll-snap-align: center;
-            flex: 0 0 220px;
-            height: 280px;
+            flex: 0 0 180px;
+            height: 230px;
             object-fit: cover;
-            border: 1px solid #eee;
+            border: 1px solid #eeeeee;
         }
 
         @media (min-width: 1100px) {
             body[data-layout="flanking"] .mobile-gallery-strip {
-                display: none; /* Side rails take over on desktop */
+                display: none;
             }
         }
 
-        /* --- LAYOUT 2: STORYBOOK EDITORIAL (INLINE) --- */
+        /* Layout 2: Editorial */
         body[data-layout="editorial"] .side-gallery {
             display: none !important;
         }
@@ -413,12 +437,13 @@
                 display: grid;
                 grid-template-columns: 1fr 1fr;
             }
+
             body[data-layout="editorial"] .editorial-photo-spread.two-col img {
-                height: 380px;
+                height: 280px;
             }
         }
 
-        /* --- LAYOUT 3: CURATED MOSAIC GALLERY SECTION --- */
+        /* Layout 3: Mosaic */
         body[data-layout="mosaic"] .side-gallery {
             display: none !important;
         }
@@ -431,7 +456,8 @@
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 12px;
-            margin-top: 2rem;
+            max-width: 680px;
+            margin: 2rem auto 0;
         }
 
         @media (min-width: 768px) {
@@ -443,7 +469,7 @@
 
         .mosaic-grid img {
             width: 100%;
-            height: 260px;
+            height: 190px;
             object-fit: cover;
             border: 1px solid #eaeaea;
         }
@@ -453,7 +479,7 @@
             filter: grayscale(0%);
         }
 
-        /* --- LAYOUT 4: FILMSTRIP SWIPER (TOUCH CAROUSEL) --- */
+        /* Layout 4: Filmstrip */
         body[data-layout="filmstrip"] .side-gallery {
             display: none !important;
         }
@@ -476,33 +502,178 @@
         .filmstrip-scroller::-webkit-scrollbar {
             height: 6px;
         }
+
         .filmstrip-scroller::-webkit-scrollbar-thumb {
-            background: #ccc;
+            background: #cccccc;
             border-radius: 3px;
         }
 
         .filmstrip-scroller img {
             scroll-snap-align: start;
-            flex: 0 0 240px;
-            height: 320px;
+            flex: 0 0 210px;
+            height: 275px;
             object-fit: cover;
             border: 1px solid #e0e0e0;
         }
 
         @media (min-width: 768px) {
             .filmstrip-scroller img {
-                flex: 0 0 320px;
-                height: 420px;
+                flex: 0 0 250px;
+                height: 330px;
             }
         }
 
         /* =========================================
-           MEMORY WALL, FORMS & RSVP
+           LIVE PHOTO SIZE OPTIONS
            ========================================= */
-        .memory-wall { 
-            max-width: 700px; 
-            margin: 2.5rem auto 0 auto; 
-            text-align: left; 
+
+        /* Compact: smallest option */
+        body[data-photo-size="compact"] .hero-img {
+            max-width: 410px;
+            margin-bottom: 1.5rem;
+        }
+
+        body[data-photo-size="compact"] .side-gallery {
+            width: 130px;
+            gap: 12px;
+        }
+
+        body[data-photo-size="compact"] .side-gallery img {
+            height: 185px;
+        }
+
+        body[data-photo-size="compact"] .mobile-gallery-strip img {
+            flex-basis: 145px;
+            height: 190px;
+        }
+
+        body[data-photo-size="compact"] .editorial-photo-spread {
+            max-width: 500px;
+            gap: 0.75rem;
+        }
+
+        body[data-photo-size="compact"] .editorial-photo-spread.two-col img {
+            height: 215px;
+        }
+
+        body[data-photo-size="compact"] .mosaic-grid {
+            max-width: 560px;
+            gap: 10px;
+        }
+
+        body[data-photo-size="compact"] .mosaic-grid img {
+            height: 145px;
+        }
+
+        body[data-photo-size="compact"] .filmstrip-scroller img {
+            flex-basis: 160px;
+            height: 210px;
+        }
+
+        /* Balanced: recommended default */
+        body[data-photo-size="balanced"] .hero-img {
+            max-width: 520px;
+        }
+
+        body[data-photo-size="balanced"] .side-gallery {
+            width: 165px;
+            gap: 14px;
+        }
+
+        body[data-photo-size="balanced"] .side-gallery img {
+            height: 230px;
+        }
+
+        body[data-photo-size="balanced"] .mobile-gallery-strip img {
+            flex-basis: 180px;
+            height: 230px;
+        }
+
+        body[data-photo-size="balanced"] .editorial-photo-spread {
+            max-width: 620px;
+        }
+
+        body[data-photo-size="balanced"] .editorial-photo-spread.two-col img {
+            height: 280px;
+        }
+
+        body[data-photo-size="balanced"] .mosaic-grid {
+            max-width: 680px;
+        }
+
+        body[data-photo-size="balanced"] .mosaic-grid img {
+            height: 190px;
+        }
+
+        body[data-photo-size="balanced"] .filmstrip-scroller img {
+            flex-basis: 210px;
+            height: 275px;
+        }
+
+        /* Statement: largest revised size, still smaller than original */
+        body[data-photo-size="statement"] .hero-img {
+            max-width: 600px;
+        }
+
+        body[data-photo-size="statement"] .side-gallery {
+            width: 190px;
+            gap: 16px;
+        }
+
+        body[data-photo-size="statement"] .side-gallery img {
+            height: 270px;
+        }
+
+        body[data-photo-size="statement"] .mobile-gallery-strip img {
+            flex-basis: 205px;
+            height: 260px;
+        }
+
+        body[data-photo-size="statement"] .editorial-photo-spread {
+            max-width: 760px;
+        }
+
+        body[data-photo-size="statement"] .editorial-photo-spread.two-col img {
+            height: 330px;
+        }
+
+        body[data-photo-size="statement"] .mosaic-grid {
+            max-width: 800px;
+        }
+
+        body[data-photo-size="statement"] .mosaic-grid img {
+            height: 230px;
+        }
+
+        body[data-photo-size="statement"] .filmstrip-scroller img {
+            flex-basis: 260px;
+            height: 340px;
+        }
+
+        @media (min-width: 768px) {
+            body[data-photo-size="compact"] .filmstrip-scroller img {
+                flex-basis: 200px;
+                height: 265px;
+            }
+
+            body[data-photo-size="balanced"] .filmstrip-scroller img {
+                flex-basis: 250px;
+                height: 330px;
+            }
+
+            body[data-photo-size="statement"] .filmstrip-scroller img {
+                flex-basis: 290px;
+                height: 385px;
+            }
+        }
+
+        /* =========================================
+           MEMORY WALL / FORMS / RSVP
+           ========================================= */
+        .memory-wall {
+            max-width: 700px;
+            margin: 2.5rem auto 0;
+            text-align: left;
         }
 
         .memory-card {
@@ -520,22 +691,22 @@
             font-style: italic;
         }
 
-        .memory-author { 
-            margin-top: 0.85rem; 
-            color: #222; 
+        .memory-author {
+            margin-top: 0.85rem;
+            color: #222;
             font-size: 0.95rem;
             letter-spacing: 1.5px;
             text-transform: uppercase;
             font-style: normal;
         }
 
-        .submit-memory { 
-            max-width: 520px; 
-            margin: 2.5rem auto; 
-            text-align: left; 
+        .submit-memory {
+            max-width: 520px;
+            margin: 2.5rem auto;
+            text-align: left;
         }
 
-        .submit-memory textarea, 
+        .submit-memory textarea,
         .submit-memory input,
         #rsvp-form input[type="text"] {
             width: 100%;
@@ -545,18 +716,18 @@
             border-radius: 0;
             font-family: var(--body-font);
             font-size: 1.05rem;
-            background: #fff;
-            color: #111;
+            background: #ffffff;
+            color: #111111;
         }
 
         .submit-memory textarea {
             resize: vertical;
         }
 
-        .submit-memory textarea:focus, 
+        .submit-memory textarea:focus,
         .submit-memory input:focus,
         #rsvp-form input[type="text"]:focus {
-            outline: 2px solid #000;
+            outline: 2px solid #000000;
         }
 
         .sleek-btn {
@@ -575,16 +746,24 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        .sleek-btn:hover { background-color: #333333; }
-        .sleek-btn:active { transform: scale(0.99); }
-        .sleek-btn:disabled { background-color: #888888; cursor: not-allowed; }
+        .sleek-btn:hover {
+            background-color: #333333;
+        }
 
-        /* RSVP Radio Group */
+        .sleek-btn:active {
+            transform: scale(0.99);
+        }
+
+        .sleek-btn:disabled {
+            background-color: #888888;
+            cursor: not-allowed;
+        }
+
         .radio-group {
             display: flex;
             flex-direction: column;
             gap: 0.75rem;
-            margin: 1rem 0 1.75rem 0;
+            margin: 1rem 0 1.75rem;
         }
 
         .radio-label {
@@ -617,26 +796,35 @@
             font-size: 1.05rem;
         }
 
-        .status-msg { margin-top: 0.75rem; font-size: 1rem; }
-        .success { color: #1b7a2d; }
-        .error { color: #b71c1c; }
+        .status-msg {
+            margin-top: 0.75rem;
+            font-size: 1rem;
+        }
+
+        .success {
+            color: #1b7a2d;
+        }
+
+        .error {
+            color: #b71c1c;
+        }
 
         footer {
             padding: 3.5rem 1.5rem;
             font-size: 1.1rem;
             font-style: italic;
-            color: #555;
+            color: #555555;
         }
     </style>
 </head>
 
-<body data-layout="flanking">
+<body data-layout="flanking" data-photo-size="balanced">
 
     <!-- =========================================
-         DUAL LIVE TESTING BAR (FONTS + LAYOUTS)
+         LIVE TESTING BAR
          ========================================= -->
     <div class="preview-bar">
-        <!-- ROW 1: FONT SWITCHER -->
+
         <div class="preview-bar-row">
             <div class="preview-bar-label">Typography Style:</div>
             <div class="switcher-buttons">
@@ -647,9 +835,8 @@
             </div>
         </div>
 
-        <!-- ROW 2: PHOTO LAYOUT SWITCHER -->
         <div class="preview-bar-row">
-            <div class="preview-bar-label">Photo Layout (Mobile & Desktop):</div>
+            <div class="preview-bar-label">Photo Layout:</div>
             <div class="switcher-buttons">
                 <button class="switcher-btn active" id="btn-layout-flanking" onclick="switchLayout('flanking')">1. Flanking Columns</button>
                 <button class="switcher-btn" id="btn-layout-editorial" onclick="switchLayout('editorial')">2. Storybook Editorial</button>
@@ -657,10 +844,20 @@
                 <button class="switcher-btn" id="btn-layout-filmstrip" onclick="switchLayout('filmstrip')">4. Touch Filmstrip</button>
             </div>
         </div>
+
+        <div class="preview-bar-row">
+            <div class="preview-bar-label">Photo Size:</div>
+            <div class="switcher-buttons">
+                <button class="switcher-btn" id="btn-size-compact" onclick="switchPhotoSize('compact')">Compact</button>
+                <button class="switcher-btn active" id="btn-size-balanced" onclick="switchPhotoSize('balanced')">Balanced</button>
+                <button class="switcher-btn" id="btn-size-statement" onclick="switchPhotoSize('statement')">Statement</button>
+            </div>
+        </div>
     </div>
 
     <header>
         <h1>The Cujis</h1>
+
         <nav>
             <a href="#home">Home</a>
             <a href="#test-lab">Design Lab</a>
@@ -671,7 +868,8 @@
     </header>
 
     <div class="wrapper">
-        <!-- Left Side Gallery (Active in Flanking Layout) -->
+
+        <!-- LEFT GALLERY -->
         <aside class="side-gallery" aria-label="Photo Column Left">
             <img src="images/IMG_2947.jpeg" alt="Gallery Photo 1">
             <img src="images/side2.jpg" alt="Gallery Photo 2">
@@ -679,44 +877,59 @@
         </aside>
 
         <main class="main-content">
+
+            <!-- HOME -->
             <section id="home">
-                <img src="images/IMG_0095.jpeg" alt="Morgan & Zumi" class="hero-img">
+                <img src="images/IMG_0095.jpeg" alt="Morgan and Zumi" class="hero-img">
+
                 <h2>Welcome to our Beginning</h2>
+
                 <p>We are so excited to celebrate our special day with our favorite people.</p>
+
                 <p class="date-highlight">May 03, 2027 • Raleigh, NC</p>
 
-                <!-- Flanking Mobile Carousel (Visible on phones when Flanking layout is active) -->
                 <div class="mobile-gallery-strip">
-                    <img src="images/IMG_2947.jpeg" alt="Side 1">
-                    <img src="images/side2.jpg" alt="Side 2">
-                    <img src="images/IMG_0095.jpeg" alt="Side 3">
-                    <img src="images/IMG_1536.jpeg.jpg" alt="Side 4">
-                    <img src="images/side5.jpg" alt="Side 5">
-                    <img src="images/side6.jpg" alt="Side 6">
+                    <img src="images/IMG_2947.jpeg" alt="Side Gallery Photo 1">
+                    <img src="images/side2.jpg" alt="Side Gallery Photo 2">
+                    <img src="images/IMG_0095.jpeg" alt="Side Gallery Photo 3">
+                    <img src="images/IMG_1536.jpeg.jpg" alt="Side Gallery Photo 4">
+                    <img src="images/side5.jpg" alt="Side Gallery Photo 5">
+                    <img src="images/side6.jpg" alt="Side Gallery Photo 6">
                 </div>
             </section>
 
-            <!-- =========================================
-                 INTERACTIVE DESIGN LAB (ON-PAGE COMPARISON)
-                 ========================================= -->
+            <!-- DESIGN LAB -->
             <section id="test-lab" style="padding-top: 3rem; padding-bottom: 3rem;">
                 <div class="comparison-wrapper">
                     <h3>Design Testing Lab</h3>
-                    <p class="comparison-subtitle">Explore combinations of font pairings and photo presentation styles</p>
+
+                    <p class="comparison-subtitle">
+                        Explore font pairings, photo layouts, and smaller image presentation options.
+                    </p>
 
                     <div class="sampler-tabs">
-                        <button class="sampler-tab-btn" id="tab-btn-fonts" onclick="openSamplerTab('fonts')">Fonts Comparison</button>
-                        <button class="sampler-tab-btn active" id="tab-btn-layouts" onclick="openSamplerTab('layouts')">Photo Layouts</button>
+                        <button class="sampler-tab-btn" id="tab-btn-fonts" onclick="openSamplerTab('fonts')">
+                            Fonts
+                        </button>
+
+                        <button class="sampler-tab-btn active" id="tab-btn-layouts" onclick="openSamplerTab('layouts')">
+                            Layouts
+                        </button>
+
+                        <button class="sampler-tab-btn" id="tab-btn-sizes" onclick="openSamplerTab('sizes')">
+                            Photo Sizes
+                        </button>
                     </div>
 
-                    <!-- TAB 1: FONTS SAMPLER -->
+                    <!-- FONT OPTIONS -->
                     <div id="panel-fonts" class="sampler-panel">
                         <div class="preview-cards-grid">
+
                             <div class="preview-card selected-card" id="card-cormorant" onclick="switchFont('cormorant')">
                                 <span class="preview-card-badge">Option 1 • Editorial Serif</span>
                                 <h4 style="font-family: 'Cormorant Garamond', serif; font-size: 1.3rem;">Cormorant Garamond</h4>
                                 <p style="font-family: 'Cormorant Garamond', serif; font-size: 1.15rem;">
-                                    "We are so excited to celebrate our special day with our favorite people."
+                                    “We are so excited to celebrate our special day with our favorite people.”
                                 </p>
                             </div>
 
@@ -724,15 +937,15 @@
                                 <span class="preview-card-badge">Option 2 • Stately Serif</span>
                                 <h4 style="font-family: 'Playfair Display', serif; font-size: 1.2rem;">Playfair Display</h4>
                                 <p style="font-family: 'Playfair Display', serif; font-size: 1.05rem;">
-                                    "We are so excited to celebrate our special day with our favorite people."
+                                    “We are so excited to celebrate our special day with our favorite people.”
                                 </p>
                             </div>
 
                             <div class="preview-card" id="card-montserrat" onclick="switchFont('montserrat')">
                                 <span class="preview-card-badge">Option 3 • Clean Modern Luxe</span>
-                                <h4 style="font-family: 'Montserrat', sans-serif; letter-spacing: 1px;">Montserrat (Light)</h4>
+                                <h4 style="font-family: 'Montserrat', sans-serif; letter-spacing: 1px;">Montserrat</h4>
                                 <p style="font-family: 'Montserrat', sans-serif; font-size: 0.95rem; font-weight: 300;">
-                                    "We are so excited to celebrate our special day with our favorite people."
+                                    “We are so excited to celebrate our special day with our favorite people.”
                                 </p>
                             </div>
 
@@ -740,58 +953,106 @@
                                 <span class="preview-card-badge">Option 4 • Regal Inscription</span>
                                 <h4 style="font-family: 'Cinzel', serif; letter-spacing: 1px;">Cinzel</h4>
                                 <p style="font-family: 'Cinzel', serif; font-size: 0.95rem;">
-                                    "We are so excited to celebrate our special day with our favorite people."
+                                    “We are so excited to celebrate our special day with our favorite people.”
                                 </p>
                             </div>
+
                         </div>
                     </div>
 
-                    <!-- TAB 2: PHOTO LAYOUTS SAMPLER -->
+                    <!-- LAYOUT OPTIONS -->
                     <div id="panel-layouts" class="sampler-panel active">
                         <div class="preview-cards-grid">
-                            <!-- Layout Option 1 -->
+
                             <div class="preview-card selected-card" id="card-layout-flanking" onclick="switchLayout('flanking')">
                                 <span class="preview-card-badge">Layout 1</span>
-                                <h4>Flanking Columns (Original)</h4>
-                                <p><strong>Desktop:</strong> Elegant left & right sticky photo rails.<br>
-                                   <strong>Mobile:</strong> Swipeable horizontal mini-gallery under the hero photo.</p>
+                                <h4>Flanking Columns</h4>
+                                <p>
+                                    <strong>Desktop:</strong> Subtle left and right sticky photo rails.<br>
+                                    <strong>Mobile:</strong> A swipeable gallery beneath the welcome section.
+                                </p>
                             </div>
 
-                            <!-- Layout Option 2 -->
                             <div class="preview-card" id="card-layout-editorial" onclick="switchLayout('editorial')">
                                 <span class="preview-card-badge">Layout 2</span>
                                 <h4>Storybook Editorial</h4>
-                                <p><strong>Both:</strong> Photos are woven smoothly directly into the text flow between sections like a magazine editorial spread.</p>
+                                <p>
+                                    Images are woven into the page between sections, creating a softer,
+                                    magazine-style reading experience.
+                                </p>
                             </div>
 
-                            <!-- Layout Option 3 -->
                             <div class="preview-card" id="card-layout-mosaic" onclick="switchLayout('mosaic')">
                                 <span class="preview-card-badge">Layout 3</span>
                                 <h4>Curated Mosaic Gallery</h4>
-                                <p><strong>Both:</strong> Keeps sections neat and adds a dedicated photo wall (2 columns on phones, 3 columns on desktop).</p>
+                                <p>
+                                    A dedicated image wall with two columns on phones and three columns
+                                    on larger screens.
+                                </p>
                             </div>
 
-                            <!-- Layout Option 4 -->
                             <div class="preview-card" id="card-layout-filmstrip" onclick="switchLayout('filmstrip')">
                                 <span class="preview-card-badge">Layout 4</span>
-                                <h4>Touch Filmstrip Strip</h4>
-                                <p><strong>Both:</strong> A full-width horizontal scrolling strip with momentum swiping on mobile and desktop.</p>
+                                <h4>Touch Filmstrip</h4>
+                                <p>
+                                    A horizontal scrolling strip that supports momentum scrolling and
+                                    touch swiping on mobile devices.
+                                </p>
                             </div>
+
+                        </div>
+                    </div>
+
+                    <!-- PHOTO SIZE OPTIONS -->
+                    <div id="panel-sizes" class="sampler-panel">
+                        <div class="preview-cards-grid">
+
+                            <div class="preview-card" id="card-size-compact" onclick="switchPhotoSize('compact')">
+                                <span class="preview-card-badge">Option 1</span>
+                                <h4>Compact</h4>
+                                <p>
+                                    The smallest and most understated visual option. Best when you want
+                                    the typography, schedule, story, and RSVP details to lead the page.
+                                </p>
+                            </div>
+
+                            <div class="preview-card selected-card" id="card-size-balanced" onclick="switchPhotoSize('balanced')">
+                                <span class="preview-card-badge">Option 2 • Recommended</span>
+                                <h4>Balanced</h4>
+                                <p>
+                                    A refined middle ground. Photos are substantially smaller than the
+                                    original sizes while still feeling central to the wedding site.
+                                </p>
+                            </div>
+
+                            <div class="preview-card" id="card-size-statement" onclick="switchPhotoSize('statement')">
+                                <span class="preview-card-badge">Option 3</span>
+                                <h4>Statement</h4>
+                                <p>
+                                    The largest revised option. It gives images more prominence without
+                                    returning to the original oversized presentation.
+                                </p>
+                            </div>
+
                         </div>
                     </div>
                 </div>
             </section>
 
-            <!-- EDITORIAL PHOTO SPREAD 1 (Visible when Layout 2 is active) -->
+            <!-- EDITORIAL PHOTO SPREAD -->
             <div class="editorial-photo-spread two-col">
                 <img src="images/IMG_2947.jpeg" alt="Editorial Vignette 1">
                 <img src="images/side2.jpg" alt="Editorial Vignette 2">
             </div>
 
-            <!-- FILMSTRIP SCROLLER SECTION (Visible when Layout 4 is active) -->
-            <section id="filmstrip-section" style="display: none; padding: 2.5rem 0; border-bottom: 1px solid #eee;">
+            <!-- FILMSTRIP -->
+            <section id="filmstrip-section" style="display: none; padding: 2.5rem 0; border-bottom: 1px solid #eeeeee;">
                 <h3 style="text-align: center; margin-bottom: 0.5rem;">Captured Moments</h3>
-                <p style="text-align: center; color: #666; font-size: 0.95rem; margin-bottom: 1rem;">Swipe to view photos</p>
+
+                <p style="text-align: center; color: #666; font-size: 0.95rem; margin-bottom: 1rem;">
+                    Swipe to view photos
+                </p>
+
                 <div class="filmstrip-scroller">
                     <img src="images/IMG_2947.jpeg" alt="Photo 1">
                     <img src="images/side2.jpg" alt="Photo 2">
@@ -802,14 +1063,16 @@
                 </div>
             </section>
 
+            <!-- OUR STORY -->
             <section id="our-story">
                 <h2>Our Story</h2>
-                <p style="max-width: 600px; margin: 0 auto 2.5rem auto;">
-                    If you are reading this right now, you should already know our story. Instead of telling it from our point of view, 
-                    we want you to share your favorite memory or memories with us.
+
+                <p style="max-width: 600px; margin: 0 auto 2.5rem;">
+                    If you are reading this right now, you should already know our story.
+                    Instead of telling it from our point of view, we want you to share your
+                    favorite memory or memories with us.
                 </p>
 
-                <!-- EDITORIAL PHOTO SPREAD 2 (Visible when Layout 2 is active) -->
                 <div class="editorial-photo-spread two-col">
                     <img src="images/IMG_0095.jpeg" alt="Editorial Vignette 3">
                     <img src="images/IMG_1536.jpeg.jpg" alt="Editorial Vignette 4">
@@ -817,19 +1080,29 @@
 
                 <div class="submit-memory">
                     <h3 style="text-align: center; margin-bottom: 1.5rem;">Share a Memory</h3>
+
                     <textarea id="memory-text" rows="4" placeholder="Write your favorite memory with us..."></textarea>
+
                     <input type="text" id="memory-name" placeholder="Your Name">
-                    <button id="submit-memory-btn" onclick="submitMemory()" class="sleek-btn">Submit Memory</button>
+
+                    <button id="submit-memory-btn" onclick="submitMemory()" class="sleek-btn">
+                        Submit Memory
+                    </button>
+
                     <p id="memory-status" class="status-msg"></p>
                 </div>
 
-                <h3 style="text-align: center; margin: 3rem 0 1.5rem 0;">Memories from Our Loved Ones</h3>
+                <h3 style="text-align: center; margin: 3rem 0 1.5rem;">
+                    Memories from Our Loved Ones
+                </h3>
+
                 <div id="memories-container" class="memory-wall"></div>
             </section>
 
-            <!-- DEDICATED MOSAIC GALLERY SECTION (Visible when Layout 3 is active) -->
+            <!-- MOSAIC GALLERY -->
             <section id="dedicated-gallery-section" style="display: none;">
                 <h2>Our Favorite Moments</h2>
+
                 <div class="mosaic-grid">
                     <img src="images/IMG_2947.jpeg" alt="Moment 1">
                     <img src="images/side2.jpg" alt="Moment 2">
@@ -840,18 +1113,23 @@
                 </div>
             </section>
 
+            <!-- RSVP -->
             <section id="rsvp">
                 <h2>Kindly Respond</h2>
-                <form id="rsvp-form" style="max-width: 500px; margin: 2rem auto 0 auto; text-align: left;">
+
+                <form id="rsvp-form" style="max-width: 500px; margin: 2rem auto 0; text-align: left;">
                     <label class="form-label" for="guest-name">Guest Name(s)</label>
+
                     <input type="text" id="guest-name" placeholder="e.g., Jane & John Doe" required>
 
                     <label class="form-label">Will you be attending?</label>
+
                     <div class="radio-group">
                         <label class="radio-label">
                             <input type="radio" name="attending" value="yes" required>
                             <span>Joyfully Accepts</span>
                         </label>
+
                         <label class="radio-label">
                             <input type="radio" name="attending" value="no" required>
                             <span>Regretfully Declines</span>
@@ -862,13 +1140,14 @@
                 </form>
             </section>
 
+            <!-- REGISTRY -->
             <section id="registry">
                 <h2>Registry</h2>
                 <p>Coming soon...</p>
             </section>
         </main>
 
-        <!-- Right Side Gallery (Active in Flanking Layout) -->
+        <!-- RIGHT GALLERY -->
         <aside class="side-gallery" aria-label="Photo Column Right">
             <img src="images/IMG_1536.jpeg.jpg" alt="Gallery Photo 4">
             <img src="images/side5.jpg" alt="Gallery Photo 5">
@@ -881,130 +1160,176 @@
     </footer>
 
     <script>
-        // =============================================================
-        // 1. LIVE FONT SWITCHER
-        // =============================================================
+        /* =========================================
+           FONT SWITCHER
+           ========================================= */
         const fontConfig = {
             cormorant: {
                 family: "'Cormorant Garamond', serif",
-                size: '1.25rem',
-                spacing: '2.5px'
+                size: "1.25rem",
+                spacing: "2.5px"
             },
             playfair: {
                 family: "'Playfair Display', serif",
-                size: '1.1rem',
-                spacing: '2px'
+                size: "1.1rem",
+                spacing: "2px"
             },
             montserrat: {
                 family: "'Montserrat', sans-serif",
-                size: '0.98rem',
-                spacing: '2px'
+                size: "0.98rem",
+                spacing: "2px"
             },
             cinzel: {
                 family: "'Cinzel', serif",
-                size: '1.05rem',
-                spacing: '2px'
+                size: "1.05rem",
+                spacing: "2px"
             }
         };
 
         function switchFont(fontKey) {
             const selected = fontConfig[fontKey];
+
             if (!selected) return;
 
-            // Apply font variables globally
-            document.documentElement.style.setProperty('--body-font', selected.family);
-            document.documentElement.style.setProperty('--base-font-size', selected.size);
-            document.documentElement.style.setProperty('--nav-letter-spacing', selected.spacing);
+            document.documentElement.style.setProperty("--body-font", selected.family);
+            document.documentElement.style.setProperty("--base-font-size", selected.size);
+            document.documentElement.style.setProperty("--nav-letter-spacing", selected.spacing);
 
-            // Update top bar buttons
-            document.querySelectorAll('[id^="btn-font-"]').forEach(btn => btn.classList.remove('active'));
-            const activeBtn = document.getElementById(`btn-font-${fontKey}`);
-            if (activeBtn) activeBtn.classList.add('active');
+            document.querySelectorAll('[id^="btn-font-"]').forEach(button => {
+                button.classList.remove("active");
+            });
 
-            // Update comparison cards
-            document.querySelectorAll('[id^="card-"]').forEach(card => card.classList.remove('selected-card'));
+            const activeButton = document.getElementById(`btn-font-${fontKey}`);
+            if (activeButton) activeButton.classList.add("active");
+
+            document.querySelectorAll(
+                "#card-cormorant, #card-playfair, #card-montserrat, #card-cinzel"
+            ).forEach(card => {
+                card.classList.remove("selected-card");
+            });
+
             const activeCard = document.getElementById(`card-${fontKey}`);
-            if (activeCard) activeCard.classList.add('selected-card');
+            if (activeCard) activeCard.classList.add("selected-card");
         }
 
-        // =============================================================
-        // 2. LIVE PHOTO LAYOUT SWITCHER
-        // =============================================================
+        /* =========================================
+           LAYOUT SWITCHER
+           ========================================= */
         function switchLayout(layoutKey) {
-            // Set data attribute on <body> so CSS shifts elements instantly
-            document.body.setAttribute('data-layout', layoutKey);
+            document.body.setAttribute("data-layout", layoutKey);
 
-            // Update top bar buttons
-            document.querySelectorAll('[id^="btn-layout-"]').forEach(btn => btn.classList.remove('active'));
-            const activeBtn = document.getElementById(`btn-layout-${layoutKey}`);
-            if (activeBtn) activeBtn.classList.add('active');
+            document.querySelectorAll('[id^="btn-layout-"]').forEach(button => {
+                button.classList.remove("active");
+            });
 
-            // Update card selection in the Design Lab
-            document.querySelectorAll('[id^="card-layout-"]').forEach(card => card.classList.remove('selected-card'));
+            const activeButton = document.getElementById(`btn-layout-${layoutKey}`);
+            if (activeButton) activeButton.classList.add("active");
+
+            document.querySelectorAll('[id^="card-layout-"]').forEach(card => {
+                card.classList.remove("selected-card");
+            });
+
             const activeCard = document.getElementById(`card-layout-${layoutKey}`);
-            if (activeCard) activeCard.classList.add('selected-card');
+            if (activeCard) activeCard.classList.add("selected-card");
         }
 
-        // Switch between tabs in Design Lab
+        /* =========================================
+           PHOTO SIZE SWITCHER
+           ========================================= */
+        function switchPhotoSize(sizeKey) {
+            document.body.setAttribute("data-photo-size", sizeKey);
+
+            document.querySelectorAll('[id^="btn-size-"]').forEach(button => {
+                button.classList.remove("active");
+            });
+
+            const activeButton = document.getElementById(`btn-size-${sizeKey}`);
+            if (activeButton) activeButton.classList.add("active");
+
+            document.querySelectorAll('[id^="card-size-"]').forEach(card => {
+                card.classList.remove("selected-card");
+            });
+
+            const activeCard = document.getElementById(`card-size-${sizeKey}`);
+            if (activeCard) activeCard.classList.add("selected-card");
+        }
+
+        /* =========================================
+           DESIGN LAB TABS
+           ========================================= */
         function openSamplerTab(tabName) {
-            document.querySelectorAll('.sampler-tab-btn').forEach(btn => btn.classList.remove('active'));
-            document.querySelectorAll('.sampler-panel').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll(".sampler-tab-btn").forEach(button => {
+                button.classList.remove("active");
+            });
 
-            document.getElementById(`tab-btn-${tabName}`).classList.add('active');
-            document.getElementById(`panel-${tabName}`).classList.add('active');
+            document.querySelectorAll(".sampler-panel").forEach(panel => {
+                panel.classList.remove("active");
+            });
+
+            const activeTab = document.getElementById(`tab-btn-${tabName}`);
+            const activePanel = document.getElementById(`panel-${tabName}`);
+
+            if (activeTab) activeTab.classList.add("active");
+            if (activePanel) activePanel.classList.add("active");
         }
 
-        // =============================================================
-        // 3. GOOGLE APPS SCRIPT WEB APP INTEGRATION
-        // =============================================================
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwIwzcMUfcDS8phJ6EBTNXCgufqrjDyp50wKKZwQ7qsTVAqbYL5tCtZyXgL-kzdB11ZWw/exec';
+        /* =========================================
+           GOOGLE APPS SCRIPT WEB APP INTEGRATION
+           ========================================= */
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwIwzcMUfcDS8phJ6EBTNXCgufqrjDyp50wKKZwQ7qsTVAqbYL5tCtZyXgL-kzdB11ZWw/exec";
 
-        // Submit Memory to Google Sheet
         async function submitMemory() {
-            const text = document.getElementById('memory-text').value.trim();
-            const name = document.getElementById('memory-name').value.trim() || "Anonymous";
-            const btn = document.getElementById('submit-memory-btn');
-            const statusEl = document.getElementById('memory-status');
+            const text = document.getElementById("memory-text").value.trim();
+            const name = document.getElementById("memory-name").value.trim() || "Anonymous";
+            const button = document.getElementById("submit-memory-btn");
+            const statusElement = document.getElementById("memory-status");
 
             if (!text) {
                 alert("Please write a memory.");
                 return;
             }
 
-            if (SCRIPT_URL === 'PASTE_YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE') {
+            if (SCRIPT_URL === "PASTE_YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE") {
                 alert("Please configure your Google Apps Script URL in index.html first.");
                 return;
             }
 
-            btn.disabled = true;
-            btn.textContent = "Submitting...";
-            statusEl.textContent = "";
+            button.disabled = true;
+            button.textContent = "Submitting...";
+            statusElement.textContent = "";
 
             try {
                 await fetch(SCRIPT_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                    body: JSON.stringify({ name: name, text: text })
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "text/plain;charset=utf-8"
+                    },
+                    body: JSON.stringify({
+                        name: name,
+                        text: text
+                    })
                 });
 
-                statusEl.className = 'status-msg success';
-                statusEl.textContent = 'Thank you! Your memory was submitted for approval.';
-                document.getElementById('memory-text').value = '';
-                document.getElementById('memory-name').value = '';
-            } catch (err) {
-                console.error(err);
-                statusEl.className = 'status-msg error';
-                statusEl.textContent = 'Error sending memory. Please try again.';
+                statusElement.className = "status-msg success";
+                statusElement.textContent = "Thank you! Your memory was submitted for approval.";
+
+                document.getElementById("memory-text").value = "";
+                document.getElementById("memory-name").value = "";
+            } catch (error) {
+                console.error(error);
+
+                statusElement.className = "status-msg error";
+                statusElement.textContent = "Error sending memory. Please try again.";
             } finally {
-                btn.disabled = false;
-                btn.textContent = "Submit Memory";
+                button.disabled = false;
+                button.textContent = "Submit Memory";
             }
         }
 
-        // Fetch Approved Memories from Google Sheet
         async function loadApprovedMemories() {
-            const container = document.getElementById('memories-container');
-            if (SCRIPT_URL === 'PASTE_YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE') {
+            const container = document.getElementById("memories-container");
+
+            if (SCRIPT_URL === "PASTE_YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE") {
                 container.innerHTML = '<p style="text-align:center; color:#777;">Google Sheets API URL not yet set.</p>';
                 return;
             }
@@ -1013,40 +1338,49 @@
                 const response = await fetch(SCRIPT_URL);
                 const data = await response.json();
 
-                container.innerHTML = '';
+                container.innerHTML = "";
 
                 if (!data.memories || data.memories.length === 0) {
-                    container.innerHTML = '<p style="text-align: center; color: #777;">No approved memories yet.</p>';
+                    container.innerHTML = '<p style="text-align:center; color:#777;">No approved memories yet.</p>';
                     return;
                 }
 
-                data.memories.forEach(mem => {
-                    const div = document.createElement('div');
-                    div.className = 'memory-card';
-                    div.innerHTML = `<p>“${escapeHtml(mem.text)}”</p><div class="memory-author">— ${escapeHtml(mem.name)}</div>`;
-                    container.appendChild(div);
+                data.memories.forEach(memory => {
+                    const memoryCard = document.createElement("div");
+
+                    memoryCard.className = "memory-card";
+                    memoryCard.innerHTML = `
+                        <p>“${escapeHtml(memory.text)}”</p>
+                        <div class="memory-author">— ${escapeHtml(memory.name)}</div>
+                    `;
+
+                    container.appendChild(memoryCard);
                 });
-            } catch (err) {
-                console.error(err);
-                container.innerHTML = '<p style="text-align: center; color: #999;">Unable to load memories right now.</p>';
+            } catch (error) {
+                console.error(error);
+
+                container.innerHTML = '<p style="text-align:center; color:#999;">Unable to load memories right now.</p>';
             }
         }
 
-        // Helper to prevent HTML injection
         function escapeHtml(string) {
-            const div = document.createElement('div');
+            const div = document.createElement("div");
             div.textContent = string;
             return div.innerHTML;
         }
 
-        // RSVP Form Handling
-        document.getElementById('rsvp-form').addEventListener('submit', function(e) {
-            e.preventDefault();
+        /* =========================================
+           RSVP HANDLING
+           ========================================= */
+        document.getElementById("rsvp-form").addEventListener("submit", function(event) {
+            event.preventDefault();
             alert("Thank you! Your RSVP has been received.");
             this.reset();
         });
 
-        // Initialize on load
+        /* =========================================
+           INITIAL LOAD
+           ========================================= */
         loadApprovedMemories();
     </script>
 </body>
