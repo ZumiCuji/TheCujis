@@ -7,11 +7,12 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cinzel:wght@400;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Montserrat:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cinzel:wght@400;500;600&display=swap" rel="stylesheet">
 
     <style>
         /* =========================================
-           RESET / GLOBAL VARIABLES
+           RESET / DEFAULT DESIGN SETTINGS
+           Cinzel + Statement photo sizing
            ========================================= */
         *, *::before, *::after {
             box-sizing: border-box;
@@ -24,22 +25,20 @@
 
         :root {
             --script-font: "Alex Brush", cursive;
-            --body-font: "Cormorant Garamond", serif;
-            --base-font-size: 1.2rem;
-            --nav-letter-spacing: 2.3px;
+            --body-font: "Cinzel", serif;
 
             --paper: #fffdf9;
             --warm-white: #faf7f1;
-            --ink: #22211f;
-            --muted-ink: #68635b;
-            --line: #e5dfd4;
+            --ink: #24221f;
+            --muted-ink: #6d675e;
+            --line: #e5ded3;
             --soft-line: #f0ece5;
 
-            /* Balanced photo size */
-            --hero-width: 500px;
-            --story-width: 255px;
-            --interlude-width: 255px;
-            --gallery-columns: 2;
+            /* Statement sizing is the permanent default. */
+            --hero-width: 520px;
+            --story-width: 285px;
+            --interlude-width: 285px;
+            --gallery-gap: 1.1rem;
         }
 
         body {
@@ -47,11 +46,10 @@
             color: var(--ink);
             background: var(--paper);
             font-family: var(--body-font);
-            font-size: var(--base-font-size);
-            line-height: 1.7;
+            font-size: 1rem;
+            line-height: 1.8;
             text-align: center;
             overflow-x: hidden;
-            transition: font-family 0.2s ease;
         }
 
         img {
@@ -75,15 +73,15 @@
             color: var(--ink);
             font-family: var(--script-font);
             font-weight: 400;
-            line-height: 1.06;
+            line-height: 1.05;
         }
 
         h1 {
-            font-size: clamp(3.2rem, 10vw, 5.2rem);
+            font-size: clamp(3.3rem, 10vw, 5.4rem);
         }
 
         h2 {
-            font-size: clamp(2.8rem, 8vw, 4.25rem);
+            font-size: clamp(2.8rem, 8vw, 4.3rem);
         }
 
         h3 {
@@ -95,31 +93,31 @@
         }
 
         .eyebrow {
-            margin-bottom: 0.65rem;
+            margin-bottom: 0.7rem;
             color: var(--muted-ink);
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            font-size: 0.68rem;
-            font-weight: 700;
-            letter-spacing: 2.1px;
+            font-size: 0.64rem;
+            font-weight: 600;
+            letter-spacing: 2px;
             text-transform: uppercase;
         }
 
         .date-highlight {
-            margin-top: 1.35rem;
-            color: #4d4942;
-            font-size: 0.9rem;
-            letter-spacing: 2.5px;
+            margin-top: 1.4rem;
+            color: #575047;
+            font-size: 0.78rem;
+            font-weight: 500;
+            letter-spacing: 2.3px;
             text-transform: uppercase;
         }
 
         .site-shell {
             width: min(100%, 1120px);
             margin: 0 auto;
-            padding: 0 1.25rem;
+            padding: 0 1.1rem;
         }
 
         section {
-            padding: 5rem 0;
+            padding: 4.8rem 0;
             border-bottom: 1px solid var(--soft-line);
         }
 
@@ -134,68 +132,13 @@
         }
 
         /* =========================================
-           LIVE CONTROL BAR
-           ========================================= */
-        .preview-bar {
-            padding: 1rem;
-            color: #ffffff;
-            background: #22211f;
-            border-bottom: 1px solid #3a3833;
-        }
-
-        .preview-bar-row + .preview-bar-row {
-            margin-top: 0.85rem;
-        }
-
-        .preview-bar-label {
-            margin: 0 0 0.45rem;
-            color: #cbc5bb;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            font-size: 0.67rem;
-            font-weight: 700;
-            letter-spacing: 1.8px;
-            text-transform: uppercase;
-        }
-
-        .switcher-buttons {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 0.45rem;
-        }
-
-        .switcher-btn {
-            padding: 0.42rem 0.8rem;
-            color: #ffffff;
-            background: #302f2b;
-            border: 1px solid #57544e;
-            border-radius: 999px;
-            cursor: pointer;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            font-size: 0.74rem;
-            transition: background 0.2s ease, border-color 0.2s ease;
-        }
-
-        .switcher-btn:hover,
-        .switcher-btn:focus-visible {
-            background: #4c4841;
-        }
-
-        .switcher-btn.active {
-            color: #1f1e1c;
-            background: #ffffff;
-            border-color: #ffffff;
-            font-weight: 700;
-        }
-
-        /* =========================================
            HEADER / NAVIGATION
            ========================================= */
         header {
             position: sticky;
             top: 0;
             z-index: 20;
-            padding: 0.85rem 1rem 0.75rem;
+            padding: 0.9rem 1rem 0.75rem;
             background: rgba(255, 253, 249, 0.96);
             border-bottom: 1px solid var(--soft-line);
             backdrop-filter: blur(12px);
@@ -203,23 +146,23 @@
         }
 
         header h1 {
-            margin-bottom: 0.25rem;
-            font-size: clamp(2.75rem, 7vw, 4.1rem);
+            margin-bottom: 0.3rem;
+            font-size: clamp(2.8rem, 7vw, 4.15rem);
         }
 
         nav {
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
-            gap: 0.25rem 1.1rem;
+            gap: 0.25rem 1rem;
         }
 
         nav a {
             padding: 0.2rem 0.25rem;
             color: var(--ink);
-            font-size: 0.76rem;
+            font-size: 0.68rem;
             font-weight: 600;
-            letter-spacing: var(--nav-letter-spacing);
+            letter-spacing: 1.8px;
             text-decoration: none;
             text-transform: uppercase;
             transition: color 0.2s ease;
@@ -227,7 +170,7 @@
 
         nav a:hover,
         nav a:focus-visible {
-            color: #8b765a;
+            color: #977957;
         }
 
         /* =========================================
@@ -242,23 +185,25 @@
         }
 
         .photo-frame {
-            padding: 0.42rem;
+            padding: 0.45rem;
             background: #ffffff;
             border: 1px solid var(--line);
             box-shadow: 0 8px 20px rgba(66, 54, 36, 0.07);
         }
 
-        /* Standalone images retain natural proportions. */
+        /* Standalone photos preserve natural proportions. */
         .photo-frame img {
             width: 100%;
             height: auto;
         }
 
         .photo-caption {
-            margin: 0.65rem 0 0;
+            margin: 0.7rem 0 0;
             color: var(--muted-ink);
-            font-size: 0.88rem;
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 0.95rem;
             font-style: italic;
+            letter-spacing: 0;
             text-align: center;
         }
 
@@ -274,7 +219,7 @@
         }
 
         .welcome-copy {
-            max-width: 540px;
+            max-width: 560px;
         }
 
         .welcome-copy h2 {
@@ -292,7 +237,7 @@
             display: grid;
             grid-template-columns: repeat(2, minmax(0, 1fr));
             align-items: start;
-            gap: 1rem;
+            gap: 0.85rem;
             max-width: 620px;
             margin: 0 auto;
         }
@@ -309,13 +254,13 @@
             display: grid;
             justify-items: center;
             align-items: center;
-            gap: 2.25rem;
+            gap: 2.4rem;
             max-width: 900px;
             margin: 0 auto;
         }
 
         .story-copy {
-            max-width: 580px;
+            max-width: 590px;
         }
 
         .story-copy h2 {
@@ -327,220 +272,54 @@
         }
 
         /* =========================================
-           PHOTO JOURNEY / CONTACT SHEET
+           PHOTO PREVIEW CONTROLS
            ========================================= */
-        .gallery-heading {
+        .photo-preview-panel {
+            max-width: 760px;
+            margin: 0 auto;
+            padding: 1.65rem 1rem;
+            background: var(--warm-white);
+            border: 1px solid var(--line);
+        }
+
+        .photo-preview-panel h3 {
+            margin-bottom: 0.7rem;
+        }
+
+        .photo-preview-panel p {
             max-width: 600px;
-            margin: 0 auto 2.4rem;
-        }
-
-        .gallery-heading h2 {
-            margin-bottom: 0.8rem;
-        }
-
-        .photo-journey-grid {
-            display: grid;
-            grid-template-columns: repeat(var(--gallery-columns), minmax(0, 1fr));
-            align-items: start;
-            gap: 1rem;
-            max-width: 920px;
-            margin: 0 auto;
-        }
-
-        .gallery-photo-slot {
-            min-width: 0;
-        }
-
-        /*
-            Controlled gallery framing:
-            object-fit is used only inside this contact-sheet section.
-        */
-        .gallery-photo-slot .photo-frame img {
-            width: 100%;
-            aspect-ratio: 4 / 5;
-            object-fit: cover;
-            object-position: center;
-        }
-
-        @media (min-width: 700px) {
-            :root {
-                --gallery-columns: 3;
-            }
-        }
-
-        @media (min-width: 1024px) {
-            :root {
-                --gallery-columns: 4;
-            }
-        }
-
-        /* =========================================
-           DESIGN LAB
-           ========================================= */
-        #test-lab {
-            padding-top: 3.5rem;
-            padding-bottom: 3.5rem;
-        }
-
-        .comparison-wrapper {
-            max-width: 920px;
-            margin: 0 auto;
-            padding: 2rem 1rem;
-            text-align: left;
-            background: #fbfaf7;
-            border: 1px dashed #d7d0c5;
-            border-radius: 8px;
-        }
-
-        .comparison-wrapper h3,
-        .comparison-subtitle {
-            text-align: center;
-        }
-
-        .comparison-wrapper h3 {
-            margin-bottom: 0.35rem;
-        }
-
-        .comparison-subtitle {
-            margin-bottom: 1.65rem;
+            margin-right: auto;
+            margin-left: auto;
             color: var(--muted-ink);
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            font-size: 0.86rem;
-        }
-
-        .sampler-tabs {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 0.2rem;
-            margin-bottom: 1.35rem;
-        }
-
-        .sampler-tab-btn {
-            padding: 0.5rem 0.7rem;
-            color: #77726a;
-            background: transparent;
-            border: 0;
-            border-bottom: 2px solid transparent;
-            cursor: pointer;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            font-size: 0.7rem;
-            font-weight: 700;
-            letter-spacing: 0.9px;
-            text-transform: uppercase;
-        }
-
-        .sampler-tab-btn.active {
-            color: var(--ink);
-            border-bottom-color: var(--ink);
-        }
-
-        .sampler-panel {
-            display: none;
-        }
-
-        .sampler-panel.active {
-            display: block;
-        }
-
-        .preview-cards-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 0.9rem;
-        }
-
-        @media (min-width: 650px) {
-            .preview-cards-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        .preview-card {
-            min-height: 145px;
-            padding: 1.2rem;
-            color: var(--ink);
-            text-align: left;
-            background: #ffffff;
-            border: 1px solid #e3ded5;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: transform 0.2s ease, border-color 0.2s ease;
-        }
-
-        .preview-card:hover,
-        .preview-card:focus-visible {
-            border-color: #91816b;
-            transform: translateY(-2px);
-        }
-
-        .preview-card.selected-card {
-            border: 2px solid var(--ink);
-        }
-
-        .preview-card-badge {
-            display: inline-block;
-            margin-bottom: 0.55rem;
-            color: #77716a;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            font-size: 0.67rem;
-            font-weight: 700;
-            letter-spacing: 1.1px;
-            text-transform: uppercase;
-        }
-
-        .preview-card h4 {
-            margin: 0 0 0.45rem;
-            color: var(--ink);
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-family: Georgia, "Times New Roman", serif;
             font-size: 1rem;
-        }
-
-        .preview-card p {
-            margin: 0;
-            color: #5f5b55;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            font-size: 0.88rem;
-            line-height: 1.55;
-        }
-
-        /* =========================================
-           PHOTO MIX CONTROLS
-           ========================================= */
-        .photo-mix-intro {
-            max-width: 680px;
-            margin: 0 auto 1.25rem;
-            color: #5f5b55;
-            text-align: center;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            font-size: 0.88rem;
         }
 
         .photo-mix-controls {
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
-            gap: 0.65rem;
-            margin-bottom: 1rem;
+            gap: 0.6rem;
+            margin: 1.1rem 0 0.9rem;
         }
 
         .photo-mix-btn {
-            padding: 0.6rem 0.85rem;
+            padding: 0.65rem 0.9rem;
             color: var(--ink);
             background: #ffffff;
-            border: 1px solid #bdb5a8;
+            border: 1px solid #bbb1a3;
             border-radius: 2px;
             cursor: pointer;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            font-size: 0.74rem;
-            font-weight: 700;
-            letter-spacing: 0.8px;
+            font-size: 0.67rem;
+            font-weight: 600;
+            letter-spacing: 1px;
             text-transform: uppercase;
-            transition: background 0.2s ease, border-color 0.2s ease;
+            transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
         }
 
         .photo-mix-btn:hover,
         .photo-mix-btn:focus-visible {
-            background: #f5f0e8;
+            background: #f0e9de;
             border-color: var(--ink);
         }
 
@@ -551,139 +330,51 @@
         }
 
         .photo-mix-status {
-            max-width: 700px;
-            margin: 0 auto;
+            margin: 0;
             color: var(--muted-ink);
-            text-align: center;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            font-size: 0.82rem;
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 0.92rem;
         }
 
         /* =========================================
-           LAYOUT 1: EDITORIAL ASYMMETRY
+           PHOTO JOURNEY
            ========================================= */
-        body[data-layout="editorial"] .welcome-layout {
-            max-width: 720px;
+        .gallery-heading {
+            max-width: 610px;
+            margin: 0 auto 2.4rem;
         }
 
-        body[data-layout="editorial"] .photo-interlude-grid {
-            max-width: 520px;
+        .gallery-heading h2 {
+            margin-bottom: 0.8rem;
         }
 
-        body[data-layout="editorial"] .story-layout {
-            max-width: 680px;
-        }
-
-        body[data-layout="editorial"] .photo-journey-grid {
-            max-width: 760px;
-        }
-
-        /* =========================================
-           LAYOUT 2: SPLIT-FRAME MOMENTS
-           ========================================= */
-        @media (min-width: 760px) {
-            body[data-layout="split"] .welcome-layout {
-                grid-template-columns: minmax(0, 1.1fr) minmax(240px, 0.9fr);
-                justify-items: stretch;
-                text-align: left;
-            }
-
-            body[data-layout="split"] .welcome-copy {
-                align-self: center;
-                justify-self: end;
-            }
-
-            body[data-layout="split"] .home-photo-slot {
-                align-self: center;
-                justify-self: start;
-            }
-
-            body[data-layout="split"] .story-layout {
-                grid-template-columns: minmax(220px, 0.8fr) minmax(0, 1.2fr);
-                justify-items: stretch;
-                text-align: left;
-            }
-
-            body[data-layout="split"] .story-photo-slot {
-                align-self: center;
-                justify-self: end;
-            }
-
-            body[data-layout="split"] .story-copy {
-                align-self: center;
-                justify-self: start;
-            }
-        }
-
-        body[data-layout="split"] .photo-interlude-grid {
-            max-width: 720px;
-        }
-
-        body[data-layout="split"] .photo-journey-grid {
-            max-width: 980px;
-        }
-
-        /* =========================================
-           LAYOUT 3: GALLERY NOTES
-           ========================================= */
-        body[data-layout="gallery"] .photo-frame {
-            box-shadow: none;
-        }
-
-        body[data-layout="gallery"] .photo-interlude-grid {
-            max-width: 680px;
-        }
-
-        body[data-layout="gallery"] .photo-journey-grid {
+        .photo-journey-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            align-items: start;
+            gap: var(--gallery-gap);
             max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .gallery-photo-slot {
+            min-width: 0;
+        }
+
+        /*
+           Controlled gallery thumbnails:
+           object-fit: cover is used only here to keep
+           the contact-sheet layout consistent.
+        */
+        .gallery-photo-slot .photo-frame img {
+            width: 100%;
+            aspect-ratio: 4 / 5;
+            object-fit: cover;
+            object-position: center;
         }
 
         /* =========================================
-           LAYOUT 4: QUIET PORTRAITS
-           ========================================= */
-        body[data-layout="quiet"] .home-photo-slot {
-            width: min(100%, calc(var(--hero-width) * 0.75));
-        }
-
-        body[data-layout="quiet"] .story-photo-slot {
-            width: min(100%, calc(var(--story-width) * 0.82));
-        }
-
-        body[data-layout="quiet"] .photo-frame {
-            box-shadow: none;
-        }
-
-        body[data-layout="quiet"] .photo-interlude-grid {
-            max-width: 430px;
-        }
-
-        body[data-layout="quiet"] .photo-journey-grid {
-            max-width: 680px;
-        }
-
-        /* =========================================
-           PHOTO SIZE OPTIONS
-           ========================================= */
-        body[data-photo-size="compact"] {
-            --hero-width: 410px;
-            --story-width: 190px;
-            --interlude-width: 190px;
-        }
-
-        body[data-photo-size="balanced"] {
-            --hero-width: 500px;
-            --story-width: 255px;
-            --interlude-width: 255px;
-        }
-
-        body[data-photo-size="statement"] {
-            --hero-width: 520px;
-            --story-width: 285px;
-            --interlude-width: 285px;
-        }
-
-        /* =========================================
-           MEMORY WALL / FORMS / RSVP
+           FORMS / RSVP / MEMORIES
            ========================================= */
         .submit-memory {
             max-width: 540px;
@@ -692,7 +383,7 @@
         }
 
         .submit-memory h3 {
-            margin-bottom: 1.2rem;
+            margin-bottom: 1.25rem;
             text-align: center;
         }
 
@@ -700,14 +391,14 @@
         .submit-memory input,
         #rsvp-form input[type="text"] {
             width: 100%;
-            padding: 0.8rem 0.9rem;
+            padding: 0.85rem 0.9rem;
             margin-bottom: 1rem;
             color: var(--ink);
             background: #ffffff;
-            border: 1px solid #aaa399;
+            border: 1px solid #aaa195;
             border-radius: 0;
             font-family: var(--body-font);
-            font-size: 1rem;
+            font-size: 0.92rem;
         }
 
         .submit-memory textarea {
@@ -718,7 +409,7 @@
         .submit-memory textarea:focus,
         .submit-memory input:focus,
         #rsvp-form input[type="text"]:focus {
-            outline: 2px solid #74634c;
+            outline: 2px solid #806a4d;
             outline-offset: 2px;
         }
 
@@ -729,9 +420,9 @@
             background: var(--ink);
             border: 1px solid var(--ink);
             cursor: pointer;
-            font-family: var(--body-font);
-            font-size: 0.88rem;
-            letter-spacing: 2.1px;
+            font-size: 0.72rem;
+            font-weight: 600;
+            letter-spacing: 2px;
             text-transform: uppercase;
             transition: background 0.2s ease, transform 0.15s ease;
         }
@@ -780,27 +471,29 @@
 
         .memory-card p {
             margin: 0;
+            font-family: Georgia, "Times New Roman", serif;
             font-size: 1.1rem;
             font-style: italic;
+            letter-spacing: 0;
         }
 
         .memory-author {
-            margin-top: 0.8rem;
+            margin-top: 0.85rem;
             color: #57524a;
-            font-size: 0.78rem;
+            font-size: 0.68rem;
             letter-spacing: 1.5px;
             text-transform: uppercase;
         }
 
         .section-intro {
-            max-width: 600px;
+            max-width: 610px;
             margin: 0 auto;
         }
 
         .form-label {
             display: block;
-            margin-bottom: 0.45rem;
-            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            font-size: 0.88rem;
         }
 
         .radio-group {
@@ -813,9 +506,10 @@
             display: flex;
             align-items: center;
             gap: 0.8rem;
-            padding: 0.8rem 0.9rem;
+            padding: 0.85rem 0.9rem;
             cursor: pointer;
             border: 1px solid var(--line);
+            font-size: 0.88rem;
             transition: background 0.2s ease, border-color 0.2s ease;
         }
 
@@ -840,55 +534,106 @@
         footer {
             padding: 3.5rem 1.25rem;
             color: var(--muted-ink);
+            font-family: Georgia, "Times New Roman", serif;
             font-size: 1.05rem;
             font-style: italic;
+        }
+
+        /* =========================================
+           RESPONSIVE QUIET PORTRAITS
+           Phones / narrow screens below 768px
+           ========================================= */
+        @media (max-width: 767px) {
+            .home-photo-slot {
+                width: min(100%, 390px);
+            }
+
+            .story-photo-slot {
+                width: min(100%, 235px);
+            }
+
+            .interlude-photo-slot {
+                width: min(100%, 175px);
+            }
+
+            .photo-frame {
+                box-shadow: none;
+            }
+
+            .photo-interlude-grid {
+                max-width: 390px;
+            }
+
+            .photo-journey-grid {
+                max-width: 560px;
+            }
+        }
+
+        /* =========================================
+           RESPONSIVE GALLERY NOTES
+           Laptops / desktops at 768px and wider
+           ========================================= */
+        @media (min-width: 768px) {
+            .welcome-layout {
+                grid-template-columns: minmax(0, 1.1fr) minmax(280px, 0.9fr);
+                justify-items: stretch;
+                text-align: left;
+            }
+
+            .welcome-copy {
+                align-self: center;
+                justify-self: end;
+            }
+
+            .home-photo-slot {
+                align-self: center;
+                justify-self: start;
+            }
+
+            .story-layout {
+                grid-template-columns: minmax(230px, 0.8fr) minmax(0, 1.2fr);
+                justify-items: stretch;
+                text-align: left;
+            }
+
+            .story-photo-slot {
+                align-self: center;
+                justify-self: end;
+            }
+
+            .story-copy {
+                align-self: center;
+                justify-self: start;
+            }
+
+            .photo-interlude-grid {
+                max-width: 700px;
+                gap: 1.2rem;
+            }
+
+            .photo-journey-grid {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+                gap: 1.2rem;
+            }
+        }
+
+        @media (min-width: 1100px) {
+            .photo-journey-grid {
+                grid-template-columns: repeat(4, minmax(0, 1fr));
+            }
         }
     </style>
 </head>
 
-<body data-layout="editorial" data-photo-size="balanced">
-
-    <!-- =========================================
-         LIVE DESIGN CONTROLS
-         ========================================= -->
-    <div class="preview-bar">
-        <div class="preview-bar-row">
-            <p class="preview-bar-label">Typography Style</p>
-            <div class="switcher-buttons">
-                <button type="button" class="switcher-btn active" id="btn-font-cormorant" onclick="switchFont('cormorant')">Cormorant Garamond</button>
-                <button type="button" class="switcher-btn" id="btn-font-playfair" onclick="switchFont('playfair')">Playfair Display</button>
-                <button type="button" class="switcher-btn" id="btn-font-montserrat" onclick="switchFont('montserrat')">Montserrat</button>
-                <button type="button" class="switcher-btn" id="btn-font-cinzel" onclick="switchFont('cinzel')">Cinzel</button>
-            </div>
-        </div>
-
-        <div class="preview-bar-row">
-            <p class="preview-bar-label">Photo Layout</p>
-            <div class="switcher-buttons">
-                <button type="button" class="switcher-btn active" id="btn-layout-editorial" onclick="switchLayout('editorial')">1. Editorial Asymmetry</button>
-                <button type="button" class="switcher-btn" id="btn-layout-split" onclick="switchLayout('split')">2. Split-Frame Moments</button>
-                <button type="button" class="switcher-btn" id="btn-layout-gallery" onclick="switchLayout('gallery')">3. Gallery Notes</button>
-                <button type="button" class="switcher-btn" id="btn-layout-quiet" onclick="switchLayout('quiet')">4. Quiet Portraits</button>
-            </div>
-        </div>
-
-        <div class="preview-bar-row">
-            <p class="preview-bar-label">Photo Size</p>
-            <div class="switcher-buttons">
-                <button type="button" class="switcher-btn" id="btn-size-compact" onclick="switchPhotoSize('compact')">Compact</button>
-                <button type="button" class="switcher-btn active" id="btn-size-balanced" onclick="switchPhotoSize('balanced')">Balanced</button>
-                <button type="button" class="switcher-btn" id="btn-size-statement" onclick="switchPhotoSize('statement')">Statement</button>
-            </div>
-        </div>
-    </div>
+<body>
 
     <header>
         <h1>The Cujis</h1>
 
         <nav aria-label="Primary navigation">
             <a href="#home">Home</a>
-            <a href="#test-lab">Design Lab</a>
             <a href="#our-story">Our Story</a>
+            <a href="#photo-journey">Photos</a>
             <a href="#rsvp">RSVP</a>
             <a href="#registry">Registry</a>
         </nav>
@@ -898,7 +643,7 @@
 
         <!-- =========================================
              HOME
-             Dynamic photo slot: first selected photo
+             Dynamic photo 1
              ========================================= -->
         <section id="home">
             <div class="welcome-layout">
@@ -910,130 +655,6 @@
                 </div>
 
                 <div id="home-photo-slot" class="photo-slot home-photo-slot"></div>
-            </div>
-        </section>
-
-        <!-- =========================================
-             DESIGN LAB
-             ========================================= -->
-        <section id="test-lab">
-            <div class="comparison-wrapper">
-                <h3>Design Testing Lab</h3>
-
-                <p class="comparison-subtitle">
-                    Each choice updates the actual wedding page preview, including photo placement and sizing.
-                </p>
-
-                <div class="sampler-tabs" role="tablist" aria-label="Design Lab options">
-                    <button type="button" class="sampler-tab-btn" id="tab-btn-fonts" onclick="openSamplerTab('fonts')">Fonts</button>
-                    <button type="button" class="sampler-tab-btn active" id="tab-btn-layouts" onclick="openSamplerTab('layouts')">Layouts</button>
-                    <button type="button" class="sampler-tab-btn" id="tab-btn-sizes" onclick="openSamplerTab('sizes')">Photo Sizes</button>
-                    <button type="button" class="sampler-tab-btn" id="tab-btn-photo-mix" onclick="openSamplerTab('photo-mix')">Photo Mix</button>
-                </div>
-
-                <!-- FONT OPTIONS -->
-                <div id="panel-fonts" class="sampler-panel">
-                    <div class="preview-cards-grid">
-                        <button type="button" class="preview-card selected-card" id="card-cormorant" onclick="switchFont('cormorant')">
-                            <span class="preview-card-badge">Option 1 · Editorial Serif</span>
-                            <h4 style="font-family: 'Cormorant Garamond', serif; font-size: 1.3rem;">Cormorant Garamond</h4>
-                            <p style="font-family: 'Cormorant Garamond', serif; font-size: 1.12rem;">“We are so excited to celebrate our special day with our favorite people.”</p>
-                        </button>
-
-                        <button type="button" class="preview-card" id="card-playfair" onclick="switchFont('playfair')">
-                            <span class="preview-card-badge">Option 2 · Stately Serif</span>
-                            <h4 style="font-family: 'Playfair Display', serif; font-size: 1.15rem;">Playfair Display</h4>
-                            <p style="font-family: 'Playfair Display', serif; font-size: 1rem;">“We are so excited to celebrate our special day with our favorite people.”</p>
-                        </button>
-
-                        <button type="button" class="preview-card" id="card-montserrat" onclick="switchFont('montserrat')">
-                            <span class="preview-card-badge">Option 3 · Modern Minimal</span>
-                            <h4 style="font-family: 'Montserrat', sans-serif;">Montserrat</h4>
-                            <p style="font-family: 'Montserrat', sans-serif; font-size: 0.88rem; font-weight: 300;">“We are so excited to celebrate our special day with our favorite people.”</p>
-                        </button>
-
-                        <button type="button" class="preview-card" id="card-cinzel" onclick="switchFont('cinzel')">
-                            <span class="preview-card-badge">Option 4 · Formal Inscription</span>
-                            <h4 style="font-family: 'Cinzel', serif;">Cinzel</h4>
-                            <p style="font-family: 'Cinzel', serif; font-size: 0.88rem;">“We are so excited to celebrate our special day with our favorite people.”</p>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- LAYOUT OPTIONS -->
-                <div id="panel-layouts" class="sampler-panel active">
-                    <div class="preview-cards-grid">
-                        <button type="button" class="preview-card selected-card" id="card-layout-editorial" onclick="switchLayout('editorial')">
-                            <span class="preview-card-badge">Layout 1</span>
-                            <h4>Editorial Asymmetry</h4>
-                            <p>Typography remains central, with photos used in balanced editorial groups rather than randomly offset placements.</p>
-                        </button>
-
-                        <button type="button" class="preview-card" id="card-layout-split" onclick="switchLayout('split')">
-                            <span class="preview-card-badge">Layout 2</span>
-                            <h4>Split-Frame Moments</h4>
-                            <p>Clean, aligned image-and-text pairings on desktop that stack into a calm reading order on mobile.</p>
-                        </button>
-
-                        <button type="button" class="preview-card" id="card-layout-gallery" onclick="switchLayout('gallery')">
-                            <span class="preview-card-badge">Layout 3</span>
-                            <h4>Gallery Notes</h4>
-                            <p>A polished, consistent contact-sheet gallery that keeps frames, captions, and column spacing controlled.</p>
-                        </button>
-
-                        <button type="button" class="preview-card" id="card-layout-quiet" onclick="switchLayout('quiet')">
-                            <span class="preview-card-badge">Layout 4</span>
-                            <h4>Quiet Portraits</h4>
-                            <p>Smaller centered portrait moments paired with content, plus a restrained gallery for the remaining photos.</p>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- PHOTO SIZE OPTIONS -->
-                <div id="panel-sizes" class="sampler-panel">
-                    <div class="preview-cards-grid">
-                        <button type="button" class="preview-card" id="card-size-compact" onclick="switchPhotoSize('compact')">
-                            <span class="preview-card-badge">Option 1</span>
-                            <h4>Compact</h4>
-                            <p>The most restrained image treatment for a minimal, typography-led wedding website.</p>
-                        </button>
-
-                        <button type="button" class="preview-card selected-card" id="card-size-balanced" onclick="switchPhotoSize('balanced')">
-                            <span class="preview-card-badge">Option 2 · Recommended</span>
-                            <h4>Balanced</h4>
-                            <p>A refined middle ground where images remain meaningful without overpowering the page.</p>
-                        </button>
-
-                        <button type="button" class="preview-card" id="card-size-statement" onclick="switchPhotoSize('statement')">
-                            <span class="preview-card-badge">Option 3</span>
-                            <h4>Statement</h4>
-                            <p>A larger but still controlled image treatment for couples who want photography to have more presence.</p>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- PHOTO MIX OPTIONS -->
-                <div id="panel-photo-mix" class="sampler-panel">
-                    <p class="photo-mix-intro">
-                        The selected images appear across Home, the interlude, Our Story, and the curated photo journey. In 20-photo mode, the additional photographs remain in the gallery rather than being forced into unrelated sections.
-                    </p>
-
-                    <div class="photo-mix-controls">
-                        <button type="button" class="photo-mix-btn active" id="btn-show-10" onclick="setPhotoMixCount(10)" aria-pressed="true">
-                            Show 10 Photos
-                        </button>
-
-                        <button type="button" class="photo-mix-btn" id="btn-show-20" onclick="setPhotoMixCount(20)" aria-pressed="false">
-                            Show All 20
-                        </button>
-
-                        <button type="button" class="photo-mix-btn" onclick="renderPagePhotoPreview()">
-                            Shuffle Photos
-                        </button>
-                    </div>
-
-                    <p id="photo-mix-status" class="photo-mix-status" aria-live="polite"></p>
-                </div>
             </div>
         </section>
 
@@ -1050,7 +671,7 @@
 
         <!-- =========================================
              OUR STORY
-             Dynamic photo 4 paired with story text
+             Dynamic photo 4 is paired with story text.
              ========================================= -->
         <section id="our-story">
             <div class="story-layout">
@@ -1083,6 +704,35 @@
 
             <h3 style="margin: 3.5rem 0 1.4rem;">Memories from Our Loved Ones</h3>
             <div id="memories-container" class="memory-wall" aria-live="polite"></div>
+        </section>
+
+        <!-- =========================================
+             PHOTO MIX CONTROLS
+             ========================================= -->
+        <section id="photo-preview">
+            <div class="photo-preview-panel">
+                <p class="eyebrow">Photo Preview</p>
+                <h3>Our Favorite Moments</h3>
+                <p>
+                    Choose how many photos to preview, or shuffle for a different mix across the page.
+                </p>
+
+                <div class="photo-mix-controls">
+                    <button type="button" class="photo-mix-btn active" id="btn-show-10" onclick="setPhotoMixCount(10)" aria-pressed="true">
+                        Show 10 Photos
+                    </button>
+
+                    <button type="button" class="photo-mix-btn" id="btn-show-20" onclick="setPhotoMixCount(20)" aria-pressed="false">
+                        Show All 20
+                    </button>
+
+                    <button type="button" class="photo-mix-btn" onclick="renderPagePhotoPreview()">
+                        Shuffle Photos
+                    </button>
+                </div>
+
+                <p id="photo-mix-status" class="photo-mix-status" aria-live="polite"></p>
+            </div>
         </section>
 
         <!-- =========================================
@@ -1149,120 +799,7 @@
 
     <script>
         /* =========================================
-           FONT SWITCHING
-           ========================================= */
-        const fontConfig = {
-            cormorant: {
-                family: "'Cormorant Garamond', serif",
-                size: "1.2rem",
-                spacing: "2.3px"
-            },
-            playfair: {
-                family: "'Playfair Display', serif",
-                size: "1.08rem",
-                spacing: "2px"
-            },
-            montserrat: {
-                family: "'Montserrat', sans-serif",
-                size: "0.98rem",
-                spacing: "1.8px"
-            },
-            cinzel: {
-                family: "'Cinzel', serif",
-                size: "1.02rem",
-                spacing: "1.8px"
-            }
-        };
-
-        function switchFont(fontKey) {
-            const selectedFont = fontConfig[fontKey];
-
-            if (!selectedFont) return;
-
-            document.documentElement.style.setProperty("--body-font", selectedFont.family);
-            document.documentElement.style.setProperty("--base-font-size", selectedFont.size);
-            document.documentElement.style.setProperty("--nav-letter-spacing", selectedFont.spacing);
-
-            document.querySelectorAll('[id^="btn-font-"]').forEach(button => {
-                button.classList.remove("active");
-            });
-
-            document.querySelectorAll(
-                "#card-cormorant, #card-playfair, #card-montserrat, #card-cinzel"
-            ).forEach(card => {
-                card.classList.remove("selected-card");
-            });
-
-            const activeButton = document.getElementById(`btn-font-${fontKey}`);
-            const activeCard = document.getElementById(`card-${fontKey}`);
-
-            if (activeButton) activeButton.classList.add("active");
-            if (activeCard) activeCard.classList.add("selected-card");
-        }
-
-        /* =========================================
-           LAYOUT SWITCHING
-           ========================================= */
-        function switchLayout(layoutKey) {
-            document.body.setAttribute("data-layout", layoutKey);
-
-            document.querySelectorAll('[id^="btn-layout-"]').forEach(button => {
-                button.classList.remove("active");
-            });
-
-            document.querySelectorAll('[id^="card-layout-"]').forEach(card => {
-                card.classList.remove("selected-card");
-            });
-
-            const activeButton = document.getElementById(`btn-layout-${layoutKey}`);
-            const activeCard = document.getElementById(`card-layout-${layoutKey}`);
-
-            if (activeButton) activeButton.classList.add("active");
-            if (activeCard) activeCard.classList.add("selected-card");
-        }
-
-        /* =========================================
-           PHOTO SIZE SWITCHING
-           ========================================= */
-        function switchPhotoSize(sizeKey) {
-            document.body.setAttribute("data-photo-size", sizeKey);
-
-            document.querySelectorAll('[id^="btn-size-"]').forEach(button => {
-                button.classList.remove("active");
-            });
-
-            document.querySelectorAll('[id^="card-size-"]').forEach(card => {
-                card.classList.remove("selected-card");
-            });
-
-            const activeButton = document.getElementById(`btn-size-${sizeKey}`);
-            const activeCard = document.getElementById(`card-size-${sizeKey}`);
-
-            if (activeButton) activeButton.classList.add("active");
-            if (activeCard) activeCard.classList.add("selected-card");
-        }
-
-        /* =========================================
-           DESIGN LAB TABS
-           ========================================= */
-        function openSamplerTab(tabName) {
-            document.querySelectorAll(".sampler-tab-btn").forEach(button => {
-                button.classList.remove("active");
-            });
-
-            document.querySelectorAll(".sampler-panel").forEach(panel => {
-                panel.classList.remove("active");
-            });
-
-            const activeTab = document.getElementById(`tab-btn-${tabName}`);
-            const activePanel = document.getElementById(`panel-${tabName}`);
-
-            if (activeTab) activeTab.classList.add("active");
-            if (activePanel) activePanel.classList.add("active");
-        }
-
-        /* =========================================
-           DYNAMIC IMAGE RENDERING
+           DYNAMIC PHOTO RENDERING
            ========================================= */
         const uploadedPhotoSources = Array.from(
             { length: 20 },
@@ -1367,7 +904,7 @@
             slot.classList.remove("is-empty");
         }
 
-        function updateSectionVisibility() {
+        function updatePhotoSectionVisibility() {
             const interludeSection = document.getElementById("photo-interlude");
             const journeySection = document.getElementById("photo-journey");
 
@@ -1388,14 +925,11 @@
             const selectedPhotos = randomizedPhotos.slice(0, selectedPhotoCount);
 
             /*
-                The first four selected images are intentionally paired
-                with existing page content:
-                1. Home
-                2-3. Photo interlude
-                4. Our Story
+                First four selected photos are deliberately paired
+                with Home, the photo interlude, and Our Story.
 
-                The remaining six (or sixteen) photos are placed in the
-                controlled Photo Journey gallery.
+                Remaining selected photos appear only in the
+                curated Photo Journey gallery.
             */
             clearPhotoSlot("home-photo-slot");
             clearPhotoSlot("interlude-photo-slot-1");
@@ -1414,20 +948,21 @@
                 const gallerySlot = document.createElement("div");
                 gallerySlot.className = "gallery-photo-slot";
 
-                const actualPosition = index + 4;
-                const photoFigure = createPhotoFigure(source, actualPosition, false, true);
+                const photoPosition = index + 4;
+                gallerySlot.appendChild(
+                    createPhotoFigure(source, photoPosition, false, true)
+                );
 
-                gallerySlot.appendChild(photoFigure);
                 gallery.appendChild(gallerySlot);
             });
 
-            updateSectionVisibility();
+            updatePhotoSectionVisibility();
 
-            const status = document.getElementById("photo-mix-status");
             const galleryPhotoCount = Math.max(selectedPhotoCount - 4, 0);
+            const status = document.getElementById("photo-mix-status");
 
             status.textContent =
-                `Showing ${selectedPhotoCount} unique photos: 4 photos are paired with Home and Our Story, and ${galleryPhotoCount} photo${galleryPhotoCount === 1 ? "" : "s"} appear in the curated Photo Journey gallery. Select Shuffle Photos for a different mix.`;
+                `Showing ${selectedPhotoCount} unique photos: 4 appear in the Home, interlude, and Our Story pairings, while ${galleryPhotoCount} appear in the Photo Journey gallery.`;
         }
 
         /* =========================================
