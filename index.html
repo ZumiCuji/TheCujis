@@ -1,15 +1,14 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Cujis | Our Wedding</title>
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cinzel:wght@400;500;600&display=swap" rel="stylesheet">
-
-    <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>The Cujis | Our Wedding</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Alex+Brush&amp;family=Cinzel:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<style>
         /* =========================================
            RESET / DEFAULT DESIGN SETTINGS
            Cinzel + Statement photo sizing
@@ -195,16 +194,6 @@
         .photo-frame img {
             width: 100%;
             height: auto;
-        }
-
-        .photo-caption {
-            margin: 0.7rem 0 0;
-            color: var(--muted-ink);
-            font-family: Georgia, "Times New Roman", serif;
-            font-size: 0.95rem;
-            font-style: italic;
-            letter-spacing: 0;
-            text-align: center;
         }
 
         /* =========================================
@@ -622,350 +611,148 @@
                 grid-template-columns: repeat(4, minmax(0, 1fr));
             }
         }
-    </style>
+    
+        .gallery-link { display:inline-block; width:auto; min-width:210px; margin-top:1.5rem; text-decoration:none; text-align:center; }
+        .gallery-link:focus-visible { outline:2px solid #806a4d; outline-offset:3px; }
+        .gallery-page-heading { padding-top:3rem; }
+        .gallery-page-heading p { max-width:580px; margin:1rem auto 0; }
+</style>
 </head>
-
 <body>
-
-    <header>
-        <h1>The Cujis</h1>
-
-        <nav aria-label="Primary navigation">
-            <a href="#home">Home</a>
-            <a href="#our-story">Our Story</a>
-            <a href="#photo-journey">Photos</a>
-            <a href="#rsvp">RSVP</a>
-            <a href="#registry">Registry</a>
-        </nav>
-    </header>
-
-    <main class="site-shell">
-
-        <!-- =========================================
+<header>
+<h1>The Cujis</h1>
+<nav aria-label="Primary navigation">
+<a href="#home">Home</a>
+<a href="#our-story">Our Story</a>
+<a href="photos.html">Photos</a>
+<a href="#rsvp">RSVP</a>
+<a href="#registry">Registry</a>
+</nav>
+</header>
+<main class="site-shell">
+<!-- =========================================
              HOME
              Dynamic photo 1
              ========================================= -->
-        <section id="home">
-            <div class="welcome-layout">
-                <div class="welcome-copy">
-                    <p class="eyebrow">May 03, 2027 · Raleigh, North Carolina</p>
-                    <h2>Welcome to Our Beginning</h2>
-                    <p>We are so excited to celebrate our special day with our favorite people.</p>
-                    <p class="date-highlight">May 03, 2027 • Raleigh, NC</p>
-                </div>
-
-                <div id="home-photo-slot" class="photo-slot home-photo-slot"></div>
-            </div>
-        </section>
-
-        <!-- =========================================
+<section id="home">
+<div class="welcome-layout">
+<div class="welcome-copy">
+<p class="eyebrow">May 03, 2027 · Raleigh, North Carolina</p>
+<h2>Welcome to Our Beginning</h2>
+<p>We are so excited to celebrate our special day with our favorite people.</p>
+<p class="date-highlight">May 03, 2027 • Raleigh, NC</p>
+</div>
+<div class="photo-slot home-photo-slot" id="home-photo-slot"></div>
+</div>
+</section>
+<!-- =========================================
              PHOTO INTERLUDE
              Dynamic photos 2 and 3
              ========================================= -->
-        <section id="photo-interlude">
-            <div class="photo-interlude-grid">
-                <div id="interlude-photo-slot-1" class="photo-slot interlude-photo-slot"></div>
-                <div id="interlude-photo-slot-2" class="photo-slot interlude-photo-slot"></div>
-            </div>
-        </section>
 
-        <!-- =========================================
+<!-- =========================================
              OUR STORY
              Dynamic photo 4 is paired with story text.
              ========================================= -->
-        <section id="our-story">
-            <div class="story-layout">
-                <div id="story-photo-slot" class="photo-slot story-photo-slot"></div>
+<section id="our-story">
+<div class="story-layout">
+<div class="photo-slot story-photo-slot" id="story-photo-slot"></div>
+<div class="story-copy">
 
-                <div class="story-copy">
-                    <p class="eyebrow">The Story Continues</p>
-                    <h2>Our Story</h2>
-                    <p>
+<h2>Our Story</h2>
+<p>
                         If you are reading this right now, you should already know our story.
                         Instead of telling it from our point of view, we want you to share your
                         favorite memory or memories with us.
                     </p>
-                </div>
-            </div>
-
-            <div class="submit-memory">
-                <h3>Share a Memory</h3>
-
-                <textarea id="memory-text" rows="4" placeholder="Write your favorite memory with us..." aria-label="Your favorite memory"></textarea>
-
-                <input type="text" id="memory-name" placeholder="Your Name" aria-label="Your name">
-
-                <button id="submit-memory-btn" type="button" onclick="submitMemory()" class="sleek-btn">
+<a class="sleek-btn gallery-link" href="photos.html">View Our Photos</a></div>
+</div>
+<div class="submit-memory">
+<h3>Share a Memory</h3>
+<textarea aria-label="Your favorite memory" id="memory-text" placeholder="Write your favorite memory with us..." rows="4"></textarea>
+<input aria-label="Your name" id="memory-name" placeholder="Your Name" type="text"/>
+<button class="sleek-btn" id="submit-memory-btn" onclick="submitMemory()" type="button">
                     Submit Memory
                 </button>
-
-                <p id="memory-status" class="status-msg" aria-live="polite"></p>
-            </div>
-
-            <h3 style="margin: 3.5rem 0 1.4rem;">Memories from Our Loved Ones</h3>
-            <div id="memories-container" class="memory-wall" aria-live="polite"></div>
-        </section>
-
-        <!-- =========================================
+<p aria-live="polite" class="status-msg" id="memory-status"></p>
+</div>
+<h3 style="margin: 3.5rem 0 1.4rem;">Memories from Our Loved Ones</h3>
+<div aria-live="polite" class="memory-wall" id="memories-container"></div>
+</section>
+<!-- =========================================
              PHOTO MIX CONTROLS
              ========================================= -->
-        <section id="photo-preview">
-            <div class="photo-preview-panel">
-                <p class="eyebrow">Photo Preview</p>
-                <h3>Our Favorite Moments</h3>
-                <p>
-                    Choose how many photos to preview, or shuffle for a different mix across the page.
-                </p>
 
-                <div class="photo-mix-controls">
-                    <button type="button" class="photo-mix-btn active" id="btn-show-10" onclick="setPhotoMixCount(10)" aria-pressed="true">
-                        Show 10 Photos
-                    </button>
-
-                    <button type="button" class="photo-mix-btn" id="btn-show-20" onclick="setPhotoMixCount(20)" aria-pressed="false">
-                        Show All 20
-                    </button>
-
-                    <button type="button" class="photo-mix-btn" onclick="renderPagePhotoPreview()">
-                        Shuffle Photos
-                    </button>
-                </div>
-
-                <p id="photo-mix-status" class="photo-mix-status" aria-live="polite"></p>
-            </div>
-        </section>
-
-        <!-- =========================================
+<!-- =========================================
              PHOTO JOURNEY
              Dynamic photos 5 through 20
              ========================================= -->
-        <section id="photo-journey">
-            <div class="gallery-heading">
-                <p class="eyebrow">A Few Favorite Frames</p>
-                <h2>Moments, Noticed</h2>
-                <p>Small pieces of the story that brought us here.</p>
-            </div>
 
-            <div id="photo-journey-grid" class="photo-journey-grid"></div>
-        </section>
-
-        <!-- =========================================
+<!-- =========================================
              RSVP
              ========================================= -->
-        <section id="rsvp">
-            <div class="section-intro">
-                <p class="eyebrow">Celebrate With Us</p>
-                <h2>Kindly Respond</h2>
-                <p>Please let us know whether you will be able to join us.</p>
-            </div>
+<section id="rsvp">
+<div class="section-intro">
 
-            <form id="rsvp-form">
-                <label class="form-label" for="guest-name">Guest Name(s)</label>
-                <input type="text" id="guest-name" placeholder="e.g., Jane & John Doe" required>
-
-                <span class="form-label">Will you be attending?</span>
-
-                <div class="radio-group">
-                    <label class="radio-label">
-                        <input type="radio" name="attending" value="yes" required>
-                        <span>Joyfully Accepts</span>
-                    </label>
-
-                    <label class="radio-label">
-                        <input type="radio" name="attending" value="no" required>
-                        <span>Regretfully Declines</span>
-                    </label>
-                </div>
-
-                <button type="submit" class="sleek-btn">Send RSVP</button>
-            </form>
-        </section>
-
-        <!-- =========================================
+<h2>Kindly Respond</h2>
+<p>Please let us know whether you will be able to join us.</p>
+</div>
+<form id="rsvp-form">
+<label class="form-label" for="guest-name">Guest Name(s)</label>
+<input id="guest-name" placeholder="e.g., Jane &amp; John Doe" required="" type="text"/>
+<span class="form-label">Will you be attending?</span>
+<div class="radio-group">
+<label class="radio-label">
+<input name="attending" required="" type="radio" value="yes"/>
+<span>Joyfully Accepts</span>
+</label>
+<label class="radio-label">
+<input name="attending" required="" type="radio" value="no"/>
+<span>Regretfully Declines</span>
+</label>
+</div>
+<button class="sleek-btn" type="submit">Send RSVP</button>
+</form>
+</section>
+<!-- =========================================
              REGISTRY
              ========================================= -->
-        <section id="registry">
-            <div class="section-intro">
-                <p class="eyebrow">With Gratitude</p>
-                <h2>Registry</h2>
-                <p>Coming soon...</p>
-            </div>
-        </section>
-    </main>
+<section id="registry">
+<div class="section-intro">
 
-    <footer>
-        <p>1 Corinthians 13:4–8</p>
-    </footer>
+<h2>Registry</h2>
+<p>Coming soon...</p>
+</div>
+</section>
+</main>
+<footer>
+<p>1 Corinthians 13:4–8</p>
+</footer>
+<script>        /* Two fixed homepage photos; all others appear exclusively on photos.html. */
+        const homepagePhotos = ["images/2.JPEG", "images/15.JPEG"];
 
-    <script>
-        /* =========================================
-           DYNAMIC PHOTO RENDERING
-           ========================================= */
-        const uploadedPhotoSources = Array.from(
-            { length: 20 },
-            (_, index) => `images/${index + 1}.JPEG`
-        );
-
-        const photoCaptions = [
-            "A favorite moment",
-            "The beginning",
-            "With love",
-            "A beautiful memory",
-            "Forever starts here",
-            "Together, always",
-            "A little joy",
-            "The sweetest days",
-            "One of our favorites",
-            "A moment to remember"
-        ];
-
-        let selectedPhotoCount = 10;
-
-        /* Fisher-Yates shuffle */
-        function shuffleArray(items) {
-            const shuffled = [...items];
-
-            for (let index = shuffled.length - 1; index > 0; index--) {
-                const randomIndex = Math.floor(Math.random() * (index + 1));
-
-                [shuffled[index], shuffled[randomIndex]] = [
-                    shuffled[randomIndex],
-                    shuffled[index]
-                ];
-            }
-
-            return shuffled;
-        }
-
-        function setPhotoMixCount(count) {
-            selectedPhotoCount = count;
-
-            const showTenButton = document.getElementById("btn-show-10");
-            const showTwentyButton = document.getElementById("btn-show-20");
-
-            showTenButton.classList.toggle("active", count === 10);
-            showTwentyButton.classList.toggle("active", count === 20);
-
-            showTenButton.setAttribute("aria-pressed", count === 10 ? "true" : "false");
-            showTwentyButton.setAttribute("aria-pressed", count === 20 ? "true" : "false");
-
-            renderPagePhotoPreview();
-        }
-
-        function createPhotoFigure(source, position, isHomePhoto = false, isGalleryPhoto = false) {
+        function fillHomepagePhoto(slotId, source, altText, priority = false) {
+            const slot = document.getElementById(slotId);
+            if (!slot) return;
             const figure = document.createElement("figure");
             figure.className = "photo-figure";
-
             const frame = document.createElement("div");
             frame.className = "photo-frame";
-
             const image = document.createElement("img");
             image.src = source;
-            image.alt = `Wedding photo ${position + 1}`;
+            image.alt = altText;
             image.decoding = "async";
-
-            if (isHomePhoto) {
-                image.loading = "eager";
-                image.fetchPriority = "high";
-            } else {
-                image.loading = "lazy";
-            }
-
-            const caption = document.createElement("figcaption");
-            caption.className = "photo-caption";
-            caption.textContent = photoCaptions[position % photoCaptions.length];
-
+            image.loading = priority ? "eager" : "lazy";
+            if (priority) image.fetchPriority = "high";
             frame.appendChild(image);
             figure.appendChild(frame);
-
-            if (!isHomePhoto || isGalleryPhoto) {
-                figure.appendChild(caption);
-            }
-
-            return figure;
+            slot.replaceChildren(figure);
         }
 
-        function clearPhotoSlot(slotId) {
-            const slot = document.getElementById(slotId);
+        fillHomepagePhoto("home-photo-slot", homepagePhotos[0], "Wedding photo 2", true);
+        fillHomepagePhoto("story-photo-slot", homepagePhotos[1], "Wedding photo 15");
 
-            if (!slot) return;
-
-            slot.innerHTML = "";
-            slot.classList.add("is-empty");
-        }
-
-        function fillPhotoSlot(slotId, source, position, isHomePhoto = false) {
-            const slot = document.getElementById(slotId);
-
-            if (!slot || !source) return;
-
-            slot.innerHTML = "";
-            slot.appendChild(createPhotoFigure(source, position, isHomePhoto));
-            slot.classList.remove("is-empty");
-        }
-
-        function updatePhotoSectionVisibility() {
-            const interludeSection = document.getElementById("photo-interlude");
-            const journeySection = document.getElementById("photo-journey");
-
-            const interludeHasPhotos = document.querySelectorAll(
-                "#photo-interlude .photo-slot:not(.is-empty)"
-            ).length > 0;
-
-            const journeyHasPhotos = document.querySelectorAll(
-                "#photo-journey-grid .gallery-photo-slot"
-            ).length > 0;
-
-            interludeSection.classList.toggle("is-empty-section", !interludeHasPhotos);
-            journeySection.classList.toggle("is-empty-section", !journeyHasPhotos);
-        }
-
-        function renderPagePhotoPreview() {
-            const randomizedPhotos = shuffleArray(uploadedPhotoSources);
-            const selectedPhotos = randomizedPhotos.slice(0, selectedPhotoCount);
-
-            /*
-                First four selected photos are deliberately paired
-                with Home, the photo interlude, and Our Story.
-
-                Remaining selected photos appear only in the
-                curated Photo Journey gallery.
-            */
-            clearPhotoSlot("home-photo-slot");
-            clearPhotoSlot("interlude-photo-slot-1");
-            clearPhotoSlot("interlude-photo-slot-2");
-            clearPhotoSlot("story-photo-slot");
-
-            fillPhotoSlot("home-photo-slot", selectedPhotos[0], 0, true);
-            fillPhotoSlot("interlude-photo-slot-1", selectedPhotos[1], 1);
-            fillPhotoSlot("interlude-photo-slot-2", selectedPhotos[2], 2);
-            fillPhotoSlot("story-photo-slot", selectedPhotos[3], 3);
-
-            const gallery = document.getElementById("photo-journey-grid");
-            gallery.innerHTML = "";
-
-            selectedPhotos.slice(4).forEach((source, index) => {
-                const gallerySlot = document.createElement("div");
-                gallerySlot.className = "gallery-photo-slot";
-
-                const photoPosition = index + 4;
-                gallerySlot.appendChild(
-                    createPhotoFigure(source, photoPosition, false, true)
-                );
-
-                gallery.appendChild(gallerySlot);
-            });
-
-            updatePhotoSectionVisibility();
-
-            const galleryPhotoCount = Math.max(selectedPhotoCount - 4, 0);
-            const status = document.getElementById("photo-mix-status");
-
-            status.textContent =
-                `Showing ${selectedPhotoCount} unique photos: 4 appear in the Home, interlude, and Our Story pairings, while ${galleryPhotoCount} appear in the Photo Journey gallery.`;
-        }
-
-        /* =========================================
+/* =========================================
            GOOGLE APPS SCRIPT MEMORY INTEGRATION
            ========================================= */
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwIwzcMUfcDS8phJ6EBTNXCgufqrjDyp50wKKZwQ7qsTVAqbYL5tCtZyXgL-kzdB11ZWw/exec";
@@ -1072,7 +859,6 @@
         /* =========================================
            INITIAL PAGE LOAD
            ========================================= */
-        renderPagePhotoPreview();
         loadApprovedMemories();
     </script>
 </body>
