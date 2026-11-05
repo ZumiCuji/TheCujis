@@ -1,5 +1,5 @@
-<!DOCTYPE html>
 
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8"/>
@@ -10,11 +10,22 @@
 <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&amp;family=Cinzel:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
 <style>
         /* =========================================
-           RESET / DEFAULT DESIGN SETTINGS
-           Cinzel + Statement photo sizing
-           ========================================= */
+           GLOBAL RESET & BASE
+        ========================================= */
         *, *::before, *::after {
             box-sizing: border-box;
+        }
+
+        :root {
+            --script-font: "Alex Brush", cursive;
+            --body-font: "Cinzel", serif;
+            --paper: #fffdf9;
+            --warm-white: #faf7f1;
+            --ink: #24221f;
+            --muted-ink: #6d675e;
+            --line: #e5ded3;
+            --soft-line: #f0ece5;
+            --accent: #977957;
         }
 
         html {
@@ -22,49 +33,15 @@
             -webkit-text-size-adjust: 100%;
         }
 
-        :root {
-            --script-font: "Alex Brush", cursive;
-            --body-font: "Cinzel", serif;
-
-            --paper: #fffdf9;
-            --warm-white: #faf7f1;
-            --ink: #24221f;
-            --muted-ink: #6d675e;
-            --line: #e5ded3;
-            --soft-line: #f0ece5;
-
-            /* Statement sizing is the permanent default. */
-            --hero-width: 520px;
-            --story-width: 285px;
-            --interlude-width: 285px;
-            --gallery-gap: 1.1rem;
-        }
-
         body {
             margin: 0;
-            color: var(--ink);
             background: var(--paper);
+            color: var(--ink);
             font-family: var(--body-font);
             font-size: 1rem;
             line-height: 1.8;
             text-align: center;
             overflow-x: hidden;
-        }
-
-        img {
-            display: block;
-            max-width: 100%;
-            height: auto;
-        }
-
-        button,
-        input,
-        textarea {
-            font: inherit;
-        }
-
-        button {
-            -webkit-tap-highlight-color: transparent;
         }
 
         h1, h2, h3 {
@@ -84,55 +61,24 @@
         }
 
         h3 {
-            font-size: clamp(2.2rem, 6vw, 3.2rem);
+            font-size: clamp(2rem, 6vw, 3rem);
         }
 
         p {
             margin: 0 0 1.2rem;
         }
 
-        .eyebrow {
-            margin-bottom: 0.7rem;
-            color: var(--muted-ink);
-            font-size: 0.64rem;
-            font-weight: 600;
-            letter-spacing: 2px;
-            text-transform: uppercase;
+        a {
+            color: inherit;
         }
 
-        .date-highlight {
-            margin-top: 1.4rem;
-            color: #575047;
-            font-size: 0.78rem;
-            font-weight: 500;
-            letter-spacing: 2.3px;
-            text-transform: uppercase;
-        }
-
-        .site-shell {
-            width: min(100%, 1120px);
-            margin: 0 auto;
-            padding: 0 1.1rem;
-        }
-
-        section {
-            padding: 4.8rem 0;
-            border-bottom: 1px solid var(--soft-line);
-        }
-
-        section.is-empty-section {
-            display: none;
-        }
-
-        @media (min-width: 768px) {
-            section {
-                padding: 6.5rem 0;
-            }
+        button, input, select, textarea {
+            font: inherit;
         }
 
         /* =========================================
-           HEADER / NAVIGATION
-           ========================================= */
+           HEADER & NAVIGATION
+        ========================================= */
         header {
             position: sticky;
             top: 0;
@@ -169,357 +115,165 @@
 
         nav a:hover,
         nav a:focus-visible {
-            color: #977957;
+            color: var(--accent);
         }
 
         /* =========================================
-           SHARED IMAGE STYLES
-           ========================================= */
-        .photo-slot.is-empty {
-            display: none;
+           LAYOUT
+        ========================================= */
+        .site-shell {
+            width: min(100%, 1120px);
+            margin: 0 auto;
+            padding: 0 1.1rem;
         }
 
-        .photo-figure {
+        section {
+            padding: 4.8rem 0;
+            border-bottom: 1px solid var(--soft-line);
+        }
+
+        .eyebrow {
+            margin-bottom: 0.75rem;
+            color: var(--muted-ink);
+            font-size: 0.7rem;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+        }
+
+        .section-intro {
+            max-width: 680px;
+            margin: 1.2rem auto 2rem;
+            color: var(--muted-ink);
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 1.08rem;
+            line-height: 1.9;
+        }
+
+        .button-link,
+        button {
+            display: inline-block;
+            padding: 0.85rem 1.5rem;
+            border: 1px solid var(--ink);
+            border-radius: 0;
+            background: transparent;
+            color: var(--ink);
+            font-family: var(--body-font);
+            font-size: 0.68rem;
+            font-weight: 600;
+            letter-spacing: 1.6px;
+            text-decoration: none;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: background 0.2s ease, color 0.2s ease;
+        }
+
+        .button-link:hover,
+        button:hover {
+            background: var(--ink);
+            color: white;
+        }
+
+        /* =========================================
+           HERO
+        ========================================= */
+        .hero {
+            padding-top: 5.5rem;
+            padding-bottom: 5rem;
+        }
+
+        .hero h2 {
+            font-size: clamp(4rem, 12vw, 7rem);
+        }
+
+        .hero-date {
+            margin-top: 1.4rem;
+            font-size: 0.8rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .hero-location {
+            margin-top: 0.5rem;
+            color: var(--muted-ink);
+            font-size: 0.72rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        /* =========================================
+           FEATURED PHOTOS
+        ========================================= */
+        .featured-photos {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 1.2rem;
+            max-width: 850px;
+            margin: 2.5rem auto 0;
+        }
+
+        .featured-photo {
             margin: 0;
-        }
-
-        .photo-frame {
             padding: 0.45rem;
-            background: #ffffff;
+            background: white;
             border: 1px solid var(--line);
             box-shadow: 0 8px 20px rgba(66, 54, 36, 0.07);
         }
 
-        /* Standalone photos preserve natural proportions. */
-        .photo-frame img {
+        .featured-photo img {
+            display: block;
             width: 100%;
             height: auto;
         }
 
         /* =========================================
-           HOME
-           ========================================= */
-        .welcome-layout {
-            display: grid;
-            justify-items: center;
-            gap: 2.25rem;
-            max-width: 920px;
-            margin: 0 auto;
-        }
-
-        .welcome-copy {
-            max-width: 560px;
-        }
-
-        .welcome-copy h2 {
-            margin-bottom: 1rem;
-        }
-
-        .home-photo-slot {
-            width: min(100%, var(--hero-width));
-        }
-
-        /* =========================================
-           PHOTO INTERLUDE
-           ========================================= */
-        .photo-interlude-grid {
-            display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            align-items: start;
-            gap: 0.85rem;
-            max-width: 620px;
-            margin: 0 auto;
-        }
-
-        .interlude-photo-slot {
-            width: min(100%, var(--interlude-width));
-            justify-self: center;
-        }
-
-        /* =========================================
            OUR STORY
-           ========================================= */
-        .story-layout {
-            display: grid;
-            justify-items: center;
-            align-items: center;
-            gap: 2.4rem;
-            max-width: 900px;
-            margin: 0 auto;
-        }
-
-        .story-copy {
-            max-width: 590px;
-        }
-
-        .story-copy h2 {
-            margin-bottom: 1rem;
-        }
-
-        .story-photo-slot {
-            width: min(100%, var(--story-width));
-        }
-
-        /* =========================================
-           PHOTO PREVIEW CONTROLS
-           ========================================= */
-        .photo-preview-panel {
+        ========================================= */
+        .story-content {
             max-width: 760px;
             margin: 0 auto;
-            padding: 1.65rem 1rem;
-            background: var(--warm-white);
-            border: 1px solid var(--line);
-        }
-
-        .photo-preview-panel h3 {
-            margin-bottom: 0.7rem;
-        }
-
-        .photo-preview-panel p {
-            max-width: 600px;
-            margin-right: auto;
-            margin-left: auto;
             color: var(--muted-ink);
             font-family: Georgia, "Times New Roman", serif;
-            font-size: 1rem;
-        }
-
-        .photo-mix-controls {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 0.6rem;
-            margin: 1.1rem 0 0.9rem;
-        }
-
-        .photo-mix-btn {
-            padding: 0.65rem 0.9rem;
-            color: var(--ink);
-            background: #ffffff;
-            border: 1px solid #bbb1a3;
-            border-radius: 2px;
-            cursor: pointer;
-            font-size: 0.67rem;
-            font-weight: 600;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
-        }
-
-        .photo-mix-btn:hover,
-        .photo-mix-btn:focus-visible {
-            background: #f0e9de;
-            border-color: var(--ink);
-        }
-
-        .photo-mix-btn.active {
-            color: #ffffff;
-            background: var(--ink);
-            border-color: var(--ink);
-        }
-
-        .photo-mix-status {
-            margin: 0;
-            color: var(--muted-ink);
-            font-family: Georgia, "Times New Roman", serif;
-            font-size: 0.92rem;
+            font-size: 1.08rem;
+            line-height: 2;
         }
 
         /* =========================================
-           PHOTO JOURNEY
-           ========================================= */
-        .gallery-heading {
-            max-width: 610px;
-            margin: 0 auto 2.4rem;
-        }
-
-        .gallery-heading h2 {
-            margin-bottom: 0.8rem;
-        }
-
-        .photo-journey-grid {
+           MEMORIES
+        ========================================= */
+        .memories-grid {
             display: grid;
             grid-template-columns: repeat(2, minmax(0, 1fr));
-            align-items: start;
-            gap: var(--gallery-gap);
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-
-        .gallery-photo-slot {
-            min-width: 0;
-        }
-
-        /*
-           Controlled gallery thumbnails:
-           object-fit: cover is used only here to keep
-           the contact-sheet layout consistent.
-        */
-        .gallery-photo-slot .photo-frame img {
-            width: 100%;
-            aspect-ratio: 4 / 5;
-            object-fit: cover;
-            object-position: center;
-        }
-
-        /* =========================================
-           FORMS / RSVP / MEMORIES
-           ========================================= */
-        .submit-memory {
-            max-width: 540px;
-            margin: 3rem auto 0;
-            text-align: left;
-        }
-
-        .submit-memory h3 {
-            margin-bottom: 1.25rem;
-            text-align: center;
-        }
-
-        .submit-memory textarea,
-        .submit-memory input,
-        #rsvp-form input[type="text"] {
-            width: 100%;
-            padding: 0.85rem 0.9rem;
-            margin-bottom: 1rem;
-            color: var(--ink);
-            background: #ffffff;
-            border: 1px solid #aaa195;
-            border-radius: 0;
-            font-family: var(--body-font);
-            font-size: 0.92rem;
-        }
-
-        .submit-memory textarea {
-            min-height: 125px;
-            resize: vertical;
-        }
-
-        .submit-memory textarea:focus,
-        .submit-memory input:focus,
-        #rsvp-form input[type="text"]:focus {
-            outline: 2px solid #806a4d;
-            outline-offset: 2px;
-        }
-
-        .sleek-btn {
-            width: 100%;
-            padding: 0.95rem 1.25rem;
-            color: #ffffff;
-            background: var(--ink);
-            border: 1px solid var(--ink);
-            cursor: pointer;
-            font-size: 0.72rem;
-            font-weight: 600;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            transition: background 0.2s ease, transform 0.15s ease;
-        }
-
-        .sleek-btn:hover,
-        .sleek-btn:focus-visible {
-            background: #4a4640;
-        }
-
-        .sleek-btn:active {
-            transform: scale(0.99);
-        }
-
-        .sleek-btn:disabled {
-            cursor: not-allowed;
-            background: #8d877d;
-            border-color: #8d877d;
-        }
-
-        .status-msg {
-            margin-top: 0.8rem;
-            text-align: center;
-        }
-
-        .success {
-            color: #276f3a;
-        }
-
-        .error {
-            color: #a42929;
-        }
-
-        .memory-wall {
-            max-width: 700px;
-            margin: 2.5rem auto 0;
-            text-align: left;
+            gap: 1.2rem;
+            margin: 2rem auto;
         }
 
         .memory-card {
-            padding: 1.5rem;
-            margin-bottom: 1rem;
-            background: #ffffff;
-            border: 1px solid var(--soft-line);
-            box-shadow: 0 6px 18px rgba(67, 55, 37, 0.04);
-        }
-
-        .memory-card p {
-            margin: 0;
-            font-family: Georgia, "Times New Roman", serif;
-            font-size: 1.1rem;
-            font-style: italic;
-            letter-spacing: 0;
-        }
-
-        .memory-author {
-            margin-top: 0.85rem;
-            color: #57524a;
-            font-size: 0.68rem;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-        }
-
-        .section-intro {
-            max-width: 610px;
-            margin: 0 auto;
-        }
-
-        .form-label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-size: 0.88rem;
-        }
-
-        .radio-group {
-            display: grid;
-            gap: 0.7rem;
-            margin: 1rem 0 1.6rem;
-        }
-
-        .radio-label {
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            padding: 0.85rem 0.9rem;
-            cursor: pointer;
+            padding: 1.8rem;
             border: 1px solid var(--line);
-            font-size: 0.88rem;
-            transition: background 0.2s ease, border-color 0.2s ease;
-        }
-
-        .radio-label:has(input:checked) {
-            background: #faf7f1;
-            border-color: var(--ink);
-        }
-
-        .radio-label input[type="radio"] {
-            width: 18px;
-            height: 18px;
-            margin: 0;
-            accent-color: var(--ink);
-        }
-
-        #rsvp-form {
-            max-width: 500px;
-            margin: 2rem auto 0;
+            background: var(--warm-white);
             text-align: left;
         }
 
+        .memory-card p {
+            color: var(--muted-ink);
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 1rem;
+            line-height: 1.8;
+            white-space: pre-wrap;
+        }
+
+        .memory-card strong {
+            font-size: 0.72rem;
+            letter-spacing: 1px;
+        }
+
+        .memory-actions {
+            margin-top: 1.5rem;
+        }
+
+        /* =========================================
+           FOOTER
+        ========================================= */
         footer {
             padding: 3.5rem 1.25rem;
             color: var(--muted-ink);
@@ -529,322 +283,217 @@
         }
 
         /* =========================================
-           RESPONSIVE QUIET PORTRAITS
-           Phones / narrow screens below 768px
-           ========================================= */
-        @media (max-width: 767px) {
-            .home-photo-slot {
-                width: min(100%, 390px);
+           MOBILE RESPONSIVENESS
+        ========================================= */
+        @media (max-width: 650px) {
+            .site-shell {
+                padding-inline: 0.85rem;
             }
 
-            .story-photo-slot {
-                width: min(100%, 235px);
+            section {
+                padding: 3.5rem 0;
             }
 
-            .interlude-photo-slot {
-                width: min(100%, 175px);
+            .hero {
+                padding-top: 3.5rem;
             }
 
-            .photo-frame {
-                box-shadow: none;
+            .featured-photos,
+            .memories-grid {
+                grid-template-columns: 1fr;
             }
 
-            .photo-interlude-grid {
-                max-width: 390px;
+            nav {
+                gap: 0.25rem 0.7rem;
             }
 
-            .photo-journey-grid {
-                max-width: 560px;
+            nav a {
+                font-size: 0.61rem;
+                letter-spacing: 1.2px;
             }
         }
-
-        /* =========================================
-           RESPONSIVE GALLERY NOTES
-           Laptops / desktops at 768px and wider
-           ========================================= */
-        @media (min-width: 768px) {
-            .welcome-layout {
-                grid-template-columns: minmax(0, 1.1fr) minmax(280px, 0.9fr);
-                justify-items: stretch;
-                text-align: left;
-            }
-
-            .welcome-copy {
-                align-self: center;
-                justify-self: end;
-            }
-
-            .home-photo-slot {
-                align-self: center;
-                justify-self: start;
-            }
-
-            .story-layout {
-                grid-template-columns: minmax(230px, 0.8fr) minmax(0, 1.2fr);
-                justify-items: stretch;
-                text-align: left;
-            }
-
-            .story-photo-slot {
-                align-self: center;
-                justify-self: end;
-            }
-
-            .story-copy {
-                align-self: center;
-                justify-self: start;
-            }
-
-            .photo-interlude-grid {
-                max-width: 700px;
-                gap: 1.2rem;
-            }
-
-            .photo-journey-grid {
-                grid-template-columns: repeat(3, minmax(0, 1fr));
-                gap: 1.2rem;
-            }
-        }
-
-        @media (min-width: 1100px) {
-            .photo-journey-grid {
-                grid-template-columns: repeat(4, minmax(0, 1fr));
-            }
-        }
-    
-        .gallery-link { display:inline-block; width:auto; min-width:210px; margin-top:1.5rem; text-decoration:none; text-align:center; }
-        .gallery-link:focus-visible { outline:2px solid #806a4d; outline-offset:3px; }
-        .gallery-page-heading { padding-top:3rem; }
-        .gallery-page-heading p { max-width:580px; margin:1rem auto 0; }
 </style>
 </head>
+
 <body>
+
 <header>
-<h1>The Cujis</h1>
-<nav aria-label="Primary navigation"><a href="index.html#home">Home</a><a href="index.html#our-story">Our Story</a><a href="photos.html">Photos</a><a href="index.html#rsvp">RSVP</a><a href="registry.html">Registry</a><a href="faq.html">FAQ</a></nav>
+    <h1>The Cujis</h1>
+    <nav aria-label="Primary navigation">
+        <a href="index.html#home">Home</a>
+        <a href="index.html#our-story">Our Story</a>
+        <a href="photos.html">Photos</a>
+        <a href="rsvp.html">RSVP</a>
+        <a href="registry.html">Registry</a>
+        <a href="faq.html">FAQ</a>
+    </nav>
 </header>
+
 <main class="site-shell">
-<!-- =========================================
-             HOME
-             Dynamic photo 1
-             ========================================= -->
-<section id="home">
-<div class="welcome-layout">
-<div class="welcome-copy">
-<p class="eyebrow">May 03, 2027 · Raleigh, North Carolina</p>
-<h2>Welcome to Our Beginning</h2>
-<p>We are so excited to celebrate our special day with our favorite people.</p>
-<p class="date-highlight">May 03, 2027 • Raleigh, NC</p>
-</div>
-<div class="photo-slot home-photo-slot" id="home-photo-slot"></div>
-</div>
-</section>
-<!-- =========================================
-             PHOTO INTERLUDE
-             Dynamic photos 2 and 3
-             ========================================= -->
-<!-- =========================================
-             OUR STORY
-             Dynamic photo 4 is paired with story text.
-             ========================================= -->
-<section id="our-story">
-<div class="story-layout">
-<div class="photo-slot story-photo-slot" id="story-photo-slot"></div>
-<div class="story-copy">
-<h2>Our Story</h2>
-<p>
-                        If you are reading this right now, you should already know our story.
-                        Instead of telling it from our point of view, we want you to share your
-                        favorite memory or memories with us.
-                    </p>
-<a class="sleek-btn gallery-link" href="photos.html">View Our Photos</a></div>
-</div>
-<div class="submit-memory">
-<h3>Share a Memory</h3>
-<textarea aria-label="Your favorite memory" id="memory-text" placeholder="Write your favorite memory with us..." rows="4"></textarea>
-<input aria-label="Your name" id="memory-name" placeholder="Your Name" type="text"/>
-<button class="sleek-btn" id="submit-memory-btn" onclick="submitMemory()" type="button">
-                    Submit Memory
-                </button>
-<p aria-live="polite" class="status-msg" id="memory-status"></p>
-</div>
-<h3 style="margin: 3.5rem 0 1.4rem;">Memories from Our Loved Ones</h3>
-<div aria-live="polite" class="memory-wall" id="memories-container"></div>
-<a class="sleek-btn gallery-link" href="memories.html" id="view-all-memories" style="display:none; max-width:340px; margin:1.4rem auto 0;">View All Memories</a>
-</section>
-<!-- =========================================
-             PHOTO MIX CONTROLS
-             ========================================= -->
-<!-- =========================================
-             PHOTO JOURNEY
-             Dynamic photos 5 through 20
-             ========================================= -->
-<!-- =========================================
-             RSVP
-             ========================================= -->
-<section id="rsvp">
-<div class="section-intro">
-<h2>Kindly Respond</h2>
-<p>Please let us know whether you will be able to join us.</p>
-</div>
-<form id="rsvp-form">
-<label class="form-label" for="guest-name">Guest Name(s)</label>
-<input id="guest-name" placeholder="e.g., Jane &amp; John Doe" required="" type="text"/>
-<span class="form-label">Will you be attending?</span>
-<div class="radio-group">
-<label class="radio-label">
-<input name="attending" required="" type="radio" value="yes"/>
-<span>Joyfully Accepts</span>
-</label>
-<label class="radio-label">
-<input name="attending" required="" type="radio" value="no"/>
-<span>Regretfully Declines</span>
-</label>
-</div>
-<button class="sleek-btn" type="submit">Send RSVP</button>
-</form>
-</section>
-<!-- =========================================
-             REGISTRY
-             ========================================= -->
+
+    <!-- HOME -->
+    <section class="hero" id="home">
+        <p class="eyebrow">Together With Our Families</p>
+        <h2>The Cujis</h2>
+        <p class="hero-date">May 3, 2027</p>
+        <p class="hero-location">Raleigh, North Carolina</p>
+
+        <div class="featured-photos">
+            <figure class="featured-photo">
+                <img src="images/2.JPEG" alt="The couple together" loading="eager">
+            </figure>
+            <figure class="featured-photo">
+                <img src="images/15.JPEG" alt="The couple together" loading="eager">
+            </figure>
+        </div>
+    </section>
+
+    <!-- OUR STORY -->
+    <section id="our-story">
+        <p class="eyebrow">A Love Story</p>
+        <h2>Our Story</h2>
+
+        <div class="story-content">
+            <p>
+                Every love story is special, and ours is one we are
+                so excited to continue writing together.
+            </p>
+            <p>
+                We cannot wait to celebrate this next chapter
+                surrounded by the people we love most.
+            </p>
+        </div>
+    </section>
+
+    <!-- PHOTOS -->
+    <section id="photos">
+        <p class="eyebrow">Captured Moments</p>
+        <h2>Our Photos</h2>
+        <p class="section-intro">
+            A collection of moments from our journey together.
+        </p>
+        <a class="button-link" href="photos.html">
+            View Our Photos
+        </a>
+    </section>
+
+    <!-- MEMORIES -->
+    <section id="memories">
+        <p class="eyebrow">Words From Our Loved Ones</p>
+        <h2>Our Memories</h2>
+        <p class="section-intro">
+            Share a favorite memory, a kind word, or a message
+            for us as we begin this new chapter.
+        </p>
+
+        <div class="memories-grid" id="memories-container">
+            <p>Loading memories...</p>
+        </div>
+
+        <div class="memory-actions">
+            <a class="button-link" href="memories.html">
+                View All Memories
+            </a>
+        </div>
+    </section>
+
+    <!-- RSVP LINK -->
+    <section id="rsvp-link">
+        <p class="eyebrow">Celebrate With Us</p>
+        <h2>Kindly Reply</h2>
+        <p class="section-intro">
+            We look forward to celebrating with you.
+            Please let us know if you will be joining us.
+        </p>
+        <a class="button-link" href="rsvp.html">
+            RSVP Here
+        </a>
+    </section>
+
+    <!-- REGISTRY LINK -->
+    <section id="registry-link">
+        <p class="eyebrow">With Love & Gratitude</p>
+        <h2>Wedding Registry</h2>
+        <p class="section-intro">
+            Your love and presence mean the world to us.
+        </p>
+        <a class="button-link" href="registry.html">
+            View Registry
+        </a>
+    </section>
 
 </main>
+
 <footer>
-<p>1 Corinthians 13:4–8</p>
+    <p>1 Corinthians 13:4–8</p>
 </footer>
-<script>        /* Two fixed homepage photos; all others appear exclusively on photos.html. */
-        const homepagePhotos = ["images/2.JPEG", "images/15.JPEG"];
 
-        function fillHomepagePhoto(slotId, source, altText, priority = false) {
-            const slot = document.getElementById(slotId);
-            if (!slot) return;
-            const figure = document.createElement("figure");
-            figure.className = "photo-figure";
-            const frame = document.createElement("div");
-            frame.className = "photo-frame";
-            const image = document.createElement("img");
-            image.src = source;
-            image.alt = altText;
-            image.decoding = "async";
-            image.loading = priority ? "eager" : "lazy";
-            if (priority) image.fetchPriority = "high";
-            frame.appendChild(image);
-            figure.appendChild(frame);
-            slot.replaceChildren(figure);
+<script>
+    /*
+      IMPORTANT:
+      Insert your existing Google Apps Script URL below
+      to load approved guest memories.
+    */
+
+    const MEMORY_SCRIPT_URL = "";
+
+    async function loadMemories() {
+        const container = document.getElementById("memories-container");
+
+        if (!container) return;
+
+        if (!MEMORY_SCRIPT_URL) {
+            container.textContent = "Memories will appear here soon.";
+            return;
         }
 
-        fillHomepagePhoto("home-photo-slot", homepagePhotos[0], "Wedding photo 2", true);
-        fillHomepagePhoto("story-photo-slot", homepagePhotos[1], "Wedding photo 15");
+        try {
+            const response = await fetch(MEMORY_SCRIPT_URL);
 
-/* =========================================
-           GOOGLE APPS SCRIPT MEMORY INTEGRATION
-           ========================================= */
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwIwzcMUfcDS8phJ6EBTNXCgufqrjDyp50wKKZwQ7qsTVAqbYL5tCtZyXgL-kzdB11ZWw/exec";
+            if (!response.ok) {
+                throw new Error("Unable to load memories");
+            }
 
-        async function submitMemory() {
-            const text = document.getElementById("memory-text").value.trim();
-            const name = document.getElementById("memory-name").value.trim() || "Anonymous";
-            const button = document.getElementById("submit-memory-btn");
-            const statusElement = document.getElementById("memory-status");
+            const data = await response.json();
 
-            if (!text) {
-                alert("Please write a memory.");
+            const memories = Array.isArray(data)
+                ? data
+                : Array.isArray(data.memories)
+                    ? data.memories
+                    : [];
+
+            container.replaceChildren();
+
+            if (memories.length === 0) {
+                container.textContent = "No memories have been shared yet.";
                 return;
             }
 
-            if (SCRIPT_URL === "PASTE_YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE") {
-                alert("Please configure your Google Apps Script URL in index.html first.");
-                return;
-            }
+            memories.slice(0, 2).forEach(memory => {
+                const card = document.createElement("article");
+                card.className = "memory-card";
 
-            button.disabled = true;
-            button.textContent = "Submitting...";
-            statusElement.textContent = "";
+                const message = document.createElement("p");
+                message.textContent =
+                    memory.message || memory.memory || "";
 
-            try {
-                await fetch(SCRIPT_URL, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "text/plain;charset=utf-8"
-                    },
-                    body: JSON.stringify({
-                        name: name,
-                        text: text
-                    })
-                });
+                const author = document.createElement("strong");
+                author.textContent =
+                    memory.name || memory.author || "A Loved One";
 
-                statusElement.className = "status-msg success";
-                statusElement.textContent = "Thank you! Your memory was submitted for approval.";
+                card.append(message, author);
+                container.appendChild(card);
+            });
 
-                document.getElementById("memory-text").value = "";
-                document.getElementById("memory-name").value = "";
-            } catch (error) {
-                console.error(error);
-
-                statusElement.className = "status-msg error";
-                statusElement.textContent = "Error sending memory. Please try again.";
-            } finally {
-                button.disabled = false;
-                button.textContent = "Submit Memory";
-            }
+        } catch (error) {
+            console.error("Memory loading error:", error);
+            container.textContent =
+                "Memories are temporarily unavailable.";
         }
+    }
 
-        async function loadApprovedMemories() {
-            const container = document.getElementById("memories-container");
+    document.addEventListener("DOMContentLoaded", loadMemories);
+</script>
 
-            if (SCRIPT_URL === "PASTE_YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE") {
-                container.innerHTML = '<p style="text-align:center; color:#777;">Google Sheets API URL not yet set.</p>';
-                return;
-            }
-
-            try {
-                const response = await fetch(SCRIPT_URL);
-                const data = await response.json();
-
-                container.innerHTML = "";
-
-                if (!data.memories || data.memories.length === 0) {
-                    container.innerHTML = '<p style="text-align:center; color:#777;">No approved memories yet.</p>';
-                    return;
-                }
-
-                data.memories.slice(0, 2).forEach(memory => {
-                    const memoryCard = document.createElement("div");
-                    memoryCard.className = "memory-card";
-
-                    memoryCard.innerHTML = `
-                        <p>“${escapeHtml(memory.text)}”</p>
-                        <div class="memory-author">— ${escapeHtml(memory.name)}</div>
-                    `;
-
-                    container.appendChild(memoryCard);
-                });
-                document.getElementById("view-all-memories").style.display = data.memories.length > 2 ? "inline-block" : "none";
-            } catch (error) {
-                console.error(error);
-                container.innerHTML = '<p style="text-align:center; color:#999;">Unable to load memories right now.</p>';
-            }
-        }
-
-        function escapeHtml(string) {
-            const temporaryElement = document.createElement("div");
-            temporaryElement.textContent = string;
-            return temporaryElement.innerHTML;
-        }
-
-        /* =========================================
-           RSVP FORM
-           ========================================= */
-        document.getElementById("rsvp-form").addEventListener("submit", function(event) {
-            event.preventDefault();
-            alert("Thank you! Your RSVP has been received.");
-            this.reset();
-        });
-
-        /* =========================================
-           INITIAL PAGE LOAD
-           ========================================= */
-        loadApprovedMemories();
-    </script>
 </body>
 </html>
