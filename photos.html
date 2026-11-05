@@ -1,12 +1,13 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Photos | The Cujis</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cinzel:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Alex+Brush&amp;family=Cinzel:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
 <style>
         /* =========================================
            RESET / DEFAULT DESIGN SETTINGS
@@ -615,75 +616,60 @@
         .gallery-link:focus-visible { outline:2px solid #806a4d; outline-offset:3px; }
         .gallery-page-heading { padding-top:3rem; }
         .gallery-page-heading p { max-width:580px; margin:1rem auto 0; }
+
+        /* Natural-height masonry collage: no cropping and no empty grid cells. */
+        .photo-journey-grid {
+            display: block;
+            columns: 2;
+            column-gap: var(--gallery-gap);
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .photo-journey-grid .gallery-photo-slot {
+            display: inline-block;
+            vertical-align: top;
+            width: 100%;
+            margin: 0 0 var(--gallery-gap);
+            break-inside: avoid;
+            -webkit-column-break-inside: avoid;
+        }
+        .photo-journey-grid .gallery-photo-slot .photo-frame img {
+            width: 100%;
+            height: auto;
+            aspect-ratio: auto;
+            object-fit: contain;
+        }
+        @media (min-width: 680px) {
+            .photo-journey-grid { columns: 3; }
+        }
+        @media (min-width: 1050px) {
+            .photo-journey-grid { columns: 4; }
+        }
 </style>
 </head>
 <body>
-<header><h1>The Cujis</h1><nav aria-label="Primary navigation">
-<a href="index.html#home">Home</a>
-<a href="index.html#our-story">Our Story</a>
-<a href="photos.html" aria-current="page">Photos</a>
-<a href="index.html#rsvp">RSVP</a>
-<a href="index.html#registry">Registry</a>
-</nav></header>
+<header><h1>The Cujis</h1><nav aria-label="Primary navigation"><a href="index.html#home">Home</a><a href="index.html#our-story">Our Story</a><a aria-current="page" href="photos.html">Photos</a><a href="index.html#rsvp">RSVP</a><a href="index.html#registry">Registry</a><a href="faq.html">FAQ</a></nav></header>
 <main class="site-shell">
 <section class="gallery-page-heading"><h2>Moments, Noticed</h2><p>Small pieces of the story that brought us here.</p></section>
-<section id="photo-preview"><div class="photo-preview-panel">
-<p class="eyebrow">Photo Preview</p><h3>Our Favorite Moments</h3>
-<p>Choose how many photos to preview, or shuffle for a different mix.</p>
-<div class="photo-mix-controls">
-<button type="button" class="photo-mix-btn active" id="btn-show-10" onclick="setPhotoMixCount(10)" aria-pressed="true">Show 10 Photos</button>
-<button type="button" class="photo-mix-btn" id="btn-show-18" onclick="setPhotoMixCount(18)" aria-pressed="false">Show All 18</button>
-<button type="button" class="photo-mix-btn" onclick="renderPagePhotoPreview()">Shuffle Photos</button>
-</div><p id="photo-mix-status" class="photo-mix-status" aria-live="polite"></p>
+<section id="photo-journey"><div class="photo-journey-grid" id="photo-journey-grid">
+<div class="gallery-photo-slot"><figure class="photo-figure"><div class="photo-frame"><img src="images/1.JPEG" alt="Wedding photo 1" loading="lazy" decoding="async"></div></figure></div>
+<div class="gallery-photo-slot"><figure class="photo-figure"><div class="photo-frame"><img src="images/3.JPEG" alt="Wedding photo 3" loading="lazy" decoding="async"></div></figure></div>
+<div class="gallery-photo-slot"><figure class="photo-figure"><div class="photo-frame"><img src="images/4.JPEG" alt="Wedding photo 4" loading="lazy" decoding="async"></div></figure></div>
+<div class="gallery-photo-slot"><figure class="photo-figure"><div class="photo-frame"><img src="images/5.JPEG" alt="Wedding photo 5" loading="lazy" decoding="async"></div></figure></div>
+<div class="gallery-photo-slot"><figure class="photo-figure"><div class="photo-frame"><img src="images/6.JPEG" alt="Wedding photo 6" loading="lazy" decoding="async"></div></figure></div>
+<div class="gallery-photo-slot"><figure class="photo-figure"><div class="photo-frame"><img src="images/7.JPEG" alt="Wedding photo 7" loading="lazy" decoding="async"></div></figure></div>
+<div class="gallery-photo-slot"><figure class="photo-figure"><div class="photo-frame"><img src="images/8.JPEG" alt="Wedding photo 8" loading="lazy" decoding="async"></div></figure></div>
+<div class="gallery-photo-slot"><figure class="photo-figure"><div class="photo-frame"><img src="images/9.JPEG" alt="Wedding photo 9" loading="lazy" decoding="async"></div></figure></div>
+<div class="gallery-photo-slot"><figure class="photo-figure"><div class="photo-frame"><img src="images/10.JPEG" alt="Wedding photo 10" loading="lazy" decoding="async"></div></figure></div>
+<div class="gallery-photo-slot"><figure class="photo-figure"><div class="photo-frame"><img src="images/11.JPEG" alt="Wedding photo 11" loading="lazy" decoding="async"></div></figure></div>
+<div class="gallery-photo-slot"><figure class="photo-figure"><div class="photo-frame"><img src="images/12.JPEG" alt="Wedding photo 12" loading="lazy" decoding="async"></div></figure></div>
+<div class="gallery-photo-slot"><figure class="photo-figure"><div class="photo-frame"><img src="images/13.JPEG" alt="Wedding photo 13" loading="lazy" decoding="async"></div></figure></div>
+<div class="gallery-photo-slot"><figure class="photo-figure"><div class="photo-frame"><img src="images/14.JPEG" alt="Wedding photo 14" loading="lazy" decoding="async"></div></figure></div>
+<div class="gallery-photo-slot"><figure class="photo-figure"><div class="photo-frame"><img src="images/16.JPEG" alt="Wedding photo 16" loading="lazy" decoding="async"></div></figure></div>
+<div class="gallery-photo-slot"><figure class="photo-figure"><div class="photo-frame"><img src="images/17.JPEG" alt="Wedding photo 17" loading="lazy" decoding="async"></div></figure></div>
+<div class="gallery-photo-slot"><figure class="photo-figure"><div class="photo-frame"><img src="images/18.JPEG" alt="Wedding photo 18" loading="lazy" decoding="async"></div></figure></div>
+<div class="gallery-photo-slot"><figure class="photo-figure"><div class="photo-frame"><img src="images/19.JPEG" alt="Wedding photo 19" loading="lazy" decoding="async"></div></figure></div>
+<div class="gallery-photo-slot"><figure class="photo-figure"><div class="photo-frame"><img src="images/20.JPEG" alt="Wedding photo 20" loading="lazy" decoding="async"></div></figure></div>
 </div></section>
-<section id="photo-journey"><div id="photo-journey-grid" class="photo-journey-grid"></div></section>
-</main><footer><p>1 Corinthians 13:4–8</p><a href="index.html" class="gallery-link">Return to Home</a></footer>
-<script>
-const galleryPhotos = Array.from({length:20}, (_,i)=>i+1)
-    .filter(number=>number!==2 && number!==15)
-    .map(number=>({source:`images/${number}.JPEG`,number}));
-let selectedPhotoCount=10;
-function shuffleArray(items) {
-    const shuffled=[...items];
-    for(let i=shuffled.length-1;i>0;i--) {
-        const j=Math.floor(Math.random()*(i+1));
-        [shuffled[i],shuffled[j]]=[shuffled[j],shuffled[i]];
-    }
-    return shuffled;
-}
-function setPhotoMixCount(count) {
-    selectedPhotoCount=count;
-    for(const [size,id] of [[10,"btn-show-10"],[18,"btn-show-18"]]) {
-        const button=document.getElementById(id);
-        button.classList.toggle("active",count===size);
-        button.setAttribute("aria-pressed",String(count===size));
-    }
-    renderPagePhotoPreview();
-}
-function renderPagePhotoPreview() {
-    const photos=shuffleArray(galleryPhotos).slice(0,selectedPhotoCount);
-    const grid=document.getElementById("photo-journey-grid");
-    const fragment=document.createDocumentFragment();
-    for(const photo of photos) {
-        const slot=document.createElement("div");
-        slot.className="gallery-photo-slot";
-        const figure=document.createElement("figure");
-        figure.className="photo-figure";
-        const frame=document.createElement("div");
-        frame.className="photo-frame";
-        const image=document.createElement("img");
-        image.src=photo.source;
-        image.alt=`Wedding photo ${photo.number}`;
-        image.loading="lazy";
-        image.decoding="async";
-        frame.appendChild(image);
-        figure.appendChild(frame);
-        slot.appendChild(figure);
-        fragment.appendChild(slot);
-    }
-    grid.replaceChildren(fragment);
-    document.getElementById("photo-mix-status").textContent=
-        `Showing ${photos.length} of 18 gallery photos. The two homepage photos are excluded.`;
-}
-renderPagePhotoPreview();
-</script></body></html>
+</main><footer><p>1 Corinthians 13:4–8</p><a class="gallery-link" href="index.html">Return to Home</a></footer>
+</body></html>
