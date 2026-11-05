@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   FAQ | The Cujis Wedding
+  </title>
+  <link href="https://fonts.googleapis.com" rel="preconnect"/>
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+  <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&amp;family=Cinzel:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+  <style>
+   /* =========================================
+           RESET / DEFAULT DESIGN SETTINGS
+           Cinzel + Statement photo sizing
+           ========================================= */
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            -webkit-text-size-adjust: 100%;
+        }
+
+        :root {
+            --script-font: "Alex Brush", cursive;
+            --body-font: "Cinzel", serif;
+
+            --paper: #fffdf9;
+            --warm-white: #faf7f1;
+            --ink: #24221f;
+            --muted-ink: #6d675e;
+            --line: #e5ded3;
+            --soft-line: #f0ece5;
+
+            /* Statement sizing is the permanent default. */
+            --hero-width: 520px;
+            --story-width: 285px;
+            --interlude-width: 285px;
+            --gallery-gap: 1.1rem;
+        }
+
+        body {
+            margin: 0;
+            color: var(--ink);
+            background: var(--paper);
+            font-family: var(--body-font);
+            font-size: 1rem;
+            line-height: 1.8;
+            text-align: center;
+            overflow-x: hidden;
+        }
+
+        img {
+            display: block;
+            max-width: 100%;
+            height: auto;
+        }
+
+        button,
+        input,
+        textarea {
+            font: inherit;
+        }
+
+        button {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        h1, h2, h3 {
+            margin: 0;
+            color: var(--ink);
+            font-family: var(--script-font);
+            font-weight: 400;
+            line-height: 1.05;
+        }
+
+        h1 {
+            font-size: clamp(3.3rem, 10vw, 5.4rem);
+        }
+
+        h2 {
+            font-size: clamp(2.8rem, 8vw, 4.3rem);
+        }
+
+        h3 {
+            font-size: clamp(2.2rem, 6vw, 3.2rem);
+        }
+
+        p {
+            margin: 0 0 1.2rem;
+        }
+
+        .eyebrow {
+            margin-bottom: 0.7rem;
+            color: var(--muted-ink);
+            font-size: 0.64rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .date-highlight {
+            margin-top: 1.4rem;
+            color: #575047;
+            font-size: 0.78rem;
+            font-weight: 500;
+            letter-spacing: 2.3px;
+            text-transform: uppercase;
+        }
+
+        .site-shell {
+            width: min(100%, 1120px);
+            margin: 0 auto;
+            padding: 0 1.1rem;
+        }
+
+        section {
+            padding: 4.8rem 0;
+            border-bottom: 1px solid var(--soft-line);
+        }
+
+        section.is-empty-section {
+            display: none;
+        }
+
+        @media (min-width: 768px) {
+            section {
+                padding: 6.5rem 0;
+            }
+        }
+
+        /* =========================================
+           HEADER / NAVIGATION
+           ========================================= */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 20;
+            padding: 0.9rem 1rem 0.75rem;
+            background: rgba(255, 253, 249, 0.96);
+            border-bottom: 1px solid var(--soft-line);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+
+        header h1 {
+            margin-bottom: 0.3rem;
+            font-size: clamp(2.8rem, 7vw, 4.15rem);
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 0.25rem 1rem;
+        }
+
+        nav a {
+            padding: 0.2rem 0.25rem;
+            color: var(--ink);
+            font-size: 0.68rem;
+            font-weight: 600;
+            letter-spacing: 1.8px;
+            text-decoration: none;
+            text-transform: uppercase;
+            transition: color 0.2s ease;
+        }
+
+        nav a:hover,
+        nav a:focus-visible {
+            color: #977957;
+        }
+
+        /* =========================================
+           SHARED IMAGE STYLES
+           ========================================= */
+        .photo-slot.is-empty {
+            display: none;
+        }
+
+        .photo-figure {
+            margin: 0;
+        }
+
+        .photo-frame {
+            padding: 0.45rem;
+            background: #ffffff;
+            border: 1px solid var(--line);
+            box-shadow: 0 8px 20px rgba(66, 54, 36, 0.07);
+        }
+
+        /* Standalone photos preserve natural proportions. */
+        .photo-frame img {
+            width: 100%;
+            height: auto;
+        }
+
+        /* =========================================
+           HOME
+           ========================================= */
+        .welcome-layout {
+            display: grid;
+            justify-items: center;
+            gap: 2.25rem;
+            max-width: 920px;
+            margin: 0 auto;
+        }
+
+        .welcome-copy {
+            max-width: 560px;
+        }
+
+        .welcome-copy h2 {
+            margin-bottom: 1rem;
+        }
+
+        .home-photo-slot {
+            width: min(100%, var(--hero-width));
+        }
+
+        /* =========================================
+           PHOTO INTERLUDE
+           ========================================= */
+        .photo-interlude-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            align-items: start;
+            gap: 0.85rem;
+            max-width: 620px;
+            margin: 0 auto;
+        }
+
+        .interlude-photo-slot {
+            width: min(100%, var(--interlude-width));
+            justify-self: center;
+        }
+
+        /* =========================================
+           OUR STORY
+           ========================================= */
+        .story-layout {
+            display: grid;
+            justify-items: center;
+            align-items: center;
+            gap: 2.4rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .story-copy {
+            max-width: 590px;
+        }
+
+        .story-copy h2 {
+            margin-bottom: 1rem;
+        }
+
+        .story-photo-slot {
+            width: min(100%, var(--story-width));
+        }
+
+        /* =========================================
+           PHOTO PREVIEW CONTROLS
+           ========================================= */
+        .photo-preview-panel {
+            max-width: 760px;
+            margin: 0 auto;
+            padding: 1.65rem 1rem;
+            background: var(--warm-white);
+            border: 1px solid var(--line);
+        }
+
+        .photo-preview-panel h3 {
+            margin-bottom: 0.7rem;
+        }
+
+        .photo-preview-panel p {
+            max-width: 600px;
+            margin-right: auto;
+            margin-left: auto;
+            color: var(--muted-ink);
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 1rem;
+        }
+
+        .photo-mix-controls {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            margin: 1.1rem 0 0.9rem;
+        }
+
+        .photo-mix-btn {
+            padding: 0.65rem 0.9rem;
+            color: var(--ink);
+            background: #ffffff;
+            border: 1px solid #bbb1a3;
+            border-radius: 2px;
+            cursor: pointer;
+            font-size: 0.67rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+        }
+
+        .photo-mix-btn:hover,
+        .photo-mix-btn:focus-visible {
+            background: #f0e9de;
+            border-color: var(--ink);
+        }
+
+        .photo-mix-btn.active {
+            color: #ffffff;
+            background: var(--ink);
+            border-color: var(--ink);
+        }
+
+        .photo-mix-status {
+            margin: 0;
+            color: var(--muted-ink);
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 0.92rem;
+        }
+
+        /* =========================================
+           PHOTO JOURNEY
+           ========================================= */
+        .gallery-heading {
+            max-width: 610px;
+            margin: 0 auto 2.4rem;
+        }
+
+        .gallery-heading h2 {
+            margin-bottom: 0.8rem;
+        }
+
+        .photo-journey-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            align-items: start;
+            gap: var(--gallery-gap);
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .gallery-photo-slot {
+            min-width: 0;
+        }
+
+        /*
+           Controlled gallery thumbnails:
+           object-fit: cover is used only here to keep
+           the contact-sheet layout consistent.
+        */
+        .gallery-photo-slot .photo-frame img {
+            width: 100%;
+            aspect-ratio: 4 / 5;
+            object-fit: cover;
+            object-position: center;
+        }
+
+        /* =========================================
+           FORMS / RSVP / MEMORIES
+           ========================================= */
+        .submit-memory {
+            max-width: 540px;
+            margin: 3rem auto 0;
+            text-align: left;
+        }
+
+        .submit-memory h3 {
+            margin-bottom: 1.25rem;
+            text-align: center;
+        }
+
+        .submit-memory textarea,
+        .submit-memory input,
+        #rsvp-form input[type="text"] {
+            width: 100%;
+            padding: 0.85rem 0.9rem;
+            margin-bottom: 1rem;
+            color: var(--ink);
+            background: #ffffff;
+            border: 1px solid #aaa195;
+            border-radius: 0;
+            font-family: var(--body-font);
+            font-size: 0.92rem;
+        }
+
+        .submit-memory textarea {
+            min-height: 125px;
+            resize: vertical;
+        }
+
+        .submit-memory textarea:focus,
+        .submit-memory input:focus,
+        #rsvp-form input[type="text"]:focus {
+            outline: 2px solid #806a4d;
+            outline-offset: 2px;
+        }
+
+        .sleek-btn {
+            width: 100%;
+            padding: 0.95rem 1.25rem;
+            color: #ffffff;
+            background: var(--ink);
+            border: 1px solid var(--ink);
+            cursor: pointer;
+            font-size: 0.72rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            transition: background 0.2s ease, transform 0.15s ease;
+        }
+
+        .sleek-btn:hover,
+        .sleek-btn:focus-visible {
+            background: #4a4640;
+        }
+
+        .sleek-btn:active {
+            transform: scale(0.99);
+        }
+
+        .sleek-btn:disabled {
+            cursor: not-allowed;
+            background: #8d877d;
+            border-color: #8d877d;
+        }
+
+        .status-msg {
+            margin-top: 0.8rem;
+            text-align: center;
+        }
+
+        .success {
+            color: #276f3a;
+        }
+
+        .error {
+            color: #a42929;
+        }
+
+        .memory-wall {
+            max-width: 700px;
+            margin: 2.5rem auto 0;
+            text-align: left;
+        }
+
+        .memory-card {
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            background: #ffffff;
+            border: 1px solid var(--soft-line);
+            box-shadow: 0 6px 18px rgba(67, 55, 37, 0.04);
+        }
+
+        .memory-card p {
+            margin: 0;
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 1.1rem;
+            font-style: italic;
+            letter-spacing: 0;
+        }
+
+        .memory-author {
+            margin-top: 0.85rem;
+            color: #57524a;
+            font-size: 0.68rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        .section-intro {
+            max-width: 610px;
+            margin: 0 auto;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.88rem;
+        }
+
+        .radio-group {
+            display: grid;
+            gap: 0.7rem;
+            margin: 1rem 0 1.6rem;
+        }
+
+        .radio-label {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 0.85rem 0.9rem;
+            cursor: pointer;
+            border: 1px solid var(--line);
+            font-size: 0.88rem;
+            transition: background 0.2s ease, border-color 0.2s ease;
+        }
+
+        .radio-label:has(input:checked) {
+            background: #faf7f1;
+            border-color: var(--ink);
+        }
+
+        .radio-label input[type="radio"] {
+            width: 18px;
+            height: 18px;
+            margin: 0;
+            accent-color: var(--ink);
+        }
+
+        #rsvp-form {
+            max-width: 500px;
+            margin: 2rem auto 0;
+            text-align: left;
+        }
+
+        footer {
+            padding: 3.5rem 1.25rem;
+            color: var(--muted-ink);
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 1.05rem;
+            font-style: italic;
+        }
+
+        /* =========================================
+           RESPONSIVE QUIET PORTRAITS
+           Phones / narrow screens below 768px
+           ========================================= */
+        @media (max-width: 767px) {
+            .home-photo-slot {
+                width: min(100%, 390px);
+            }
+
+            .story-photo-slot {
+                width: min(100%, 235px);
+            }
+
+            .interlude-photo-slot {
+                width: min(100%, 175px);
+            }
+
+            .photo-frame {
+                box-shadow: none;
+            }
+
+            .photo-interlude-grid {
+                max-width: 390px;
+            }
+
+            .photo-journey-grid {
+                max-width: 560px;
+            }
+        }
+
+        /* =========================================
+           RESPONSIVE GALLERY NOTES
+           Laptops / desktops at 768px and wider
+           ========================================= */
+        @media (min-width: 768px) {
+            .welcome-layout {
+                grid-template-columns: minmax(0, 1.1fr) minmax(280px, 0.9fr);
+                justify-items: stretch;
+                text-align: left;
+            }
+
+            .welcome-copy {
+                align-self: center;
+                justify-self: end;
+            }
+
+            .home-photo-slot {
+                align-self: center;
+                justify-self: start;
+            }
+
+            .story-layout {
+                grid-template-columns: minmax(230px, 0.8fr) minmax(0, 1.2fr);
+                justify-items: stretch;
+                text-align: left;
+            }
+
+            .story-photo-slot {
+                align-self: center;
+                justify-self: end;
+            }
+
+            .story-copy {
+                align-self: center;
+                justify-self: start;
+            }
+
+            .photo-interlude-grid {
+                max-width: 700px;
+                gap: 1.2rem;
+            }
+
+            .photo-journey-grid {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+                gap: 1.2rem;
+            }
+        }
+
+        @media (min-width: 1100px) {
+            .photo-journey-grid {
+                grid-template-columns: repeat(4, minmax(0, 1fr));
+            }
+        }
+    
+        .gallery-link { display:inline-block; width:auto; min-width:210px; margin-top:1.5rem; text-decoration:none; text-align:center; }
+        .gallery-link:focus-visible { outline:2px solid #806a4d; outline-offset:3px; }
+        .gallery-page-heading { padding-top:3rem; }
+        .gallery-page-heading p { max-width:580px; margin:1rem auto 0; }
+
+/* FAQ page: styles scoped to the new page */
+.faq-intro {padding:4.5rem 0 2.5rem; border-bottom:0; max-width:760px; margin:auto;}
+.faq-intro h2 {margin-bottom:1.1rem;}
+.faq-intro p {color:var(--muted-ink); font-family:Georgia,"Times New Roman",serif; font-size:1.07rem;}
+.faq-list {max-width:800px; margin:0 auto 5rem; text-align:left;}
+.faq-item {border-top:1px solid var(--line);}
+.faq-item:last-child {border-bottom:1px solid var(--line);}
+.faq-item summary {list-style:none; cursor:pointer; padding:1.5rem 2.8rem 1.5rem .2rem; position:relative; font-size:.85rem; font-weight:600; letter-spacing:.6px; line-height:1.65;}
+.faq-item summary::-webkit-details-marker {display:none;}
+.faq-item summary::after {content:'+'; position:absolute; right:.45rem; top:50%; transform:translateY(-50%); font-family:Georgia,serif; font-size:1.6rem; font-weight:400; color:var(--muted-ink);}
+.faq-item[open] summary::after {content:'−';}
+.faq-item summary:focus-visible {outline:2px solid #806a4d; outline-offset:3px;}
+.faq-answer {padding:0 .2rem 1.8rem; color:#514c44; font-family:Georgia,"Times New Roman",serif; font-size:1.08rem; line-height:1.85;}
+.faq-answer p {margin:0 0 1.1rem;}
+.faq-answer p:last-child {margin-bottom:0;}
+.dress-inspo {display:block; width:min(100%,650px); height:auto; margin:1.6rem auto .3rem; border:1px solid var(--line); padding:.4rem; background:white; box-shadow:0 8px 20px rgba(66,54,36,.07);}
+.dress-inspo-link {display:block; max-width:650px; margin:auto;}
+.dress-inspo-link:focus-visible {outline:2px solid #806a4d; outline-offset:4px;}
+.timeline {list-style:none; margin:1.4rem 0 0; padding:0 0 0 1.5rem; border-left:1px solid #c9bca9;}
+.timeline li {position:relative; padding:0 0 1.55rem .7rem;}
+.timeline li:last-child {padding-bottom:0;}
+.timeline li::before {content:''; position:absolute; width:9px; height:9px; border-radius:50%; background:#9b8669; left:-1.8rem; top:.55rem;}
+.timeline strong {display:block; font-family:var(--body-font); font-size:.78rem; font-weight:600; color:var(--ink); letter-spacing:.3px;}
+.timeline span {display:block; font-size:.97rem;}
+@media(max-width:767px) {.faq-intro {padding:3rem 0 1.8rem;} .faq-list {margin-bottom:3.5rem;} .faq-item summary {font-size:.76rem; padding-top:1.25rem; padding-bottom:1.25rem;} .faq-answer {font-size:1rem;} .dress-inspo {box-shadow:none;}}
+  </style>
+ </head>
+ <body>
+  <header>
+   <h1>
+    The Cujis
+   </h1>
+   <nav aria-label="Primary navigation">
+    <a href="index.html#home">
+     Home
+    </a>
+    <a href="index.html#our-story">
+     Our Story
+    </a>
+    <a href="photos.html">
+     Photos
+    </a>
+    <a href="index.html#rsvp">
+     RSVP
+    </a>
+    <a href="index.html#registry">
+     Registry
+    </a>
+    <a aria-current="page" href="faq.html">
+     FAQ
+    </a>
+   </nav>
+  </header>
+  <main class="site-shell">
+   <section class="faq-intro">
+    <h2>
+     Frequently Asked Questions
+    </h2>
+    <p>
+     A few helpful details as we look forward to celebrating with you.
+    </p>
+   </section>
+   <div class="faq-list">
+    <details class="faq-item">
+     <summary>
+      Are children invited?
+     </summary>
+     <div class="faq-answer">
+      <p>
+       While we adore your little ones, we have chosen to celebrate our wedding with an adults-only event. We kindly ask that you make arrangements for childcare so you can relax and enjoy the evening with us. Thank you so much for understanding!
+      </p>
+     </div>
+    </details>
+    <details class="faq-item">
+     <summary>
+      Can I bring a plus-one?
+     </summary>
+     <div class="faq-answer">
+      <p>
+       Due to limited space, we are only able to accommodate guests who have been specifically invited. Your invitation is reserved for the individual(s) whose names appear on the invitation or who received a direct electronic invitation from us. We kindly ask that you do not bring additional guests. Thank you for understanding and helping us keep our celebration intimate!
+      </p>
+     </div>
+    </details>
+    <details class="faq-item">
+     <summary>
+      Will there be an open bar?
+     </summary>
+     <div class="faq-answer">
+      <p>
+       Yes! We will have an open bar offering complimentary beer and wine throughout the celebration. Liquor and cocktails will not be served. While drinks are on us, you are more than welcome to bring cash if you would like to tip our wonderful bartenders. We kindly ask that guests do not bring their own alcoholic beverages.
+      </p>
+     </div>
+    </details>
+    <details class="faq-item">
+     <summary>
+      What is the dress code?
+     </summary>
+     <div class="faq-answer">
+      <p>
+       Our dress code is
+       <strong>
+        Formal Spring Garden Party!
+       </strong>
+       Think elegant springtime attire, romantic silhouettes, beautiful colors, and polished formalwear. We would love for everyone to embrace the beauty of the season while dressing for a special evening of celebration. Please see our inspiration guide below for ideas!
+      </p>
+      <a aria-label="Open full-size dress code inspiration image" class="dress-inspo-link" href="images/INSPO.jpeg" rel="noopener" target="_blank">
+       <img alt="Garden formal inspiration collage showing spring floral dresses, pastel gowns, and tailored men's suits in soft spring colors" class="dress-inspo" loading="lazy" src="images/INSPO.jpeg"/>
+      </a>
+     </div>
+    </details>
+    <details class="faq-item" open="">
+     <summary>
+      What is the wedding day schedule?
+     </summary>
+     <div class="faq-answer">
+      <p>
+       We cannot wait to celebrate with you! Our ceremony will begin promptly at 5:30 PM, followed by cocktail hour, dinner, and an evening of celebrating together at the reception.
+      </p>
+      <ol class="timeline">
+       <li>
+        <strong>
+         5:30 PM
+        </strong>
+        <span>
+         Wedding Ceremony
+        </span>
+       </li>
+       <li>
+        <strong>
+         Following the Ceremony
+        </strong>
+        <span>
+         Cocktail Hour
+        </span>
+       </li>
+       <li>
+        <strong>
+         Following Cocktail Hour
+        </strong>
+        <span>
+         Dinner
+        </span>
+       </li>
+       <li>
+        <strong>
+         Following Dinner
+        </strong>
+        <span>
+         Reception &amp; Celebration
+        </span>
+       </li>
+      </ol>
+     </div>
+    </details>
+   </div>
+  </main>
+  <footer>
+   <p>
+    1 Corinthians 13:4–8
+   </p>
+  </footer>
+ </body>
+</html>
