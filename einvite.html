@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>You Are Invited! — Zumi & Morgan</title>
 
     <meta property="og:title" content="You Are Invited! — Zumi & Morgan">
@@ -56,13 +56,21 @@
             -webkit-tap-highlight-color: transparent;
         }
 
+        /* =====================================================
+           PAGE / MOBILE SAFE SPACING
+           ===================================================== */
         .page {
             width: 100%;
+            min-height: 100vh;
             min-height: 100svh;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: clamp(24px, 5svh, 64px) clamp(18px, 4vw, 64px);
+            padding:
+                max(clamp(24px, 5svh, 64px), env(safe-area-inset-top))
+                max(clamp(18px, 4vw, 64px), env(safe-area-inset-right))
+                max(clamp(24px, 5svh, 64px), env(safe-area-inset-bottom))
+                max(clamp(18px, 4vw, 64px), env(safe-area-inset-left));
         }
 
         .experience {
@@ -109,8 +117,8 @@
         }
 
         /*
-           Equal pear-green front folds. Both sides use the same
-           shade to prevent a darker random polygon near the seal.
+           Both front folds use the exact same color to prevent any
+           darker triangle or polygon from appearing near the seal.
         */
         .fold-left,
         .fold-right {
@@ -196,7 +204,7 @@
 
         .tap-note {
             position: absolute;
-            bottom: clamp(34px, 8svh, 76px);
+            bottom: max(clamp(34px, 8svh, 76px), env(safe-area-inset-bottom));
             left: 50%;
             z-index: 13;
             width: max-content;
@@ -230,7 +238,6 @@
 
         /* =====================================================
            INVITATION CARD AREA
-           All cards remain centered and have no angle offsets.
            ===================================================== */
         .suite-stage {
             position: relative;
@@ -238,6 +245,11 @@
             width: 100%;
         }
 
+        /*
+           All cards remain perfectly centered and straight.
+           They are different sizes in the resting stack but have
+           no rotation or directional offset.
+        */
         .card {
             position: absolute;
             top: 50%;
@@ -272,10 +284,6 @@
             image-rendering: auto;
         }
 
-        /*
-           Resting card sizes are different for depth, but every card
-           is centered and perfectly straight. There are no rotations.
-        */
         .primary-card {
             z-index: 4;
             width: min(68vw, 330px);
@@ -291,10 +299,6 @@
             width: min(43vw, 195px);
         }
 
-        /*
-           Selected cards use the available screen area while preserving
-           each PNG's original dimensional ratio.
-        */
         .card.is-active {
             z-index: 20;
             width: var(--selected-width);
@@ -329,18 +333,19 @@
 
         .nav-arrow {
             display: grid;
-            width: 44px;
-            height: 60px;
+            width: 46px;
+            height: 62px;
             place-items: center;
             color: var(--ink);
-            background: rgba(255, 253, 244, 0.25);
+            background: rgba(255, 253, 244, 0.32);
             border: 1px solid rgba(83, 101, 45, 0.25);
             border-radius: 25px;
             cursor: pointer;
             font-family: Arial, sans-serif;
-            font-size: 1.8rem;
+            font-size: 1.9rem;
             line-height: 1;
-            opacity: 0.42;
+            opacity: 0.62;
+            touch-action: manipulation;
             transition: opacity 0.2s ease, background 0.2s ease, color 0.2s ease;
         }
 
@@ -348,9 +353,13 @@
         .nav-arrow:focus-visible {
             color: var(--cream);
             background: var(--ink);
-            opacity: 0.95;
+            opacity: 0.98;
             outline: 2px solid var(--gold);
             outline-offset: 3px;
+        }
+
+        .nav-arrow:active {
+            transform: scale(0.94);
         }
 
         /* =====================================================
@@ -393,8 +402,8 @@
 
         .replay-button {
             position: fixed;
-            top: 14px;
-            right: 14px;
+            top: max(14px, env(safe-area-inset-top));
+            right: max(14px, env(safe-area-inset-right));
             z-index: 100;
             display: none;
             padding: 9px 11px;
@@ -406,6 +415,7 @@
             font-weight: 600;
             letter-spacing: 1.1px;
             text-transform: uppercase;
+            touch-action: manipulation;
         }
 
         .opened + .replay-button {
@@ -420,17 +430,13 @@
         }
 
         /* =====================================================
-           INITIAL / OPENING ANIMATION STATES
+           INITIAL / OPENING STATES
            ===================================================== */
         .js .card {
             visibility: hidden;
             pointer-events: none;
         }
 
-        /*
-           Main invitation begins behind the full-page envelope at
-           the center seam. It rises upward from that center opening.
-        */
         .js .primary-card {
             top: 58%;
             z-index: 5;
@@ -468,8 +474,8 @@
         }
 
         /*
-           Main card rises from the middle opening. It does not come
-           from the bottom of the page.
+           Main invitation rises from the middle envelope opening,
+           never from the bottom of the phone screen.
         */
         .opening .primary-card {
             top: 29%;
@@ -485,8 +491,8 @@
         }
 
         /*
-           Important: hide the entire opened envelope AND disable its
-           full-page trigger so it cannot block card-arrow taps.
+           Mobile fix: remove the invisible envelope trigger after
+           opening so it cannot intercept taps on arrows or cards.
         */
         .opened .full-envelope {
             opacity: 0;
@@ -498,6 +504,7 @@
         }
 
         .opened .full-envelope .envelope-trigger {
+            display: none;
             pointer-events: none;
         }
 
@@ -506,17 +513,16 @@
             pointer-events: auto;
         }
 
-        .opened .primary-card {
-            top: 50%;
-            z-index: 4;
-            transform: translate(-50%, -50%);
-        }
-
+        .opened .primary-card,
         .opened .details-card,
         .opened .photo-card {
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
+        }
+
+        .opened .primary-card {
+            z-index: 4;
         }
 
         @keyframes tapPulse {
@@ -529,6 +535,17 @@
             50% {
                 opacity: 1;
                 transform: translateX(-50%) translateY(-4px);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .suite-stage {
+                min-height: max(560px, 76svh);
+            }
+
+            .nav-arrow {
+                width: 42px;
+                height: 58px;
             }
         }
 
@@ -590,7 +607,7 @@
                 <div class="fold-bottom"></div>
                 <div class="fold-top"></div>
 
-                <div class="wax-seal">Z & M</div>
+                <div class="wax-seal">Z &amp; M</div>
 
                 <p class="tap-note">Tap to open</p>
 
@@ -699,12 +716,13 @@
 
             let activeCardIndex = 0;
             let lastTouchTime = 0;
+            let lastArrowTouchTime = 0;
 
             document.documentElement.classList.add("js");
 
             /*
-               Calculates a centered selected card size while preserving
-               original image ratio and even safe margins.
+               Calculates a selected card width based on its actual
+               PNG ratio while preserving equal safe margins.
             */
             function updateCardFitSizes() {
                 const viewportWidth = document.documentElement.clientWidth;
@@ -792,12 +810,28 @@
                 window.setTimeout(openInvitation, 80);
             }
 
+            function handleArrow(direction, event) {
+                if (event) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+
+                cycleCards(direction);
+            }
+
             cards.forEach(function (card, index) {
                 card.addEventListener("click", function () {
                     if (experience.classList.contains("opened")) {
                         selectCard(index);
                     }
                 });
+
+                card.addEventListener("touchend", function (event) {
+                    if (experience.classList.contains("opened")) {
+                        event.preventDefault();
+                        selectCard(index);
+                    }
+                }, { passive: false });
 
                 const image = card.querySelector("img");
 
@@ -808,14 +842,26 @@
                 }
             });
 
+            previousButton.addEventListener("touchend", function (event) {
+                lastArrowTouchTime = Date.now();
+                handleArrow(-1, event);
+            }, { passive: false });
+
+            nextButton.addEventListener("touchend", function (event) {
+                lastArrowTouchTime = Date.now();
+                handleArrow(1, event);
+            }, { passive: false });
+
             previousButton.addEventListener("click", function (event) {
-                event.stopPropagation();
-                cycleCards(-1);
+                if (Date.now() - lastArrowTouchTime > 700) {
+                    handleArrow(-1, event);
+                }
             });
 
             nextButton.addEventListener("click", function (event) {
-                event.stopPropagation();
-                cycleCards(1);
+                if (Date.now() - lastArrowTouchTime > 700) {
+                    handleArrow(1, event);
+                }
             });
 
             openButton.addEventListener("touchend", function (event) {
