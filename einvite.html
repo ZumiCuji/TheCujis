@@ -18,6 +18,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
 
+    <!-- Set the js class immediately so cards never flash before the envelope appears -->
+    <script>document.documentElement.classList.add("js");</script>
+
     <style>
         :root {
             --pear-light: #dce7ad;
@@ -33,6 +36,11 @@
 
         * {
             box-sizing: border-box;
+        }
+
+        html {
+            -webkit-text-size-adjust: 100%;
+            text-size-adjust: 100%;
         }
 
         html,
@@ -116,10 +124,6 @@
             transition: opacity 0.3s ease 0.25s;
         }
 
-        /*
-           Both front folds use the exact same color to prevent any
-           darker triangle or polygon from appearing near the seal.
-        */
         .fold-left,
         .fold-right {
             position: absolute;
@@ -171,6 +175,8 @@
             transform: rotateX(0deg);
             transform-origin: top center;
             transform-style: preserve-3d;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
             transition:
                 transform 0.78s cubic-bezier(0.22, 0.8, 0.25, 1),
                 opacity 0.35s ease 1.15s;
@@ -223,6 +229,8 @@
             position: absolute;
             inset: 0;
             z-index: 20;
+            width: 100%;
+            height: 100%;
             padding: 0;
             background: transparent;
             border: 0;
@@ -238,18 +246,17 @@
 
         /* =====================================================
            INVITATION CARD AREA
+           Stage height leaves room for the website button so the
+           whole experience fits on one phone screen without
+           pushing the button below the fold.
            ===================================================== */
         .suite-stage {
             position: relative;
-            min-height: max(600px, 78svh);
             width: 100%;
+            height: max(480px, calc(100vh - 150px));
+            height: max(480px, calc(100svh - 150px));
         }
 
-        /*
-           All cards remain perfectly centered and straight.
-           They are different sizes in the resting stack but have
-           no rotation or directional offset.
-        */
         .card {
             position: absolute;
             top: 50%;
@@ -261,6 +268,9 @@
             border: 0;
             cursor: pointer;
             visibility: visible;
+            touch-action: manipulation;
+            -webkit-user-select: none;
+            user-select: none;
             transform: translate(-50%, -50%);
             transition:
                 width 0.45s cubic-bezier(0.2, 0.78, 0.25, 1),
@@ -282,6 +292,7 @@
             background: var(--cream);
             box-shadow: 0 14px 28px rgba(54, 72, 25, 0.2);
             image-rendering: auto;
+            -webkit-user-drag: none;
         }
 
         .primary-card {
@@ -306,7 +317,6 @@
         }
 
         .card.is-active img {
-            max-height: calc(100svh - 112px);
             object-fit: contain;
             box-shadow: 0 28px 48px rgba(54, 72, 25, 0.3);
         }
@@ -325,6 +335,7 @@
             justify-content: space-between;
             padding: 0 2px;
             transform: translateY(-50%);
+            pointer-events: none;
         }
 
         .opened .card-navigation {
@@ -345,6 +356,7 @@
             font-size: 1.9rem;
             line-height: 1;
             opacity: 0.62;
+            pointer-events: auto;
             touch-action: manipulation;
             transition: opacity 0.2s ease, background 0.2s ease, color 0.2s ease;
         }
@@ -390,6 +402,7 @@
             line-height: 1.3;
             text-decoration: none;
             text-transform: uppercase;
+            touch-action: manipulation;
         }
 
         .website-button:hover,
@@ -406,6 +419,7 @@
             right: max(14px, env(safe-area-inset-right));
             z-index: 100;
             display: none;
+            min-height: 36px;
             padding: 9px 11px;
             color: var(--ink);
             background: rgba(255, 253, 244, 0.96);
@@ -473,10 +487,6 @@
             opacity: 0;
         }
 
-        /*
-           Main invitation rises from the middle envelope opening,
-           never from the bottom of the phone screen.
-        */
         .opening .primary-card {
             top: 29%;
             z-index: 25;
@@ -490,10 +500,8 @@
             opacity: 0;
         }
 
-        /*
-           Mobile fix: remove the invisible envelope trigger after
-           opening so it cannot intercept taps on arrows or cards.
-        */
+        /* Remove the envelope from hit-testing after opening so it
+           can never intercept taps on arrows or cards. */
         .opened .full-envelope {
             opacity: 0;
             visibility: hidden;
@@ -525,6 +533,10 @@
             z-index: 4;
         }
 
+        .opened .card.is-active {
+            z-index: 20;
+        }
+
         @keyframes tapPulse {
             0%,
             100% {
@@ -539,10 +551,6 @@
         }
 
         @media (max-width: 480px) {
-            .suite-stage {
-                min-height: max(560px, 76svh);
-            }
-
             .nav-arrow {
                 width: 42px;
                 height: 58px;
@@ -550,10 +558,6 @@
         }
 
         @media (min-width: 768px) {
-            .suite-stage {
-                min-height: max(680px, 82svh);
-            }
-
             .primary-card {
                 width: 350px;
             }
@@ -620,7 +624,7 @@
             </div>
 
             <!-- Actual invitation PNG cards -->
-            <div class="suite-stage">
+            <div class="suite-stage" id="suiteStage">
                 <button
                     type="button"
                     class="card primary-card"
@@ -632,6 +636,7 @@
                         alt="Formal wedding invitation for Zumi Cuji and Morgan Fields"
                         decoding="async"
                         fetchpriority="high"
+                        draggable="false"
                     >
                 </button>
 
@@ -646,6 +651,7 @@
                         alt="Wedding details card"
                         decoding="async"
                         loading="eager"
+                        draggable="false"
                     >
                 </button>
 
@@ -660,6 +666,7 @@
                         alt="Wedding photo card"
                         decoding="async"
                         loading="eager"
+                        draggable="false"
                     >
                 </button>
 
@@ -702,6 +709,7 @@
     <script>
         (function () {
             const experience = document.getElementById("experience");
+            const stage = document.getElementById("suiteStage");
             const openButton = document.getElementById("openInvite");
             const replayButton = document.getElementById("replayButton");
             const previousButton = document.getElementById("previousCard");
@@ -715,24 +723,23 @@
             ];
 
             let activeCardIndex = 0;
-            let lastTouchTime = 0;
-            let lastArrowTouchTime = 0;
-
-            document.documentElement.classList.add("js");
+            let openTimer = null;
 
             /*
-               Calculates a selected card width based on its actual
-               PNG ratio while preserving equal safe margins.
+               Sizes each selected card from its real PNG ratio so it
+               always fits inside the stage with safe margins.
+               Uses the actual stage height, so it stays correct when
+               mobile browser toolbars show/hide.
             */
             function updateCardFitSizes() {
                 const viewportWidth = document.documentElement.clientWidth;
-                const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+                const stageHeight = stage.clientHeight || (window.innerHeight - 150);
                 const safeMargin = Math.max(24, Math.min(viewportWidth * 0.05, 64));
 
                 cards.forEach(function (card, index) {
                     const image = card.querySelector("img");
-                    const naturalWidth = image.naturalWidth || image.width || 1;
-                    const naturalHeight = image.naturalHeight || image.height || 1;
+                    const naturalWidth = image.naturalWidth || 1;
+                    const naturalHeight = image.naturalHeight || 1;
                     const aspectRatio = naturalWidth / naturalHeight;
 
                     const widthLimit = index === 2
@@ -740,8 +747,8 @@
                         : viewportWidth - (safeMargin * 2);
 
                     const heightLimit = index === 2
-                        ? viewportHeight - (safeMargin * 4)
-                        : viewportHeight - (safeMargin * 2);
+                        ? stageHeight - (safeMargin * 2)
+                        : stageHeight - 24;
 
                     const selectedWidth = Math.max(
                         120,
@@ -750,7 +757,7 @@
 
                     card.style.setProperty(
                         "--selected-width",
-                        `${Math.floor(selectedWidth)}px`
+                        Math.floor(selectedWidth) + "px"
                     );
                 });
             }
@@ -768,8 +775,12 @@
                 });
             }
 
+            function isOpened() {
+                return experience.classList.contains("opened");
+            }
+
             function cycleCards(direction) {
-                if (!experience.classList.contains("opened")) {
+                if (!isOpened()) {
                     return;
                 }
 
@@ -779,7 +790,7 @@
             function openInvitation() {
                 if (
                     experience.classList.contains("opening") ||
-                    experience.classList.contains("opened")
+                    isOpened()
                 ) {
                     return;
                 }
@@ -787,7 +798,7 @@
                 experience.classList.add("opening");
                 openButton.disabled = true;
 
-                window.setTimeout(function () {
+                openTimer = window.setTimeout(function () {
                     experience.classList.remove("opening");
                     experience.classList.add("opened");
                     selectCard(0);
@@ -795,6 +806,7 @@
             }
 
             function replayInvitation() {
+                window.clearTimeout(openTimer);
                 experience.classList.remove("opening", "opened");
 
                 cards.forEach(function (card) {
@@ -810,90 +822,97 @@
                 window.setTimeout(openInvitation, 80);
             }
 
-            function handleArrow(direction, event) {
-                if (event) {
-                    event.preventDefault();
-                    event.stopPropagation();
-                }
-
-                cycleCards(direction);
-            }
-
+            /*
+               Plain click handlers only. Browsers fire click reliably
+               on mobile (touch-action: manipulation removes the tap
+               delay), and this avoids selecting a card by accident
+               when someone is scrolling or swiping.
+            */
             cards.forEach(function (card, index) {
                 card.addEventListener("click", function () {
-                    if (experience.classList.contains("opened")) {
+                    if (isOpened()) {
                         selectCard(index);
                     }
                 });
-
-                card.addEventListener("touchend", function (event) {
-                    if (experience.classList.contains("opened")) {
-                        event.preventDefault();
-                        selectCard(index);
-                    }
-                }, { passive: false });
 
                 const image = card.querySelector("img");
 
                 if (image.complete) {
                     updateCardFitSizes();
                 } else {
-                    image.addEventListener("load", updateCardFitSizes, { once: true });
+                    image.addEventListener("load", function () {
+                        updateCardFitSizes();
+                    }, { once: true });
                 }
             });
 
-            previousButton.addEventListener("touchend", function (event) {
-                lastArrowTouchTime = Date.now();
-                handleArrow(-1, event);
-            }, { passive: false });
-
-            nextButton.addEventListener("touchend", function (event) {
-                lastArrowTouchTime = Date.now();
-                handleArrow(1, event);
-            }, { passive: false });
-
-            previousButton.addEventListener("click", function (event) {
-                if (Date.now() - lastArrowTouchTime > 700) {
-                    handleArrow(-1, event);
-                }
+            previousButton.addEventListener("click", function () {
+                cycleCards(-1);
             });
 
-            nextButton.addEventListener("click", function (event) {
-                if (Date.now() - lastArrowTouchTime > 700) {
-                    handleArrow(1, event);
-                }
+            nextButton.addEventListener("click", function () {
+                cycleCards(1);
             });
 
-            openButton.addEventListener("touchend", function (event) {
-                event.preventDefault();
-                lastTouchTime = Date.now();
-                openInvitation();
-            }, { passive: false });
-
-            openButton.addEventListener("click", function () {
-                if (Date.now() - lastTouchTime > 700) {
-                    openInvitation();
-                }
-            });
-
+            openButton.addEventListener("click", openInvitation);
             replayButton.addEventListener("click", replayInvitation);
 
-            window.addEventListener("resize", function () {
-                updateCardFitSizes();
+            /* Swipe left / right to change cards on touch devices */
+            let swipeStartX = 0;
+            let swipeStartY = 0;
+            let swipeTracking = false;
 
-                if (experience.classList.contains("opened")) {
-                    selectCard(activeCardIndex);
+            stage.addEventListener("touchstart", function (event) {
+                if (!isOpened() || event.touches.length !== 1) {
+                    swipeTracking = false;
+                    return;
+                }
+
+                swipeTracking = true;
+                swipeStartX = event.touches[0].clientX;
+                swipeStartY = event.touches[0].clientY;
+            }, { passive: true });
+
+            stage.addEventListener("touchend", function (event) {
+                if (!swipeTracking || !event.changedTouches.length) {
+                    return;
+                }
+
+                swipeTracking = false;
+
+                const deltaX = event.changedTouches[0].clientX - swipeStartX;
+                const deltaY = event.changedTouches[0].clientY - swipeStartY;
+
+                if (Math.abs(deltaX) > 50 && Math.abs(deltaX) > Math.abs(deltaY) * 1.5) {
+                    cycleCards(deltaX < 0 ? 1 : -1);
+                }
+            }, { passive: true });
+
+            stage.addEventListener("touchcancel", function () {
+                swipeTracking = false;
+            }, { passive: true });
+
+            /* Keyboard arrows for desktop / accessibility */
+            document.addEventListener("keydown", function (event) {
+                if (event.key === "ArrowLeft") {
+                    cycleCards(-1);
+                } else if (event.key === "ArrowRight") {
+                    cycleCards(1);
                 }
             });
 
-            window.addEventListener("orientationchange", function () {
-                window.setTimeout(function () {
-                    updateCardFitSizes();
+            function relayout() {
+                updateCardFitSizes();
 
-                    if (experience.classList.contains("opened")) {
-                        selectCard(activeCardIndex);
-                    }
-                }, 250);
+                if (isOpened()) {
+                    selectCard(activeCardIndex);
+                }
+            }
+
+            window.addEventListener("resize", relayout);
+
+            window.addEventListener("orientationchange", function () {
+                window.setTimeout(relayout, 250);
             });
 
             updateCardFitSizes();
