@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>You are Invited! — Zumi & Morgan</title>
+    <title>You Are Invited! — Zumi & Morgan</title>
 
-    <meta property="og:title" content="You are Invited! — Zumi & Morgan">
+    <meta property="og:title" content="You Are Invited! — Zumi & Morgan">
     <meta property="og:description" content="Monday, May 3, 2027 · Raleigh, NC">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://zumicuji.github.io/TheCujis/invite.html">
 
     <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="You are Invited! — Zumi & Morgan">
+    <meta name="twitter:title" content="You Are Invited! — Zumi & Morgan">
     <meta name="twitter:description" content="Monday, May 3, 2027 · Raleigh, NC">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -26,13 +26,9 @@
             --pear-deep: #71843f;
             --pear-dark: #53652d;
             --cream: #fffdf4;
-            --cream-deep: #f3ecd8;
             --gold: #b99754;
             --ink: #36502f;
             --page: #f1f4e7;
-
-            --envelope-width: min(92vw, 374px);
-            --envelope-height: 278px;
         }
 
         * {
@@ -49,8 +45,8 @@
             overflow-x: hidden;
             color: var(--ink);
             background:
-                radial-gradient(circle at 10% 12%, rgba(220, 231, 173, 0.78), transparent 31%),
-                radial-gradient(circle at 89% 88%, rgba(185, 151, 84, 0.13), transparent 28%),
+                radial-gradient(circle at 12% 10%, rgba(220, 231, 173, 0.76), transparent 30%),
+                radial-gradient(circle at 88% 90%, rgba(185, 151, 84, 0.12), transparent 28%),
                 var(--page);
             font-family: "Montserrat", sans-serif;
         }
@@ -66,48 +62,183 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: clamp(24px, 5svh, 64px) 14px;
+            padding: clamp(24px, 5svh, 64px) clamp(18px, 4vw, 64px);
         }
 
         .experience {
-            width: min(100%, 700px);
+            width: min(100%, 960px);
             margin: 0 auto;
             text-align: center;
         }
 
         /* =====================================================
-           CENTERED INVITATION SUITE STAGE
+           FULL-PAGE PEAR-GREEN ENVELOPE
            ===================================================== */
-        .suite-stage {
-            position: relative;
-            width: 100%;
-            min-height: max(590px, 78svh);
-            overflow: visible;
-        }
-
-        .envelope-stage {
+        .full-envelope {
             display: none;
         }
 
-        /*
-            The primary card sits in this pocket while extracting.
-            The pocket masks anything below the envelope's bottom edge,
-            but allows the card to rise visibly above the top opening.
-        */
-        .extraction-pocket {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            z-index: 5;
-            width: var(--envelope-width);
-            height: var(--envelope-height);
+        .js .full-envelope {
+            position: fixed;
+            inset: 0;
+            z-index: 60;
+            display: block;
             pointer-events: none;
-            clip-path: inset(-600px 0 0 0);
-            transform: translate(-50%, -50%);
-            transition: clip-path 0s linear;
         }
 
-        .suite-card {
+        .envelope-back {
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+            background:
+                linear-gradient(135deg, rgba(255, 255, 255, 0.08), transparent 38%),
+                var(--pear-deep);
+            transition: opacity 0.45s ease 1.1s;
+        }
+
+        .envelope-liner {
+            position: absolute;
+            inset: 0;
+            z-index: 2;
+            opacity: 0;
+            background:
+                radial-gradient(circle at 18% 25%, rgba(83, 101, 45, 0.11) 0 5px, transparent 6px),
+                radial-gradient(circle at 72% 58%, rgba(83, 101, 45, 0.11) 0 6px, transparent 7px),
+                var(--cream);
+            transition: opacity 0.3s ease 0.25s;
+        }
+
+        /*
+           Equal pear-green front folds. Both sides use the same
+           shade to prevent a darker random polygon near the seal.
+        */
+        .fold-left,
+        .fold-right {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            z-index: 8;
+            width: 58%;
+            background: var(--pear-mid);
+            transition:
+                transform 0.85s cubic-bezier(0.18, 0.82, 0.24, 1) 0.2s,
+                opacity 0.35s ease 1.15s;
+        }
+
+        .fold-left {
+            left: 0;
+            clip-path: polygon(0 0, 100% 50%, 0 100%);
+        }
+
+        .fold-right {
+            right: 0;
+            clip-path: polygon(100% 0, 0 50%, 100% 100%);
+        }
+
+        .fold-bottom {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 9;
+            height: 54%;
+            background: var(--pear-mid);
+            clip-path: polygon(0 100%, 50% 0, 100% 100%);
+            transition:
+                transform 0.85s cubic-bezier(0.18, 0.82, 0.24, 1) 0.25s,
+                opacity 0.35s ease 1.15s;
+        }
+
+        .fold-top {
+            position: absolute;
+            top: 0;
+            right: 0;
+            left: 0;
+            z-index: 10;
+            height: 56%;
+            background:
+                linear-gradient(140deg, rgba(255, 255, 255, 0.16), transparent 46%),
+                var(--pear);
+            clip-path: polygon(0 0, 100% 0, 50% 100%);
+            transform: rotateX(0deg);
+            transform-origin: top center;
+            transform-style: preserve-3d;
+            transition:
+                transform 0.78s cubic-bezier(0.22, 0.8, 0.25, 1),
+                opacity 0.35s ease 1.15s;
+        }
+
+        .wax-seal {
+            position: absolute;
+            top: 54%;
+            left: 50%;
+            z-index: 12;
+            display: grid;
+            width: clamp(72px, 12vw, 112px);
+            height: clamp(72px, 12vw, 112px);
+            place-items: center;
+            color: var(--cream);
+            background: var(--gold);
+            border: clamp(2px, 0.45vw, 4px) solid #dec996;
+            border-radius: 50%;
+            box-shadow:
+                inset 0 0 0 clamp(2px, 0.45vw, 4px) rgba(91, 67, 29, 0.18),
+                0 6px 18px rgba(53, 69, 22, 0.28);
+            font-family: Georgia, serif;
+            font-size: clamp(1.1rem, 3.2vw, 2rem);
+            font-weight: 600;
+            letter-spacing: -1px;
+            line-height: 1;
+            white-space: nowrap;
+            transform: translate(-50%, -50%);
+            transition: opacity 0.25s ease, transform 0.25s ease;
+        }
+
+        .tap-note {
+            position: absolute;
+            bottom: clamp(34px, 8svh, 76px);
+            left: 50%;
+            z-index: 13;
+            width: max-content;
+            margin: 0;
+            color: var(--cream);
+            font-size: 0.68rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-shadow: 0 1px 4px rgba(54, 72, 25, 0.2);
+            text-transform: uppercase;
+            transform: translateX(-50%);
+            animation: tapPulse 2s ease-in-out infinite;
+        }
+
+        .envelope-trigger {
+            position: absolute;
+            inset: 0;
+            z-index: 20;
+            padding: 0;
+            background: transparent;
+            border: 0;
+            cursor: pointer;
+            pointer-events: auto;
+            touch-action: manipulation;
+        }
+
+        .envelope-trigger:focus-visible {
+            outline: 4px solid var(--gold);
+            outline-offset: -10px;
+        }
+
+        /* =====================================================
+           INVITATION CARD AREA
+           All cards remain centered and have no angle offsets.
+           ===================================================== */
+        .suite-stage {
+            position: relative;
+            min-height: max(600px, 78svh);
+            width: 100%;
+        }
+
+        .card {
             position: absolute;
             top: 50%;
             left: 50%;
@@ -117,20 +248,21 @@
             background: transparent;
             border: 0;
             cursor: pointer;
-            image-rendering: auto;
+            visibility: visible;
+            transform: translate(-50%, -50%);
             transition:
-                width 0.48s cubic-bezier(0.2, 0.78, 0.25, 1),
-                transform 0.48s cubic-bezier(0.2, 0.78, 0.25, 1),
-                top 0.7s cubic-bezier(0.16, 0.9, 0.25, 1),
-                opacity 0.3s ease;
+                width 0.45s cubic-bezier(0.2, 0.78, 0.25, 1),
+                transform 0.45s cubic-bezier(0.2, 0.78, 0.25, 1),
+                top 0.65s cubic-bezier(0.18, 0.85, 0.25, 1),
+                visibility 0s linear 0.45s;
         }
 
-        .suite-card:focus-visible {
+        .card:focus-visible {
             outline: 3px solid var(--gold);
             outline-offset: 6px;
         }
 
-        .suite-card img {
+        .card img {
             display: block;
             width: 100%;
             height: auto;
@@ -140,110 +272,97 @@
             image-rendering: auto;
         }
 
-        /* Resting stationery stack. */
-        .card-primary {
+        /*
+           Resting card sizes are different for depth, but every card
+           is centered and perfectly straight. There are no rotations.
+        */
+        .primary-card {
             z-index: 4;
-            width: min(67vw, 315px);
-            transform: translate(-50%, -50%) rotate(-1deg);
+            width: min(68vw, 330px);
         }
 
-        .card-details {
+        .details-card {
             z-index: 2;
-            width: min(54vw, 250px);
-            transform: translate(calc(-50% - 48px), calc(-50% - 30px)) rotate(-4deg);
+            width: min(54vw, 260px);
         }
 
-        .card-photo {
+        .photo-card {
             z-index: 1;
-            width: min(43vw, 190px);
-            transform: translate(calc(-50% + 68px), calc(-50% + 13px)) rotate(4deg);
+            width: min(43vw, 195px);
         }
 
         /*
-            JavaScript sets --selected-width based on each PNG's
-            natural aspect ratio plus available screen space.
+           Selected cards use the available screen area while preserving
+           each PNG's original dimensional ratio.
         */
-        .card-primary.is-selected,
-        .card-details.is-selected {
-            z-index: 15;
-            width: var(--selected-width, min(96vw, 440px));
-            transform: translate(-50%, -50%) rotate(0deg) scale(1);
+        .card.is-active {
+            z-index: 20;
+            width: var(--selected-width);
+            transform: translate(-50%, -50%);
         }
 
-        .card-photo.is-selected {
-            z-index: 15;
-            width: var(--selected-width, min(64vw, 280px));
-            transform: translate(-50%, -50%) rotate(0deg) scale(1);
-        }
-
-        .suite-card.is-selected img {
-            width: 100%;
-            height: auto;
-            max-height: calc(100svh - 92px);
+        .card.is-active img {
+            max-height: calc(100svh - 112px);
             object-fit: contain;
-            box-shadow: 0 25px 45px rgba(54, 72, 25, 0.3);
+            box-shadow: 0 28px 48px rgba(54, 72, 25, 0.3);
         }
 
         /* =====================================================
-           SIDE ARROWS
+           CARD NAVIGATION
            ===================================================== */
         .card-navigation {
             position: absolute;
             top: 50%;
             right: 0;
             left: 0;
-            z-index: 30;
-            display: flex;
+            z-index: 40;
+            display: none;
             align-items: center;
             justify-content: space-between;
             padding: 0 2px;
-            pointer-events: none;
             transform: translateY(-50%);
-            transition: opacity 0.35s ease;
+        }
+
+        .opened .card-navigation {
+            display: flex;
         }
 
         .nav-arrow {
             display: grid;
-            width: 42px;
-            height: 56px;
+            width: 44px;
+            height: 60px;
             place-items: center;
             color: var(--ink);
-            background: rgba(255, 253, 244, 0.18);
-            border: 1px solid rgba(83, 101, 45, 0.2);
-            border-radius: 24px;
+            background: rgba(255, 253, 244, 0.25);
+            border: 1px solid rgba(83, 101, 45, 0.25);
+            border-radius: 25px;
             cursor: pointer;
             font-family: Arial, sans-serif;
-            font-size: 1.65rem;
-            font-weight: 300;
+            font-size: 1.8rem;
             line-height: 1;
-            opacity: 0.34;
-            pointer-events: auto;
-            transition:
-                opacity 0.2s ease,
-                color 0.2s ease,
-                background 0.2s ease,
-                transform 0.2s ease;
+            opacity: 0.42;
+            transition: opacity 0.2s ease, background 0.2s ease, color 0.2s ease;
         }
 
         .nav-arrow:hover,
         .nav-arrow:focus-visible {
             color: var(--cream);
             background: var(--ink);
-            opacity: 0.92;
+            opacity: 0.95;
             outline: 2px solid var(--gold);
             outline-offset: 3px;
         }
 
-        .nav-arrow:active {
-            transform: scale(0.94);
-        }
-
         /* =====================================================
-           POST-OPEN WEBSITE BUTTON
+           POST-OPEN CONTROLS
            ===================================================== */
         .suite-actions {
-            margin: -16px auto 0;
-            transition: opacity 0.35s ease, transform 0.35s ease;
+            display: none;
+            margin-top: -12px;
+        }
+
+        .opened .suite-actions {
+            display: block;
         }
 
         .website-button {
@@ -262,31 +381,22 @@
             line-height: 1.3;
             text-decoration: none;
             text-transform: uppercase;
-            transition:
-                background 0.2s ease,
-                color 0.2s ease,
-                border-color 0.2s ease,
-                transform 0.2s ease;
         }
 
         .website-button:hover,
         .website-button:focus-visible {
             color: var(--cream);
             background: rgba(83, 101, 45, 0.88);
-            border-color: rgba(83, 101, 45, 0.95);
             outline: 2px solid var(--gold);
             outline-offset: 3px;
-        }
-
-        .website-button:active {
-            transform: scale(0.98);
         }
 
         .replay-button {
             position: fixed;
             top: 14px;
             right: 14px;
-            z-index: 50;
+            z-index: 100;
+            display: none;
             padding: 9px 11px;
             color: var(--ink);
             background: rgba(255, 253, 244, 0.96);
@@ -295,10 +405,11 @@
             font-size: 0.62rem;
             font-weight: 600;
             letter-spacing: 1.1px;
-            opacity: 0;
-            pointer-events: none;
             text-transform: uppercase;
-            transition: opacity 0.3s ease, background 0.2s ease;
+        }
+
+        .opened + .replay-button {
+            display: block;
         }
 
         .replay-button:hover,
@@ -309,343 +420,103 @@
         }
 
         /* =====================================================
-           REALISTIC PEAR-GREEN ENVELOPE
+           INITIAL / OPENING ANIMATION STATES
            ===================================================== */
-        .js .envelope-stage {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            display: block;
-            width: var(--envelope-width);
-            height: var(--envelope-height);
-            pointer-events: none;
-            transform: translate(-50%, -50%);
-            transition: opacity 0.5s ease, transform 0.5s ease;
-        }
-
-        .js .envelope-trigger {
-            position: absolute;
-            inset: 0;
-            z-index: 20;
-            padding: 0;
-            background: transparent;
-            border: 0;
-            cursor: pointer;
-            pointer-events: auto;
-            touch-action: manipulation;
-        }
-
-        .js .envelope-trigger:focus-visible {
-            outline: 3px solid var(--gold);
-            outline-offset: 9px;
-            border-radius: 8px;
-        }
-
-        /* Back envelope layer. */
-        .envelope-back {
-            position: absolute;
-            top: 25px;
-            right: 0;
-            bottom: 0;
-            left: 0;
-            z-index: 1;
-            overflow: hidden;
-            background: var(--pear-deep);
-            border-radius: 5px 5px 12px 12px;
-            box-shadow: 0 20px 22px rgba(54, 72, 25, 0.22);
-        }
-
-        /* Cream liner layer. */
-        .envelope-liner {
-            position: absolute;
-            top: 26px;
-            left: 50%;
-            z-index: 2;
-            width: 0;
-            height: 0;
-            transform: translateX(-50%);
-            border-width: 0 187px 132px;
-            border-style: solid;
-            border-color: transparent transparent var(--cream-deep);
-        }
-
-        .envelope-liner::after {
-            position: absolute;
-            top: 35px;
-            left: -94px;
-            width: 188px;
-            height: 75px;
-            content: "";
-            opacity: 0.48;
-            background:
-                radial-gradient(ellipse at 15% 45%, transparent 0 12px, rgba(83, 101, 45, 0.28) 13px 14px, transparent 15px),
-                radial-gradient(ellipse at 46% 72%, transparent 0 13px, rgba(83, 101, 45, 0.28) 14px 15px, transparent 16px),
-                radial-gradient(ellipse at 78% 38%, transparent 0 11px, rgba(83, 101, 45, 0.28) 12px 13px, transparent 14px);
-        }
-
-        .primary-card-peek {
-            position: absolute;
-            top: 43px;
-            left: 50%;
-            z-index: 3;
-            width: 77%;
-            height: 162px;
-            overflow: hidden;
-            background: var(--cream);
-            border: 1px solid var(--gold);
-            box-shadow: 0 5px 9px rgba(54, 72, 25, 0.15);
-            transform: translateX(-50%);
-        }
-
-        .primary-card-peek img {
-            display: block;
-            width: 100%;
-            height: auto;
-        }
-
-        /* Front folds conceal the lower portion of the emerging card. */
-        .envelope-front {
-            position: absolute;
-            right: 0;
-            bottom: 0;
-            left: 0;
-            z-index: 8;
-            height: 190px;
-            overflow: hidden;
-            background: var(--pear-mid);
-            border-radius: 0 0 12px 12px;
-        }
-
-        .envelope-front::before,
-        .envelope-front::after {
-            position: absolute;
-            top: 0;
-            width: 0;
-            height: 0;
-            content: "";
-            border-style: solid;
-        }
-
-        .envelope-front::before {
-            left: 0;
-            z-index: 1;
-            border-width: 95px 187px 95px 0;
-            border-color: transparent var(--pear-light) transparent transparent;
-        }
-
-        .envelope-front::after {
-            right: 0;
-            z-index: 1;
-            border-width: 95px 0 95px 187px;
-            border-color: transparent transparent transparent #96aa57;
-        }
-
-        .envelope-bottom-fold {
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            z-index: 9;
-            width: 0;
-            height: 0;
-            transform: translateX(-50%);
-            border-width: 0 187px 104px;
-            border-style: solid;
-            border-color: transparent transparent #aabb66;
-        }
-
-        .envelope-flap {
-            position: absolute;
-            top: 25px;
-            left: 0;
-            z-index: 10;
-            width: 100%;
-            height: 138px;
-            transform: rotateX(0deg);
-            transform-origin: top center;
-            transform-style: preserve-3d;
-            transition: transform 0.8s cubic-bezier(0.22, 0.8, 0.25, 1);
-        }
-
-        .envelope-flap::before {
-            position: absolute;
-            inset: 0;
-            content: "";
-            clip-path: polygon(0 0, 100% 0, 50% 100%);
-            background:
-                linear-gradient(140deg, rgba(255, 255, 255, 0.18), transparent 45%),
-                var(--pear);
-            box-shadow: inset 0 -2px 0 rgba(69, 89, 31, 0.2);
-            backface-visibility: hidden;
-        }
-
-        .wax-seal {
-            position: absolute;
-            top: 120px;
-            left: 50%;
-            z-index: 11;
-            display: grid;
-            width: 48px;
-            height: 48px;
-            place-items: center;
-            color: var(--cream);
-            background: var(--gold);
-            border: 2px solid #dec996;
-            border-radius: 50%;
-            box-shadow:
-                inset 0 0 0 2px rgba(91, 67, 29, 0.18),
-                0 3px 9px rgba(53, 69, 22, 0.25);
-            font-family: Georgia, serif;
-            font-size: 0.88rem;
-            font-weight: 600;
-            letter-spacing: -0.5px;
-            line-height: 1;
-            white-space: nowrap;
-            transition: opacity 0.25s ease;
-            transform: translateX(-50%);
-        }
-
-        .tap-note {
-            position: absolute;
-            bottom: -49px;
-            left: 50%;
-            width: max-content;
-            margin: 0;
-            color: var(--pear-dark);
-            font-size: 0.66rem;
-            font-weight: 600;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            transform: translateX(-50%);
-            animation: tapPulse 2s ease-in-out infinite;
-            transition: opacity 0.25s ease;
-        }
-
-        /* =====================================================
-           OPENING ANIMATION STATES
-           ===================================================== */
-        .js .suite-actions,
-        .js .card-navigation {
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        .js .suite-actions {
-            transform: translateY(8px);
-        }
-
-        .js .card-navigation {
-            transform: translateY(-50%);
-        }
-
-        .js .suite-card {
-            opacity: 0;
+        .js .card {
+            visibility: hidden;
             pointer-events: none;
         }
 
         /*
-            Main invitation begins near the top opening of the envelope,
-            not at the bottom of the page.
+           Main invitation begins behind the full-page envelope at
+           the center seam. It rises upward from that center opening.
         */
-        .js .card-primary {
-            top: 43%;
+        .js .primary-card {
+            top: 58%;
             z-index: 5;
-            transform: translate(-50%, -50%) rotate(0deg) scale(0.72);
+            visibility: visible;
+            transform: translate(-50%, -50%) scale(0.7);
         }
 
-        .js .card-details {
-            transform: translate(calc(-50% - 48px), calc(-50% + 72px)) rotate(-4deg) scale(0.72);
-        }
-
-        .js .card-photo {
-            transform: translate(calc(-50% + 68px), calc(-50% + 76px)) rotate(4deg) scale(0.72);
-        }
-
-        .js .experience.is-opening .envelope-flap {
+        .opening .fold-top {
             transform: rotateX(-178deg);
         }
 
-        .js .experience.is-opening .wax-seal,
-        .js .experience.is-opening .tap-note {
+        .opening .fold-left {
+            transform: translateX(-110%);
+        }
+
+        .opening .fold-right {
+            transform: translateX(110%);
+        }
+
+        .opening .fold-bottom {
+            transform: translateY(110%);
+        }
+
+        .opening .envelope-liner {
+            opacity: 1;
+        }
+
+        .opening .wax-seal {
+            opacity: 0;
+            transform: translate(-50%, -50%) scale(0.8);
+        }
+
+        .opening .tap-note {
             opacity: 0;
         }
 
         /*
-            The main invitation rises UP from the envelope opening.
-            The front folds remain above it while it is still inside.
+           Main card rises from the middle opening. It does not come
+           from the bottom of the page.
         */
-        .js .experience.is-opening .card-primary {
-            top: -35%;
-            z-index: 5;
-            opacity: 1;
-            transform: translate(-50%, -50%) rotate(0deg) scale(0.82);
+        .opening .primary-card {
+            top: 29%;
+            z-index: 25;
+            transform: translate(-50%, -50%) scale(0.84);
             transition:
-                opacity 0.12s ease 0.32s,
-                top 1.08s cubic-bezier(0.18, 0.88, 0.22, 1) 0.42s,
-                transform 1.08s cubic-bezier(0.18, 0.88, 0.22, 1) 0.42s;
+                top 1.05s cubic-bezier(0.18, 0.88, 0.22, 1) 0.42s,
+                transform 1.05s cubic-bezier(0.18, 0.88, 0.22, 1) 0.42s;
         }
 
-        .js .experience.is-open .extraction-pocket {
-            clip-path: none;
-        }
-
-        .js .experience.is-open .envelope-stage {
+        .opening .envelope-back {
             opacity: 0;
-            pointer-events: none;
-            transform: translate(-50%, -50%) scale(0.96);
         }
 
-        .js .experience.is-open .suite-card {
-            opacity: 1;
+        /*
+           Important: hide the entire opened envelope AND disable its
+           full-page trigger so it cannot block card-arrow taps.
+        */
+        .opened .full-envelope {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition:
+                opacity 0.35s ease,
+                visibility 0s linear 0.35s;
+        }
+
+        .opened .full-envelope .envelope-trigger {
+            pointer-events: none;
+        }
+
+        .opened .card {
+            visibility: visible;
             pointer-events: auto;
         }
 
-        .js .experience.is-open .card-primary {
+        .opened .primary-card {
             top: 50%;
             z-index: 4;
-            transform: translate(-50%, -50%) rotate(-1deg);
-            transition:
-                top 0.58s cubic-bezier(0.2, 0.78, 0.25, 1) 0.08s,
-                width 0.48s cubic-bezier(0.2, 0.78, 0.25, 1),
-                transform 0.58s cubic-bezier(0.2, 0.78, 0.25, 1) 0.08s,
-                opacity 0.3s ease;
+            transform: translate(-50%, -50%);
         }
 
-        .js .experience.is-open .card-details {
-            transform: translate(calc(-50% - 48px), calc(-50% - 30px)) rotate(-4deg);
-            transition-delay: 0.12s;
-        }
-
-        .js .experience.is-open .card-photo {
-            transform: translate(calc(-50% + 68px), calc(-50% + 13px)) rotate(4deg);
-            transition-delay: 0.2s;
-        }
-
-        .js .experience.is-open .card-primary.is-selected,
-        .js .experience.is-open .card-details.is-selected,
-        .js .experience.is-open .card-photo.is-selected {
-            z-index: 15;
-            width: var(--selected-width);
-            transform: translate(-50%, -50%) rotate(0deg) scale(1);
-            transition-delay: 0s;
-        }
-
-        .js .experience.is-open .suite-actions {
-            opacity: 1;
-            pointer-events: auto;
-            transform: translateY(0);
-            transition: opacity 0.4s ease 0.45s, transform 0.4s ease 0.45s;
-        }
-
-        .js .experience.is-open .card-navigation {
-            opacity: 1;
-            pointer-events: auto;
-            transform: translateY(-50%);
-            transition: opacity 0.4s ease 0.45s;
-        }
-
-        .js .experience.is-open + .replay-button {
-            opacity: 1;
-            pointer-events: auto;
+        .opened .details-card,
+        .opened .photo-card {
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
         }
 
         @keyframes tapPulse {
@@ -662,52 +533,45 @@
         }
 
         @media (min-width: 768px) {
-            .page {
-                padding-top: clamp(32px, 5svh, 80px);
-                padding-bottom: clamp(32px, 5svh, 80px);
-            }
-
-            .experience {
-                width: min(100%, 900px);
-            }
-
             .suite-stage {
                 min-height: max(680px, 82svh);
             }
 
-            .card-primary {
-                width: 340px;
+            .primary-card {
+                width: 350px;
             }
 
-            .card-details {
-                width: 275px;
-                transform: translate(calc(-50% - 58px), calc(-50% - 38px)) rotate(-4deg);
+            .details-card {
+                width: 282px;
             }
 
-            .card-photo {
-                width: 220px;
-                transform: translate(calc(-50% + 82px), calc(-50% + 8px)) rotate(4deg);
-            }
-
-            .js .card-details {
-                transform: translate(calc(-50% - 58px), calc(-50% + 72px)) rotate(-4deg) scale(0.72);
-            }
-
-            .js .card-photo {
-                transform: translate(calc(-50% + 82px), calc(-50% + 76px)) rotate(4deg) scale(0.72);
-            }
-
-            .js .experience.is-open .card-details {
-                transform: translate(calc(-50% - 58px), calc(-50% - 38px)) rotate(-4deg);
-            }
-
-            .js .experience.is-open .card-photo {
-                transform: translate(calc(-50% + 82px), calc(-50% + 8px)) rotate(4deg);
+            .photo-card {
+                width: 225px;
             }
 
             .replay-button {
                 top: 20px;
                 right: 20px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                scroll-behavior: auto !important;
+                transition-duration: 0.01ms !important;
+            }
+
+            .js .full-envelope {
+                display: none;
+            }
+
+            .js .card {
+                visibility: visible;
+                pointer-events: auto;
             }
         }
     </style>
@@ -717,52 +581,46 @@
     <main class="page">
         <div class="experience" id="experience">
 
+            <!-- Full-page pear-green envelope -->
+            <div class="full-envelope">
+                <div class="envelope-back"></div>
+                <div class="envelope-liner"></div>
+                <div class="fold-left"></div>
+                <div class="fold-right"></div>
+                <div class="fold-bottom"></div>
+                <div class="fold-top"></div>
+
+                <div class="wax-seal">Z & M</div>
+
+                <p class="tap-note">Tap to open</p>
+
+                <button
+                    class="envelope-trigger"
+                    id="openInvite"
+                    type="button"
+                    aria-label="Open Zumi and Morgan's wedding invitation suite"
+                ></button>
+            </div>
+
+            <!-- Actual invitation PNG cards -->
             <div class="suite-stage">
-                <!-- Envelope -->
-                <div class="envelope-stage">
-                    <div class="envelope-back"></div>
-                    <div class="envelope-liner"></div>
-
-                    <div class="primary-card-peek">
-                        <img src="invite1.png" alt="">
-                    </div>
-
-                    <div class="envelope-front"></div>
-                    <div class="envelope-bottom-fold"></div>
-                    <div class="envelope-flap"></div>
-                    <div class="wax-seal">Z&amp;M</div>
-
-                    <p class="tap-note">Tap to open</p>
-
-                    <button
-                        class="envelope-trigger"
-                        id="openInvite"
-                        type="button"
-                        aria-label="Open Zumi and Morgan's wedding invitation suite"
-                    ></button>
-                </div>
-
-                <!-- Main formal invitation -->
-                <div class="extraction-pocket">
-                    <button
-                        type="button"
-                        class="suite-card card-primary"
-                        aria-label="View formal wedding invitation"
-                        aria-pressed="false"
-                    >
-                        <img
-                            src="invite1.png"
-                            alt="Formal wedding invitation for Zumi Cuji and Morgan Fields"
-                            decoding="async"
-                            fetchpriority="high"
-                        >
-                    </button>
-                </div>
-
-                <!-- Details card -->
                 <button
                     type="button"
-                    class="suite-card card-details"
+                    class="card primary-card"
+                    aria-label="View formal wedding invitation"
+                    aria-pressed="false"
+                >
+                    <img
+                        src="invite1.png"
+                        alt="Formal wedding invitation for Zumi Cuji and Morgan Fields"
+                        decoding="async"
+                        fetchpriority="high"
+                    >
+                </button>
+
+                <button
+                    type="button"
+                    class="card details-card"
                     aria-label="View wedding details card"
                     aria-pressed="false"
                 >
@@ -774,10 +632,9 @@
                     >
                 </button>
 
-                <!-- Photo card -->
                 <button
                     type="button"
-                    class="suite-card card-photo"
+                    class="card photo-card"
                     aria-label="View wedding photo card"
                     aria-pressed="false"
                 >
@@ -789,7 +646,6 @@
                     >
                 </button>
 
-                <!-- Side arrows -->
                 <div class="card-navigation" aria-label="Invitation card navigation">
                     <button
                         class="nav-arrow"
@@ -811,7 +667,6 @@
                 </div>
             </div>
 
-            <!-- Visible after envelope opens -->
             <div class="suite-actions">
                 <a
                     class="website-button"
@@ -834,43 +689,45 @@
             const replayButton = document.getElementById("replayButton");
             const previousButton = document.getElementById("previousCard");
             const nextButton = document.getElementById("nextCard");
+            const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
-            const interactiveCards = [
-                document.querySelector(".card-primary"),
-                document.querySelector(".card-details"),
-                document.querySelector(".card-photo")
+            const cards = [
+                document.querySelector(".primary-card"),
+                document.querySelector(".details-card"),
+                document.querySelector(".photo-card")
             ];
 
             let activeCardIndex = 0;
-            let touchHandled = false;
+            let lastTouchTime = 0;
 
             document.documentElement.classList.add("js");
 
             /*
-                Fit each selected PNG to the usable device viewport while
-                preserving its exact original aspect ratio.
+               Calculates a centered selected card size while preserving
+               original image ratio and even safe margins.
             */
             function updateCardFitSizes() {
                 const viewportWidth = document.documentElement.clientWidth;
                 const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+                const safeMargin = Math.max(24, Math.min(viewportWidth * 0.05, 64));
 
-                interactiveCards.forEach(function (card, index) {
+                cards.forEach(function (card, index) {
                     const image = card.querySelector("img");
                     const naturalWidth = image.naturalWidth || image.width || 1;
                     const naturalHeight = image.naturalHeight || image.height || 1;
                     const aspectRatio = naturalWidth / naturalHeight;
 
-                    const maxWidth = index === 2
-                        ? viewportWidth * 0.64
-                        : viewportWidth * 0.96;
+                    const widthLimit = index === 2
+                        ? viewportWidth - (safeMargin * 4)
+                        : viewportWidth - (safeMargin * 2);
 
-                    const maxHeight = index === 2
-                        ? viewportHeight * 0.58
-                        : viewportHeight - 112;
+                    const heightLimit = index === 2
+                        ? viewportHeight - (safeMargin * 4)
+                        : viewportHeight - (safeMargin * 2);
 
                     const selectedWidth = Math.max(
                         120,
-                        Math.min(maxWidth, maxHeight * aspectRatio)
+                        Math.min(widthLimit, heightLimit * aspectRatio)
                     );
 
                     card.style.setProperty(
@@ -881,21 +738,20 @@
             }
 
             function selectCard(index) {
-                activeCardIndex =
-                    (index + interactiveCards.length) % interactiveCards.length;
+                activeCardIndex = (index + cards.length) % cards.length;
 
                 updateCardFitSizes();
 
-                interactiveCards.forEach(function (card, cardIndex) {
-                    const selected = cardIndex === activeCardIndex;
+                cards.forEach(function (card, cardIndex) {
+                    const isActive = cardIndex === activeCardIndex;
 
-                    card.classList.toggle("is-selected", selected);
-                    card.setAttribute("aria-pressed", selected ? "true" : "false");
+                    card.classList.toggle("is-active", isActive);
+                    card.setAttribute("aria-pressed", isActive ? "true" : "false");
                 });
             }
 
             function cycleCards(direction) {
-                if (!experience.classList.contains("is-open")) {
+                if (!experience.classList.contains("opened")) {
                     return;
                 }
 
@@ -904,27 +760,27 @@
 
             function openInvitation() {
                 if (
-                    experience.classList.contains("is-opening") ||
-                    experience.classList.contains("is-open")
+                    experience.classList.contains("opening") ||
+                    experience.classList.contains("opened")
                 ) {
                     return;
                 }
 
-                experience.classList.add("is-opening");
+                experience.classList.add("opening");
                 openButton.disabled = true;
 
                 window.setTimeout(function () {
-                    experience.classList.remove("is-opening");
-                    experience.classList.add("is-open");
+                    experience.classList.remove("opening");
+                    experience.classList.add("opened");
                     selectCard(0);
-                }, 1550);
+                }, 1900);
             }
 
             function replayInvitation() {
-                experience.classList.remove("is-opening", "is-open");
+                experience.classList.remove("opening", "opened");
 
-                interactiveCards.forEach(function (card) {
-                    card.classList.remove("is-selected");
+                cards.forEach(function (card) {
+                    card.classList.remove("is-active");
                     card.setAttribute("aria-pressed", "false");
                 });
 
@@ -933,14 +789,12 @@
 
                 void experience.offsetWidth;
 
-                window.setTimeout(function () {
-                    openInvitation();
-                }, 80);
+                window.setTimeout(openInvitation, 80);
             }
 
-            interactiveCards.forEach(function (card, index) {
+            cards.forEach(function (card, index) {
                 card.addEventListener("click", function () {
-                    if (experience.classList.contains("is-open")) {
+                    if (experience.classList.contains("opened")) {
                         selectCard(index);
                     }
                 });
@@ -954,38 +808,34 @@
                 }
             });
 
-            previousButton.addEventListener("click", function () {
+            previousButton.addEventListener("click", function (event) {
+                event.stopPropagation();
                 cycleCards(-1);
             });
 
-            nextButton.addEventListener("click", function () {
+            nextButton.addEventListener("click", function (event) {
+                event.stopPropagation();
                 cycleCards(1);
-            });
-
-            /*
-                Both click and touchend are included for reliable
-                mobile Safari and Android browser interaction.
-            */
-            openButton.addEventListener("click", function () {
-                if (!touchHandled) {
-                    openInvitation();
-                }
-
-                touchHandled = false;
             });
 
             openButton.addEventListener("touchend", function (event) {
                 event.preventDefault();
-                touchHandled = true;
+                lastTouchTime = Date.now();
                 openInvitation();
             }, { passive: false });
+
+            openButton.addEventListener("click", function () {
+                if (Date.now() - lastTouchTime > 700) {
+                    openInvitation();
+                }
+            });
 
             replayButton.addEventListener("click", replayInvitation);
 
             window.addEventListener("resize", function () {
                 updateCardFitSizes();
 
-                if (experience.classList.contains("is-open")) {
+                if (experience.classList.contains("opened")) {
                     selectCard(activeCardIndex);
                 }
             });
@@ -994,13 +844,19 @@
                 window.setTimeout(function () {
                     updateCardFitSizes();
 
-                    if (experience.classList.contains("is-open")) {
+                    if (experience.classList.contains("opened")) {
                         selectCard(activeCardIndex);
                     }
                 }, 250);
             });
 
             updateCardFitSizes();
+
+            if (reducedMotion.matches) {
+                experience.classList.add("opened");
+                openButton.disabled = true;
+                selectCard(0);
+            }
         })();
     </script>
 </body>
