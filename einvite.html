@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Save the Date — Zumi & Morgan</title>
+
+    <meta property="og:title" content="Save the Date — Zumi & Morgan">
+    <meta property="og:description" content="Monday, May 3, 2027 · Raleigh, NC">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://zumicuji.github.io/TheCujis/invite.html">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Save the Date — Zumi & Morgan">
+    <meta name="twitter:description" content="Monday, May 3, 2027 · Raleigh, NC">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --pear-light: #dce7ad;
+            --pear: #b9ca77;
+            --pear-mid: #a6b965;
+            --pear-deep: #71843f;
+            --pear-dark: #53652d;
+            --cream: #fffdf4;
+            --cream-deep: #f3ecd8;
+            --gold: #b99754;
+            --ink: #36502f;
+            --page: #f1f4e7;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            min-height: 100%;
+        }
+
+        body {
+            margin: 0;
+            overflow-x: hidden;
+            color: var(--ink);
+            background:
+                radial-gradient(circle at 10% 12%, rgba(220, 231, 173, 0.78), transparent 31%),
+                radial-gradient(circle at 89% 88%, rgba(185, 151, 84, 0.13), transparent 28%),
+                var(--page);
+            font-family: "Montserrat", sans-serif;
+        }
+
+        button,
+        a {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .page {
+            width: 100%;
+            min-height: 100svh;
+            padding: 24px 14px 42px;
+        }
+
+        .experience {
+            width: min(100%, 460px);
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        /* =====================================================
+           CENTERED INVITATION SUITE
+           ===================================================== */
+        .suite-stage {
+            position: relative;
+            width: 100%;
+            min-height: 610px;
+            overflow: visible;
+        }
+
+        .envelope-stage {
+            display: none;
+        }
+
+        /*
+            Actual PNG stack:
+            invite1.png = formal invitation
+            invite2.png = details card
+            invite3.png = photo card
+            invite4.png is not used
+        */
+        .suite-card {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            display: block;
+            padding: 0;
+            margin: 0;
+            background: transparent;
+            border: 0;
+            cursor: pointer;
+            image-rendering: auto;
+            transition:
+                width 0.48s cubic-bezier(0.2, 0.78, 0.25, 1),
+                transform 0.48s cubic-bezier(0.2, 0.78, 0.25, 1),
+                box-shadow 0.35s ease;
+        }
+
+        .suite-card:focus-visible {
+            outline: 3px solid var(--gold);
+            outline-offset: 6px;
+        }
+
+        .suite-card img {
+            display: block;
+            width: 100%;
+            height: auto;
+            background: var(--cream);
+            box-shadow: 0 14px 28px rgba(54, 72, 25, 0.2);
+            image-rendering: auto;
+        }
+
+        /* Main invitation: largest card in the resting stack. */
+        .card-primary {
+            z-index: 4;
+            width: min(67vw, 278px);
+            transform: translate(-50%, -50%) rotate(-1deg);
+        }
+
+        /* Details card: partially visible behind upper-left. */
+        .card-details {
+            z-index: 2;
+            width: min(54vw, 224px);
+            transform: translate(calc(-50% - 42px), calc(-50% - 28px)) rotate(-4deg);
+        }
+
+        /* Photo card: partially visible behind right edge. */
+        .card-photo {
+            z-index: 1;
+            width: min(43vw, 177px);
+            transform: translate(calc(-50% + 62px), calc(-50% + 13px)) rotate(4deg);
+        }
+
+        /*
+            Selected card becomes large, centered, and straight.
+            Each PNG keeps its natural proportions and remains uncropped.
+        */
+        .suite-card.is-selected {
+            z-index: 15;
+            width: min(92vw, 390px);
+            transform: translate(-50%, -50%) rotate(0deg) scale(1);
+        }
+
+        .suite-card.is-selected img {
+            box-shadow: 0 25px 45px rgba(54, 72, 25, 0.3);
+        }
+
+        /* =====================================================
+           NEARLY TRANSLUCENT SIDE ARROWS
+           Hidden until the envelope opens.
+           ===================================================== */
+        .card-navigation {
+            position: absolute;
+            top: 50%;
+            right: 0;
+            left: 0;
+            z-index: 25;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 2px;
+            pointer-events: none;
+            transform: translateY(-50%);
+            transition: opacity 0.35s ease;
+        }
+
+        .nav-arrow {
+            display: grid;
+            width: 42px;
+            height: 56px;
+            place-items: center;
+            color: var(--ink);
+            background: rgba(255, 253, 244, 0.18);
+            border: 1px solid rgba(83, 101, 45, 0.2);
+            border-radius: 24px;
+            cursor: pointer;
+            font-family: Arial, sans-serif;
+            font-size: 1.65rem;
+            font-weight: 300;
+            line-height: 1;
+            opacity: 0.34;
+            pointer-events: auto;
+            transition:
+                opacity 0.2s ease,
+                color 0.2s ease,
+                background 0.2s ease,
+                transform 0.2s ease;
+        }
+
+        .nav-arrow:hover,
+        .nav-arrow:focus-visible {
+            color: var(--cream);
+            background: var(--ink);
+            opacity: 0.92;
+            outline: 2px solid var(--gold);
+            outline-offset: 3px;
+        }
+
+        .nav-arrow:active {
+            transform: scale(0.94);
+        }
+
+        /* =====================================================
+           POST-OPEN WEBSITE BUTTON
+           Pear green and somewhat translucent.
+           ===================================================== */
+        .suite-actions {
+            margin: -14px auto 0;
+            transition: opacity 0.35s ease, transform 0.35s ease;
+        }
+
+        .website-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 50px;
+            padding: 13px 19px;
+            color: var(--ink);
+            background: rgba(185, 202, 119, 0.72);
+            border: 1px solid rgba(83, 101, 45, 0.58);
+            box-shadow: 0 4px 12px rgba(83, 101, 45, 0.1);
+            font-size: 0.65rem;
+            font-weight: 600;
+            letter-spacing: 1.2px;
+            line-height: 1.3;
+            text-decoration: none;
+            text-transform: uppercase;
+            transition:
+                background 0.2s ease,
+                color 0.2s ease,
+                border-color 0.2s ease,
+                transform 0.2s ease;
+        }
+
+        .website-button:hover,
+        .website-button:focus-visible {
+            color: var(--cream);
+            background: rgba(83, 101, 45, 0.88);
+            border-color: rgba(83, 101, 45, 0.95);
+            outline: 2px solid var(--gold);
+            outline-offset: 3px;
+        }
+
+        .website-button:active {
+            transform: scale(0.98);
+        }
+
+        .replay-button {
+            position: fixed;
+            top: 14px;
+            right: 14px;
+            z-index: 40;
+            padding: 9px 11px;
+            color: var(--ink);
+            background: rgba(255, 253, 244, 0.96);
+            border: 1px solid var(--gold);
+            cursor: pointer;
+            font-size: 0.62rem;
+            font-weight: 600;
+            letter-spacing: 1.1px;
+            opacity: 0;
+            pointer-events: none;
+            text-transform: uppercase;
+            transition: opacity 0.3s ease, background 0.2s ease;
+        }
+
+        .replay-button:hover,
+        .replay-button:focus-visible {
+            background: #ffffff;
+            outline: 2px solid var(--gold);
+            outline-offset: 2px;
+        }
+
+        /* =====================================================
+           PEAR-GREEN PHYSICAL ENVELOPE
+           ===================================================== */
+        .js .envelope-stage {
+            position: absolute;
+            inset: 0;
+            display: block;
+            pointer-events: none;
+            transition: opacity 0.55s ease, transform 0.55s ease;
+        }
+
+        .js .envelope-trigger {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: min(92vw, 374px);
+            height: 278px;
+            padding: 0;
+            background: transparent;
+            border: 0;
+            cursor: pointer;
+            pointer-events: auto;
+            perspective: 1200px;
+            transform: translate(-50%, -50%);
+        }
+
+        .js .envelope-trigger:focus-visible {
+            outline: 3px solid var(--gold);
+            outline-offset: 9px;
+            border-radius: 8px;
+        }
+
+        .envelope {
+            position: absolute;
+            inset: 0;
+        }
+
+        .envelope-back {
+            position: absolute;
+            top: 25px;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 1;
+            overflow: hidden;
+            background: var(--pear-deep);
+            border-radius: 5px 5px 12px 12px;
+            box-shadow: 0 20px 22px rgba(54, 72, 25, 0.22);
+        }
+
+        .envelope-liner {
+            position: absolute;
+            top: 26px;
+            left: 50%;
+            z-index: 2;
+            width: 0;
+            height: 0;
+            transform: translateX(-50%);
+            border-width: 0 187px 132px;
+            border-style: solid;
+            border-color: transparent transparent var(--cream-deep);
+        }
+
+        .envelope-liner::after {
+            position: absolute;
+            top: 35px;
+            left: -94px;
+            width: 188px;
+            height: 75px;
+            content: "";
+            opacity: 0.48;
+            background:
+                radial-gradient(ellipse at 15% 45%, transparent 0 12px, rgba(83, 101, 45, 0.28) 13px 14px, transparent 15px),
+                radial-gradient(ellipse at 46% 72%, transparent 0 13px, rgba(83, 101, 45, 0.28) 14px 15px, transparent 16px),
+                radial-gradient(ellipse at 78% 38%, transparent 0 11px, rgba(83, 101, 45, 0.28) 12px 13px, transparent 14px);
+        }
+
+        .primary-card-peek {
+            position: absolute;
+            top: 43px;
+            left: 50%;
+            z-index: 3;
+            width: 77%;
+            height: 162px;
+            overflow: hidden;
+            background: var(--cream);
+            border: 1px solid var(--gold);
+            box-shadow: 0 5px 9px rgba(54, 72, 25, 0.15);
+            transform: translateX(-50%);
+        }
+
+        .primary-card-peek img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        /*
+            The card emerges from behind these front folds,
+            rather than phasing through the envelope.
+        */
+        .envelope-front {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 8;
+            height: 190px;
+            overflow: hidden;
+            background: var(--pear-mid);
+            border-radius: 0 0 12px 12px;
+        }
+
+        .envelope-front::before,
+        .envelope-front::after {
+            position: absolute;
+            top: 0;
+            width: 0;
+            height: 0;
+            content: "";
+            border-style: solid;
+        }
+
+        .envelope-front::before {
+            left: 0;
+            z-index: 1;
+            border-width: 95px 187px 95px 0;
+            border-color: transparent var(--pear-light) transparent transparent;
+        }
+
+        .envelope-front::after {
+            right: 0;
+            z-index: 1;
+            border-width: 95px 0 95px 187px;
+            border-color: transparent transparent transparent #96aa57;
+        }
+
+        .envelope-bottom-fold {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            z-index: 9;
+            width: 0;
+            height: 0;
+            transform: translateX(-50%);
+            border-width: 0 187px 104px;
+            border-style: solid;
+            border-color: transparent transparent #aabb66;
+        }
+
+        .envelope-flap {
+            position: absolute;
+            top: 25px;
+            left: 0;
+            z-index: 10;
+            width: 100%;
+            height: 138px;
+            transform: rotateX(0deg);
+            transform-origin: top center;
+            transform-style: preserve-3d;
+            transition: transform 0.8s cubic-bezier(0.22, 0.8, 0.25, 1);
+        }
+
+        .envelope-flap::before {
+            position: absolute;
+            inset: 0;
+            content: "";
+            clip-path: polygon(0 0, 100% 0, 50% 100%);
+            background:
+                linear-gradient(140deg, rgba(255, 255, 255, 0.18), transparent 45%),
+                var(--pear);
+            box-shadow: inset 0 -2px 0 rgba(69, 89, 31, 0.2);
+            backface-visibility: hidden;
+        }
+
+        .wax-seal {
+            position: absolute;
+            top: 120px;
+            left: 50%;
+            z-index: 11;
+            display: grid;
+            width: 48px;
+            height: 48px;
+            place-items: center;
+            color: var(--cream);
+            background: var(--gold);
+            border: 2px solid #dec996;
+            border-radius: 50%;
+            box-shadow:
+                inset 0 0 0 2px rgba(91, 67, 29, 0.18),
+                0 3px 9px rgba(53, 69, 22, 0.25);
+            font-family: Georgia, serif;
+            font-size: 0.88rem;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+            line-height: 1;
+            white-space: nowrap;
+            transform: translateX(-50%);
+            transition: opacity 0.25s ease;
+        }
+
+        .tap-note {
+            position: absolute;
+            bottom: -49px;
+            left: 50%;
+            width: max-content;
+            margin: 0;
+            color: var(--pear-dark);
+            font-size: 0.66rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            transform: translateX(-50%);
+            animation: tapPulse 2s ease-in-out infinite;
+            transition: opacity 0.25s ease;
+        }
+
+        /* =====================================================
+           OPENING / REPLAY STATES
+           ===================================================== */
+        .js .suite-actions,
+        .js .card-navigation {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .js .suite-actions {
+            transform: translateY(8px);
+        }
+
+        .js .card-navigation {
+            transform: translateY(-50%);
+        }
+
+        .js .suite-card {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /*
+            Main card begins inside the envelope:
+            above the back layer but below front folds.
+        */
+        .js .card-primary {
+            z-index: 5;
+            transform: translate(-50%, calc(-50% + 148px)) scale(0.72);
+        }
+
+        .js .card-details {
+            transform: translate(calc(-50% - 42px), calc(-50% + 72px)) rotate(-4deg) scale(0.72);
+        }
+
+        .js .card-photo {
+            transform: translate(calc(-50% + 62px), calc(-50% + 76px)) rotate(4deg) scale(0.72);
+        }
+
+        .js .experience.is-opening .envelope-flap {
+            transform: rotateX(-178deg);
+        }
+
+        .js .experience.is-opening .wax-seal,
+        .js .experience.is-opening .tap-note {
+            opacity: 0;
+        }
+
+        /*
+            Main invite slides upward from inside the envelope.
+            The lower part stays hidden by front folds until it clears them.
+        */
+        .js .experience.is-opening .card-primary {
+            z-index: 5;
+            opacity: 1;
+            transform: translate(-50%, calc(-50% - 125px)) rotate(0deg) scale(0.82);
+            transition:
+                opacity 0.12s ease 0.15s,
+                transform 1.12s cubic-bezier(0.16, 0.9, 0.25, 1) 0.34s;
+        }
+
+        .js .experience.is-open .envelope-stage {
+            opacity: 0;
+            pointer-events: none;
+            transform: scale(0.97);
+        }
+
+        .js .experience.is-open .suite-card {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .js .experience.is-open .card-primary {
+            z-index: 4;
+            transform: translate(-50%, -50%) rotate(-1deg);
+            transition-delay: 0s;
+        }
+
+        .js .experience.is-open .card-details {
+            transform: translate(calc(-50% - 42px), calc(-50% - 28px)) rotate(-4deg);
+            transition-delay: 0.1s;
+        }
+
+        .js .experience.is-open .card-photo {
+            transform: translate(calc(-50% + 62px), calc(-50% + 13px)) rotate(4deg);
+            transition-delay: 0.18s;
+        }
+
+        .js .experience.is-open .suite-card.is-selected {
+            z-index: 15;
+            width: min(92vw, 390px);
+            transform: translate(-50%, -50%) rotate(0deg) scale(1);
+            transition-delay: 0s;
+        }
+
+        .js .experience.is-open .suite-actions {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(0);
+            transition: opacity 0.4s ease 0.48s, transform 0.4s ease 0.48s;
+        }
+
+        .js .experience.is-open .card-navigation {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(-50%);
+            transition: opacity 0.4s ease 0.48s;
+        }
+
+        .js .experience.is-open + .replay-button {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        @keyframes tapPulse {
+            0%,
+            100% {
+                opacity: 0.62;
+                transform: translateX(-50%) translateY(0);
+            }
+
+            50% {
+                opacity: 1;
+                transform: translateX(-50%) translateY(-4px);
+            }
+        }
+
+        @media (min-width: 768px) {
+            .page {
+                padding-top: 38px;
+            }
+
+            .suite-stage {
+                min-height: 675px;
+            }
+
+            .card-primary {
+                width: 305px;
+            }
+
+            .card-details {
+                width: 246px;
+                transform: translate(calc(-50% - 49px), calc(-50% - 32px)) rotate(-4deg);
+            }
+
+            .card-photo {
+                width: 195px;
+                transform: translate(calc(-50% + 70px), calc(-50% + 8px)) rotate(4deg);
+            }
+
+            .js .card-details {
+                transform: translate(calc(-50% - 49px), calc(-50% + 72px)) rotate(-4deg) scale(0.72);
+            }
+
+            .js .card-photo {
+                transform: translate(calc(-50% + 70px), calc(-50% + 76px)) rotate(4deg) scale(0.72);
+            }
+
+            .js .experience.is-open .card-details {
+                transform: translate(calc(-50% - 49px), calc(-50% - 32px)) rotate(-4deg);
+            }
+
+            .js .experience.is-open .card-photo {
+                transform: translate(calc(-50% + 70px), calc(-50% + 8px)) rotate(4deg);
+            }
+
+            .replay-button {
+                top: 20px;
+                right: 20px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                scroll-behavior: auto !important;
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+
+            .js .envelope-stage {
+                display: none;
+            }
+
+            .js .suite-card {
+                opacity: 1;
+                pointer-events: auto;
+            }
+
+            .js .suite-actions {
+                opacity: 1;
+                pointer-events: auto;
+                transform: none;
+            }
+
+            .js .card-navigation {
+                opacity: 1;
+                pointer-events: auto;
+                transform: translateY(-50%);
+            }
+
+            .js .card-primary {
+                transform: translate(-50%, -50%) rotate(-1deg);
+            }
+
+            .js .card-details {
+                transform: translate(calc(-50% - 42px), calc(-50% - 28px)) rotate(-4deg);
+            }
+
+            .js .card-photo {
+                transform: translate(calc(-50% + 62px), calc(-50% + 13px)) rotate(4deg);
+            }
+
+            .js .experience.is-open .suite-card.is-selected {
+                width: min(92vw, 390px);
+                transform: translate(-50%, -50%) rotate(0deg) scale(1);
+            }
+
+            .js .experience.is-open + .replay-button {
+                opacity: 1;
+                pointer-events: auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <main class="page">
+        <div class="experience" id="experience">
+
+            <div class="suite-stage">
+                <!-- Closed pear-green envelope -->
+                <div class="envelope-stage">
+                    <button
+                        class="envelope-trigger"
+                        id="openInvite"
+                        type="button"
+                        aria-label="Open Zumi and Morgan's wedding invitation suite"
+                    >
+                        <div class="envelope">
+                            <div class="envelope-back"></div>
+                            <div class="envelope-liner"></div>
+
+                            <!-- Primary invitation peeking from envelope -->
+                            <div class="primary-card-peek" aria-hidden="true">
+                                <img src="invite1.png" alt="">
+                            </div>
+
+                            <div class="envelope-front"></div>
+                            <div class="envelope-bottom-fold"></div>
+                            <div class="envelope-flap"></div>
+
+                            <div class="wax-seal">Z & M</div>
+                        </div>
+
+                        <p class="tap-note">Tap to open</p>
+                    </button>
+                </div>
+
+                <!-- Details card -->
+                <button
+                    type="button"
+                    class="suite-card card-details"
+                    aria-label="View wedding details card"
+                    aria-pressed="false"
+                >
+                    <img
+                        src="invite2.png"
+                        alt="Wedding details card"
+                        decoding="async"
+                        loading="eager"
+                    >
+                </button>
+
+                <!-- Photo card -->
+                <button
+                    type="button"
+                    class="suite-card card-photo"
+                    aria-label="View wedding photo card"
+                    aria-pressed="false"
+                >
+                    <img
+                        src="invite3.png"
+                        alt="Wedding photo card"
+                        decoding="async"
+                        loading="eager"
+                    >
+                </button>
+
+                <!-- Primary invitation -->
+                <button
+                    type="button"
+                    class="suite-card card-primary"
+                    aria-label="View formal wedding invitation"
+                    aria-pressed="false"
+                >
+                    <img
+                        src="invite1.png"
+                        alt="Formal wedding invitation for Zumi Cuji and Morgan Fields"
+                        decoding="async"
+                        fetchpriority="high"
+                    >
+                </button>
+
+                <!-- Side navigation appears only after opening -->
+                <div class="card-navigation" aria-label="Invitation card navigation">
+                    <button
+                        class="nav-arrow"
+                        id="previousCard"
+                        type="button"
+                        aria-label="Show previous card"
+                    >
+                        ‹
+                    </button>
+
+                    <button
+                        class="nav-arrow"
+                        id="nextCard"
+                        type="button"
+                        aria-label="Show next card"
+                    >
+                        ›
+                    </button>
+                </div>
+            </div>
+
+            <!-- Hidden until envelope opens -->
+            <div class="suite-actions">
+                <a
+                    class="website-button"
+                    href="https://zumicuji.github.io/TheCujis/index.html"
+                >
+                    Visit Our Wedding Website
+                </a>
+            </div>
+        </div>
+
+        <button class="replay-button" id="replayButton" type="button">
+            Replay
+        </button>
+    </main>
+
+    <script>
+        (function () {
+            const experience = document.getElementById("experience");
+            const openButton = document.getElementById("openInvite");
+            const replayButton = document.getElementById("replayButton");
+            const previousButton = document.getElementById("previousCard");
+            const nextButton = document.getElementById("nextCard");
+            const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+            /*
+                Cycle through all three visible PNG cards:
+                1. Formal invitation
+                2. Details card
+                3. Photo card
+            */
+            const interactiveCards = [
+                document.querySelector(".card-primary"),
+                document.querySelector(".card-details"),
+                document.querySelector(".card-photo")
+            ];
+
+            let activeCardIndex = 0;
+
+            document.documentElement.classList.add("js");
+
+            function selectCard(index) {
+                activeCardIndex =
+                    (index + interactiveCards.length) % interactiveCards.length;
+
+                interactiveCards.forEach(function (card, cardIndex) {
+                    const isActive = cardIndex === activeCardIndex;
+
+                    card.classList.toggle("is-selected", isActive);
+                    card.setAttribute("aria-pressed", isActive ? "true" : "false");
+                });
+            }
+
+            function cycleCards(direction) {
+                if (!experience.classList.contains("is-open")) {
+                    return;
+                }
+
+                selectCard(activeCardIndex + direction);
+            }
+
+            function openInvitation() {
+                if (
+                    experience.classList.contains("is-opening") ||
+                    experience.classList.contains("is-open")
+                ) {
+                    return;
+                }
+
+                experience.classList.add("is-opening");
+                openButton.disabled = true;
+                openButton.setAttribute("aria-hidden", "true");
+
+                window.setTimeout(function () {
+                    experience.classList.remove("is-opening");
+                    experience.classList.add("is-open");
+                    selectCard(0);
+                }, 1550);
+            }
+
+            function replayInvitation() {
+                experience.classList.remove("is-opening", "is-open");
+
+                interactiveCards.forEach(function (card) {
+                    card.classList.remove("is-selected");
+                    card.setAttribute("aria-pressed", "false");
+                });
+
+                activeCardIndex = 0;
+
+                openButton.disabled = false;
+                openButton.setAttribute("aria-hidden", "false");
+
+                void experience.offsetWidth;
+
+                window.setTimeout(function () {
+                    openInvitation();
+                }, 80);
+            }
+
+            interactiveCards.forEach(function (card, index) {
+                card.addEventListener("click", function () {
+                    if (experience.classList.contains("is-open")) {
+                        selectCard(index);
+                    }
+                });
+            });
+
+            previousButton.addEventListener("click", function () {
+                cycleCards(-1);
+            });
+
+            nextButton.addEventListener("click", function () {
+                cycleCards(1);
+            });
+
+            if (reducedMotion.matches) {
+                experience.classList.add("is-open");
+                openButton.disabled = true;
+                openButton.setAttribute("aria-hidden", "true");
+                selectCard(0);
+            } else {
+                openButton.addEventListener("click", openInvitation);
+                replayButton.addEventListener("click", replayInvitation);
+            }
+        })();
+    </script>
+</body>
+</html>
