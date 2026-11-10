@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>You Are Invited! — Zumi &amp; Morgan</title>
+    <meta name="description" content="You are invited to the wedding of Zumi Cuji and Morgan Fields — Monday, May 3, 2027, Raleigh, NC.">
+    <meta name="theme-color" content="#71843f">
+    <meta name="color-scheme" content="light">
+    <link rel="canonical" href="https://zumicuji.github.io/TheCujis/invite.html">
+
+    <!-- Icons: supply apple-touch-icon.png (180x180); the favicon below is an inline SVG -->
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%238a6a28'/%3E%3Ctext x='32' y='40' font-family='Georgia,serif' font-size='24' font-weight='600' text-anchor='middle' fill='%23fffdf4'%3EZM%3C/text%3E%3C/svg%3E">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+    <!-- Open Graph / Twitter (og-image.jpg must be 1200x630 and uploaded next to this file) -->
+    <meta property="og:title" content="You Are Invited! — Zumi &amp; Morgan">
+    <meta property="og:description" content="Monday, May 3, 2027 · Raleigh, NC">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://zumicuji.github.io/TheCujis/invite.html">
+    <meta property="og:image" content="https://zumicuji.github.io/TheCujis/og-image.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Zumi and Morgan's wedding invitation">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="You Are Invited! — Zumi &amp; Morgan">
+    <meta name="twitter:description" content="Monday, May 3, 2027 · Raleigh, NC">
+    <meta name="twitter:image" content="https://zumicuji.github.io/TheCujis/og-image.jpg">
+
+    <!-- Structured data: fill in the venue name/street address when you have it -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Event",
+        "name": "Wedding of Zumi Cuji & Morgan Fields",
+        "startDate": "2027-05-03",
+        "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+        "eventStatus": "https://schema.org/EventScheduled",
+        "location": {
+            "@type": "Place",
+            "name": "Raleigh, NC",
+            "address": { "@type": "PostalAddress", "addressLocality": "Raleigh", "addressRegion": "NC", "addressCountry": "US" }
+        },
+        "url": "https://zumicuji.github.io/TheCujis/invite.html"
+    }
+    </script>
+
+    <!-- Flag JS early; if invite.js never boots, the envelope is removed and the cards stay visible -->
+    <script>
+        document.documentElement.classList.add('js');
+        window.__inviteBoot = setTimeout(function () {
+            document.documentElement.classList.add('js-failed');
+        }, 10000);
+    </script>
+
+    <!-- Fonts: non-blocking, display=swap, with system fallback in the CSS stack -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap"></noscript>
+
+    <!-- Preload the first card so the envelope opens onto a ready image -->
+    <link rel="preload" as="image" href="invite1.png" fetchpriority="high">
+
+    <!-- Critical CSS: paints the page + envelope color immediately (no white flash) -->
+    <style>
+        html, body { margin: 0; background: #f1f4e7; }
+        .js .envelope { display: block; position: fixed; inset: 0; background: #53652d; z-index: 100; }
+    </style>
+    <link rel="stylesheet" href="invite.css">
+
+    <noscript>
+        <!-- Without JS the cards are a plain swipeable strip; hide controls that need scripting -->
+        <style>[data-needs-js] { display: none !important; }</style>
+    </noscript>
+
+    <script src="invite.js" defer></script>
+</head>
+
+<body>
+    <a class="skip-link" href="#suite">Skip to the invitation</a>
+
+    <div id="app" data-state="closed">
+
+        <!-- ================= ENVELOPE ================= -->
+        <section class="envelope" id="envelope" aria-label="Wedding invitation envelope">
+            <div class="envelope__back"></div>
+            <div class="envelope__liner"></div>
+
+            <!-- Decorative copy of card 1 that slides out of the pocket -->
+            <div class="envelope__card" aria-hidden="true">
+                <div class="envelope__card-inner">
+                    <img class="card-img" src="invite1.png" alt="" decoding="async" draggable="false">
+                </div>
+            </div>
+
+            <!-- Front folds: one SVG, same fill, so no seams or darker triangles -->
+            <svg class="envelope__front" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+                <polygon points="0,0 58,50 0,100"></polygon>
+                <polygon points="100,0 42,50 100,100"></polygon>
+                <polygon points="0,100 50,46 100,100"></polygon>
+                <polyline points="0,0 58,50 0,100"></polyline>
+                <polyline points="100,0 42,50 100,100"></polyline>
+                <polyline points="0,100 50,46 100,100"></polyline>
+            </svg>
+
+            <!-- Flap: perspective on the wrapper, two backface-hidden faces -->
+            <div class="envelope__flap-wrap" aria-hidden="true">
+                <div class="envelope__flap" id="envFlap">
+                    <div class="envelope__flap-face envelope__flap-face--out">
+                        <svg viewBox="0 0 100 100" preserveAspectRatio="none" focusable="false">
+                            <defs>
+                                <linearGradient id="gFlapOut" x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="0" stop-color="#c8d78c"></stop>
+                                    <stop offset="1" stop-color="#afc16c"></stop>
+                                </linearGradient>
+                            </defs>
+                            <polygon points="0,0 100,0 50,100" fill="url(#gFlapOut)"></polygon>
+                            <polyline points="0,0 50,100 100,0" fill="none" stroke="rgba(54,80,47,0.22)" stroke-width="1" vector-effect="non-scaling-stroke"></polyline>
+                        </svg>
+                    </div>
+                    <div class="envelope__flap-face envelope__flap-face--in">
+                        <svg viewBox="0 0 100 100" preserveAspectRatio="none" focusable="false">
+                            <polygon points="0,0 100,0 50,100" fill="#ece6cc"></polygon>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <p class="envelope__to" id="guestLine" hidden></p>
+
+            <button class="seal" id="seal" type="button" aria-label="Open Zumi and Morgan's wedding invitation">Z &amp; M</button>
+            <p class="envelope__note" id="envNote" aria-live="polite">Tap to open</p>
+            <button class="envelope__skip" id="skipBtn" type="button">Skip animation</button>
+        </section>
+
+        <!-- ================= INVITATION SUITE ================= -->
+        <main class="suite" id="suite">
+            <h1 class="sr-only" id="suiteHeading" tabindex="-1">You are invited — Zumi and Morgan's wedding, Monday, May 3, 2027, Raleigh, North Carolina</h1>
+
+            <section class="carousel" aria-roledescription="carousel" aria-label="Wedding invitation cards">
+                <!--
+                    Once you export modern formats, wrap each <img> like this and keep the PNG as the fallback:
+                    <picture>
+                        <source type="image/avif" srcset="invite1-800.avif 800w, invite1-1600.avif 1600w" sizes="100vw">
+                        <source type="image/webp" srcset="invite1-800.webp 800w, invite1-1600.webp 1600w" sizes="100vw">
+                        <img class="card-img" src="invite1.png" ...>
+                    </picture>
+                    Only add <source> tags for files that exist — a 404 source does not fall back to the PNG.
+                -->
+                <div class="track" id="track" tabindex="0" aria-label="Invitation cards. Use left and right arrow keys or swipe.">
+                    <figure class="slide" role="group" aria-roledescription="slide" aria-label="1 of 3: Formal invitation">
+                        <img class="card-img" src="invite1.png" alt="Formal wedding invitation for Zumi Cuji and Morgan Fields" decoding="async" fetchpriority="high" draggable="false">
+                    </figure>
+                    <figure class="slide" role="group" aria-roledescription="slide" aria-label="2 of 3: Wedding details">
+                        <img class="card-img" src="invite2.png" alt="Wedding details card" decoding="async" loading="eager" draggable="false">
+                    </figure>
+                    <figure class="slide" role="group" aria-roledescription="slide" aria-label="3 of 3: Photo card">
+                        <img class="card-img" src="invite3.png" alt="Wedding photo card" decoding="async" loading="eager" draggable="false">
+                    </figure>
+                </div>
+            </section>
+
+            <div class="dock" id="dock">
+                <div class="dock__nav" data-needs-js>
+                    <button class="nav-arrow" id="prevBtn" type="button" aria-label="Previous card" aria-controls="track"><span aria-hidden="true">‹</span></button>
+                    <div class="dots" role="group" aria-label="Choose a card">
+                        <button class="dot" type="button" data-index="0" aria-label="Card 1: Formal invitation"></button>
+                        <button class="dot" type="button" data-index="1" aria-label="Card 2: Wedding details"></button>
+                        <button class="dot" type="button" data-index="2" aria-label="Card 3: Photo card"></button>
+                    </div>
+                    <button class="nav-arrow" id="nextBtn" type="button" aria-label="Next card" aria-controls="track"><span aria-hidden="true">›</span></button>
+                </div>
+
+                <a class="btn btn--primary" href="https://zumicuji.github.io/TheCujis/index.html">Visit Our Wedding Website</a>
+
+                <div class="dock__actions">
+                    <a class="btn" id="rsvpLink" href="#" target="_blank" rel="noopener" hidden>RSVP</a>
+                    <button class="btn" id="calBtn" type="button" aria-expanded="false" aria-controls="calMenu" data-needs-js>Calendar</button>
+                    <a class="btn" id="mapLink" href="https://www.google.com/maps/search/?api=1&amp;query=Raleigh%2C%20NC" target="_blank" rel="noopener">Map</a>
+                    <button class="btn" id="shareBtn" type="button" data-needs-js>Share</button>
+                    <button class="btn" id="musicBtn" type="button" aria-pressed="false" hidden data-needs-js>Music</button>
+                    <button class="btn" id="replayBtn" type="button" data-needs-js>Replay</button>
+                </div>
+
+                <div class="menu" id="calMenu" aria-label="Add to calendar" hidden>
+                    <button type="button" id="icsBtn">Apple / other (.ics file)</button>
+                    <a id="gcalLink" href="#" target="_blank" rel="noopener">Google Calendar</a>
+                    <a id="outlookLink" href="#" target="_blank" rel="noopener">Outlook</a>
+                </div>
+            </div>
+        </main>
+
+        <div class="toast" id="toast" role="status" aria-live="polite"></div>
+        <div class="sr-only" id="live" aria-live="polite"></div>
+    </div>
+</body>
+</html>

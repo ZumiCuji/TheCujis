@@ -1,0 +1,564 @@
+/* =========================================================
+   Zumi & Morgan — e-invitation styles
+   Structure: tokens → base → envelope → suite (carousel) → dock → utilities
+   All envelope motion is driven from invite.js (Web Animations API);
+   this file only defines resting states, so nothing can get "stuck"
+   mid-transition on mobile browsers.
+   ========================================================= */
+
+/* ---------- Design tokens ---------- */
+:root {
+    --pear-light: #dce7ad;
+    --pear: #b9ca77;
+    --pear-mid: #a6b965;
+    --pear-deep: #71843f;
+    --pear-dark: #53652d;
+    --cream: #fffdf4;
+    --gold: #b99754;
+    --gold-deep: #8a6a28;       /* darker gold: cream text on it passes AA */
+    --ink: #36502f;
+    --page: #f1f4e7;
+
+    --font: "Montserrat", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+    /* Viewport height: 100vh fallback → 100dvh where supported.
+       invite.js overrides --app-h with innerHeight on browsers without dvh (iOS < 15.4). */
+    --app-h: 100vh;
+
+    --safe-t: env(safe-area-inset-top, 0px);
+    --safe-r: env(safe-area-inset-right, 0px);
+    --safe-b: env(safe-area-inset-bottom, 0px);
+    --safe-l: env(safe-area-inset-left, 0px);
+
+    --gutter: clamp(16px, 5vw, 56px);
+    --dock-h: calc(172px + var(--safe-b));
+    --card-pad: 20px;                 /* vertical breathing room around a card */
+    --seal: clamp(76px, 20vw, 112px);
+
+    --paper: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .25  0 0 0 0 .32  0 0 0 0 .12  0 0 0 .09 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+
+@supports (height: 100dvh) {
+    :root { --app-h: 100dvh; }
+}
+
+/* Short landscape phones: dock collapses to a single row */
+@media (max-height: 520px) and (orientation: landscape) {
+    :root {
+        --dock-h: calc(64px + var(--safe-b));
+        --card-pad: 12px;
+    }
+}
+
+/* ---------- Base ---------- */
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html,
+body { height: 100%; }
+
+body {
+    margin: 0;
+    overflow: hidden;
+    overscroll-behavior: none;
+    color: var(--ink);
+    font-family: var(--font);
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    background:
+        var(--paper),
+        radial-gradient(circle at 12% 10%, rgba(220, 231, 173, 0.76), transparent 30%),
+        radial-gradient(circle at 88% 90%, rgba(185, 151, 84, 0.12), transparent 28%),
+        var(--page);
+}
+
+button,
+a { -webkit-tap-highlight-color: transparent; }
+
+:focus-visible {
+    outline: 3px solid var(--gold-deep);
+    outline-offset: 3px;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+.skip-link {
+    position: fixed;
+    top: 8px;
+    left: 8px;
+    z-index: 300;
+    padding: 12px 16px;
+    color: var(--cream);
+    background: var(--ink);
+    transform: translateY(-200%);
+}
+.skip-link:focus { transform: none; }
+
+/* ---------- Shared card image sizing ----------
+   Used by BOTH the carousel slides and the card inside the envelope, so the
+   card that slides out of the envelope lands pixel-for-pixel on slide 1. */
+.card-img {
+    display: block;
+    width: min(calc(100vw - (var(--gutter) * 2)), 960px);
+    height: calc(var(--app-h) - var(--dock-h) - var(--safe-t) - (var(--card-pad) * 2));
+    object-fit: contain;
+    -webkit-user-drag: none;
+    user-select: none;
+    -webkit-user-select: none;
+    filter: drop-shadow(0 14px 22px rgba(54, 72, 25, 0.24));
+}
+
+.card-fallback {
+    display: grid;
+    place-items: center;
+    padding: 24px;
+    text-align: center;
+    font-size: 0.85rem;
+    line-height: 1.6;
+    color: var(--ink);
+    background: var(--cream);
+    border: 1px solid var(--gold);
+}
+
+/* =========================================================
+   ENVELOPE
+   Layer order (back → front):
+   back · liner · card · front folds · flap · seal/UI
+   The card sits BETWEEN the liner and the front folds, so it visibly
+   slides out of the envelope pocket instead of rising behind everything.
+   ========================================================= */
+.envelope {
+    display: none;                      /* only shown when JS is running (.js) */
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    overflow: hidden;
+    cursor: pointer;
+    background: var(--pear-dark);
+    touch-action: manipulation;
+    isolation: isolate;
+}
+.js .envelope { display: block; }
+.js-failed .envelope,
+.envelope[hidden] { display: none !important; }
+
+.envelope__back,
+.envelope__liner,
+.envelope__front {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.envelope__back {
+    z-index: 1;
+    background:
+        var(--paper),
+        linear-gradient(135deg, rgba(255, 255, 255, 0.08), transparent 38%),
+        var(--pear-deep);
+}
+
+.envelope__liner {
+    z-index: 2;
+    opacity: 0;                         /* faded in by invite.js as the flap lifts */
+    background:
+        var(--paper),
+        radial-gradient(circle at 18% 25%, rgba(83, 101, 45, 0.11) 0 5px, transparent 6px),
+        radial-gradient(circle at 72% 58%, rgba(83, 101, 45, 0.11) 0 6px, transparent 7px),
+        var(--cream);
+}
+
+.envelope__card {
+    position: absolute;
+    left: 50%;
+    top: calc((var(--app-h) - var(--dock-h) + var(--safe-t)) / 2);
+    z-index: 3;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+}
+.envelope__card-inner {
+    transform: translateY(34%) scale(0.8);      /* resting: tucked into the pocket */
+    will-change: transform;
+}
+
+.envelope__front {
+    z-index: 4;
+    will-change: transform;
+}
+.envelope__front polygon { fill: var(--pear-mid); }
+.envelope__front polyline {
+    fill: none;
+    stroke: rgba(255, 255, 255, 0.28);
+    stroke-width: 1;
+    vector-effect: non-scaling-stroke;
+}
+
+/* Flap: perspective lives on the wrapper (iOS needs it on an ancestor),
+   each face is its own SVG triangle — no clip-path + 3D combo. */
+.envelope__flap-wrap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 56%;
+    z-index: 5;
+    pointer-events: none;
+    -webkit-perspective: 1200px;
+    perspective: 1200px;
+}
+.envelope__flap {
+    position: absolute;
+    inset: 0;
+    -webkit-transform-origin: 50% 0;
+    transform-origin: 50% 0;
+    -webkit-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+    will-change: transform;
+}
+.envelope__flap-face {
+    position: absolute;
+    inset: 0;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+}
+.envelope__flap-face svg { display: block; width: 100%; height: 100%; }
+.envelope__flap-face--in {
+    -webkit-transform: rotateX(180deg);
+    transform: rotateX(180deg);
+}
+
+.envelope__to {
+    position: absolute;
+    top: calc(var(--safe-t) + 11%);
+    left: 0;
+    right: 0;
+    z-index: 7;
+    margin: 0;
+    padding: 0 24px;
+    text-align: center;
+    color: var(--ink);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    pointer-events: none;
+}
+
+.seal {
+    position: absolute;
+    left: calc(50% - (var(--seal) / 2));
+    top: calc(54% - (var(--seal) / 2));
+    z-index: 8;
+    display: grid;
+    width: var(--seal);
+    height: var(--seal);
+    place-items: center;
+    padding: 0;
+    color: var(--cream);
+    background: var(--gold-deep);
+    border: clamp(2px, 0.45vw, 4px) solid #dec996;
+    border-radius: 50%;
+    box-shadow:
+        inset 0 0 0 clamp(2px, 0.45vw, 4px) rgba(60, 40, 10, 0.25),
+        0 6px 18px rgba(53, 69, 22, 0.35);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(1.1rem, 3.2vw, 2rem);
+    font-weight: 600;
+    letter-spacing: -1px;
+    line-height: 1;
+    white-space: nowrap;
+    cursor: pointer;
+    touch-action: manipulation;
+}
+.seal:focus-visible {
+    outline: 3px solid var(--cream);
+    outline-offset: 4px;
+    box-shadow: 0 0 0 8px var(--pear-dark), 0 6px 18px rgba(53, 69, 22, 0.35);
+}
+.seal[aria-disabled="true"] { cursor: progress; opacity: 0.85; }
+
+/* Pills on the envelope sit on a dark ground so cream text always passes contrast */
+.envelope__note,
+.envelope__skip {
+    position: absolute;
+    z-index: 9;
+    margin: 0;
+    padding: 9px 16px;
+    color: var(--cream);
+    background: rgba(54, 80, 47, 0.9);
+    border-radius: 999px;
+    font: 600 0.68rem/1.2 var(--font);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+.envelope__note {
+    left: 50%;
+    bottom: calc(var(--safe-b) + 40px);
+    transform: translateX(-50%);
+    white-space: nowrap;
+    pointer-events: none;
+    animation: tap-pulse 2s ease-in-out infinite;
+}
+.envelope__skip {
+    top: calc(var(--safe-t) + 14px);
+    right: calc(var(--safe-r) + 14px);
+    min-height: 44px;
+    border: 0;
+    cursor: pointer;
+    touch-action: manipulation;
+}
+.envelope__skip:hover,
+.envelope__skip:focus-visible { background: var(--ink); outline: 2px solid var(--cream); outline-offset: 2px; }
+
+@keyframes tap-pulse {
+    0%, 100% { opacity: 0.8; margin-bottom: 0; }
+    50% { opacity: 1; margin-bottom: 4px; }
+}
+
+/* =========================================================
+   SUITE (carousel)
+   ========================================================= */
+.suite {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: var(--app-h);
+}
+
+.carousel {
+    position: relative;
+    flex: 1 1 auto;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.track {
+    flex: 1 1 auto;
+    min-height: 0;
+    display: flex;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+    cursor: grab;
+}
+.track::-webkit-scrollbar { display: none; }
+.track.is-dragging {
+    scroll-snap-type: none;
+    cursor: grabbing;
+}
+.track:focus-visible { outline-offset: -6px; }
+
+.slide {
+    flex: 0 0 100%;
+    display: grid;
+    place-items: center;
+    margin: 0;
+    padding: calc(var(--safe-t) + var(--card-pad)) var(--gutter) var(--card-pad);
+    scroll-snap-align: center;
+    scroll-snap-stop: always;
+}
+
+/* =========================================================
+   DOCK (navigation + actions)
+   ========================================================= */
+.dock {
+    position: relative;
+    flex: 0 0 var(--dock-h);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 4px max(var(--gutter), var(--safe-l)) calc(var(--safe-b) + 8px) max(var(--gutter), var(--safe-r));
+}
+
+.dock__nav {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.dock__actions {
+    display: flex;
+    gap: 8px;
+    width: 100%;
+    max-width: 560px;
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+.dock__actions::-webkit-scrollbar { display: none; }
+.dock__actions > * { flex: 1 1 0; min-width: 52px; }
+
+.nav-arrow {
+    display: grid;
+    width: 44px;
+    height: 44px;
+    place-items: center;
+    padding: 0 0 3px;
+    color: var(--ink);
+    background: rgba(255, 253, 244, 0.6);
+    border: 1px solid rgba(83, 101, 45, 0.4);
+    border-radius: 50%;
+    cursor: pointer;
+    font: 400 1.7rem/1 Arial, sans-serif;
+    touch-action: manipulation;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+.nav-arrow:hover { color: var(--cream); background: var(--ink); }
+.nav-arrow:active { transform: scale(0.94); }
+
+.dots { display: flex; }
+.dot {
+    display: grid;
+    width: 44px;
+    height: 44px;
+    place-items: center;
+    padding: 0;
+    background: none;
+    border: 0;
+    cursor: pointer;
+    touch-action: manipulation;
+}
+.dot::before {
+    content: "";
+    width: 10px;
+    height: 10px;
+    background: rgba(83, 101, 45, 0.35);
+    border-radius: 50%;
+    transition: transform 0.2s ease, background 0.2s ease;
+}
+.dot[aria-current="true"]::before {
+    background: var(--pear-dark);
+    transform: scale(1.3);
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 0 8px;
+    color: var(--ink);
+    background: rgba(255, 253, 244, 0.7);
+    border: 1px solid rgba(83, 101, 45, 0.58);
+    border-radius: 2px;
+    cursor: pointer;
+    font: 600 0.62rem/1.2 var(--font);
+    letter-spacing: 1.1px;
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    touch-action: manipulation;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+.btn:hover { color: var(--cream); background: rgba(83, 101, 45, 0.9); }
+.btn[hidden] { display: none; }
+.btn[aria-pressed="true"] { color: var(--cream); background: var(--pear-dark); }
+
+.btn--primary {
+    min-height: 48px;
+    padding: 0 20px;
+    font-size: 0.65rem;
+    background: rgba(185, 202, 119, 0.72);
+    box-shadow: 0 4px 12px rgba(83, 101, 45, 0.1);
+}
+
+/* Add-to-calendar popover */
+.menu {
+    position: absolute;
+    left: 50%;
+    bottom: calc(100% - 12px);
+    z-index: 50;
+    display: flex;
+    flex-direction: column;
+    width: min(280px, calc(100vw - 32px));
+    padding: 6px;
+    background: var(--cream);
+    border: 1px solid var(--gold);
+    box-shadow: 0 16px 36px rgba(54, 72, 25, 0.28);
+    transform: translateX(-50%);
+}
+.menu[hidden] { display: none; }
+.menu a,
+.menu button {
+    display: block;
+    min-height: 44px;
+    padding: 12px 14px;
+    color: var(--ink);
+    background: none;
+    border: 0;
+    cursor: pointer;
+    font: 600 0.72rem/1.3 var(--font);
+    letter-spacing: 0.6px;
+    text-align: left;
+    text-decoration: none;
+}
+.menu a:hover,
+.menu button:hover { background: var(--pear-light); }
+
+.toast {
+    position: fixed;
+    left: 50%;
+    bottom: calc(var(--dock-h) + 12px);
+    z-index: 200;
+    max-width: calc(100vw - 32px);
+    padding: 10px 18px;
+    color: var(--cream);
+    background: rgba(54, 80, 47, 0.95);
+    border-radius: 999px;
+    font: 600 0.72rem/1.3 var(--font);
+    letter-spacing: 0.6px;
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(-50%, 8px);
+    transition: opacity 0.25s ease, transform 0.25s ease;
+}
+.toast.is-visible { opacity: 1; transform: translate(-50%, 0); }
+
+/* ---------- Short landscape: single-row dock ---------- */
+@media (max-height: 520px) and (orientation: landscape) {
+    .dock {
+        flex-direction: row;
+        justify-content: center;
+        gap: 12px;
+        padding-top: 6px;
+        overflow-x: auto;
+    }
+    .dock__actions { width: auto; max-width: none; overflow: visible; }
+    .dock__actions > * { flex: 0 0 auto; min-width: 0; padding: 0 12px; }
+    .btn--primary { min-height: 44px; }
+    .menu { bottom: calc(100% - 4px); }
+}
+
+/* ---------- Reduced motion ----------
+   The envelope still works (see invite.js: it cross-fades instead of
+   flying apart); here we only quiet the decorative CSS animation. */
+@media (prefers-reduced-motion: reduce) {
+    .envelope__note { animation: none; }
+    .dot::before,
+    .btn,
+    .nav-arrow,
+    .toast { transition: none; }
+}
+
+/* ---------- Forced-colors / high contrast ---------- */
+@media (forced-colors: active) {
+    .dot::before { background: ButtonText; }
+    .dot[aria-current="true"]::before { background: Highlight; }
+}
