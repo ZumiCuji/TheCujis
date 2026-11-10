@@ -217,20 +217,20 @@ a { -webkit-tap-highlight-color: transparent; }
 .fold--left {
     top: 0;
     left: 0;
-    width: 58%;
+    width: 52%;
     height: 100%;
-    -webkit-perspective-origin: 86% 50%;
-    perspective-origin: 86% 50%;
+    -webkit-perspective-origin: 92% 50%;
+perspective-origin: 92% 50%;
 }
 .fold--left .fold__hinge { -webkit-transform-origin: 0 50%; transform-origin: 0 50%; }
 
 .fold--right {
     top: 0;
     right: 0;
-    width: 58%;
+    width: 52%;
     height: 100%;
-    -webkit-perspective-origin: 14% 50%;
-    perspective-origin: 14% 50%;
+    -webkit-perspective-origin: 8% 50%;
+perspective-origin: 8% 50%;
 }
 .fold--right .fold__hinge { -webkit-transform-origin: 100% 50%; transform-origin: 100% 50%; }
 
