@@ -61,15 +61,13 @@
         }
 
         .page {
-    width: 100%;
-    min-height: 100svh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding:
-        clamp(24px, 5svh, 64px)
-        14px;
-}
+            width: 100%;
+            min-height: 100svh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: clamp(24px, 5svh, 64px) 14px;
+        }
 
         .experience {
             width: min(100%, 700px);
@@ -91,6 +89,11 @@
             display: none;
         }
 
+        /*
+            The primary card sits in this pocket while extracting.
+            The pocket masks anything below the envelope's bottom edge,
+            but allows the card to rise visibly above the top opening.
+        */
         .extraction-pocket {
             position: absolute;
             top: 50%;
@@ -137,7 +140,7 @@
             image-rendering: auto;
         }
 
-        /* Resting invitation suite stack. */
+        /* Resting stationery stack. */
         .card-primary {
             z-index: 4;
             width: min(67vw, 315px);
@@ -157,14 +160,8 @@
         }
 
         /*
-           JavaScript calculates --selected-width from:
-           - actual PNG aspect ratio
-           - available screen width
-           - available viewport height
-
-           This lets selected cards use the largest practical space
-           on each phone, tablet, or desktop while keeping their
-           original proportions intact.
+            JavaScript sets --selected-width based on each PNG's
+            natural aspect ratio plus available screen space.
         */
         .card-primary.is-selected,
         .card-details.is-selected {
@@ -188,7 +185,7 @@
         }
 
         /* =====================================================
-           SIDE NAVIGATION ARROWS
+           SIDE ARROWS
            ===================================================== */
         .card-navigation {
             position: absolute;
@@ -335,6 +332,7 @@
             border: 0;
             cursor: pointer;
             pointer-events: auto;
+            touch-action: manipulation;
         }
 
         .js .envelope-trigger:focus-visible {
@@ -343,6 +341,7 @@
             border-radius: 8px;
         }
 
+        /* Back envelope layer. */
         .envelope-back {
             position: absolute;
             top: 25px;
@@ -356,6 +355,7 @@
             box-shadow: 0 20px 22px rgba(54, 72, 25, 0.22);
         }
 
+        /* Cream liner layer. */
         .envelope-liner {
             position: absolute;
             top: 26px;
@@ -403,6 +403,7 @@
             height: auto;
         }
 
+        /* Front folds conceal the lower portion of the emerging card. */
         .envelope-front {
             position: absolute;
             right: 0;
@@ -542,7 +543,7 @@
         }
 
         /*
-            Primary card begins at the envelope's top opening,
+            Main invitation begins near the top opening of the envelope,
             not at the bottom of the page.
         */
         .js .card-primary {
@@ -569,8 +570,8 @@
         }
 
         /*
-            Main invitation rises upward from the envelope opening.
-            Front folds conceal its lower portion until it clears.
+            The main invitation rises UP from the envelope opening.
+            The front folds remain above it while it is still inside.
         */
         .js .experience.is-opening .card-primary {
             top: -35%;
@@ -619,23 +620,11 @@
             transition-delay: 0.2s;
         }
 
-        .js .experience.is-open .card-primary.is-selected {
-            z-index: 15;
-            width: var(--selected-width, min(96vw, 440px));
-            transform: translate(-50%, -50%) rotate(0deg) scale(1);
-            transition-delay: 0s;
-        }
-
-        .js .experience.is-open .card-details.is-selected {
-            z-index: 15;
-            width: var(--selected-width, min(96vw, 440px));
-            transform: translate(-50%, -50%) rotate(0deg) scale(1);
-            transition-delay: 0s;
-        }
-
+        .js .experience.is-open .card-primary.is-selected,
+        .js .experience.is-open .card-details.is-selected,
         .js .experience.is-open .card-photo.is-selected {
             z-index: 15;
-            width: var(--selected-width, min(64vw, 280px));
+            width: var(--selected-width);
             transform: translate(-50%, -50%) rotate(0deg) scale(1);
             transition-delay: 0s;
         }
@@ -674,7 +663,8 @@
 
         @media (min-width: 768px) {
             .page {
-                padding-top: 38px;
+                padding-top: clamp(32px, 5svh, 80px);
+                padding-bottom: clamp(32px, 5svh, 80px);
             }
 
             .experience {
@@ -720,68 +710,6 @@
                 right: 20px;
             }
         }
-
-        @media (prefers-reduced-motion: reduce) {
-            *,
-            *::before,
-            *::after {
-                scroll-behavior: auto !important;
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
-            }
-
-            .js .envelope-stage {
-                display: none;
-            }
-
-            .js .extraction-pocket {
-                clip-path: none;
-            }
-
-            .js .suite-card {
-                opacity: 1;
-                pointer-events: auto;
-            }
-
-            .js .suite-actions {
-                opacity: 1;
-                pointer-events: auto;
-                transform: none;
-            }
-
-            .js .card-navigation {
-                opacity: 1;
-                pointer-events: auto;
-                transform: translateY(-50%);
-            }
-
-            .js .card-primary {
-                top: 50%;
-                z-index: 4;
-                transform: translate(-50%, -50%) rotate(-1deg);
-            }
-
-            .js .card-details {
-                transform: translate(calc(-50% - 48px), calc(-50% - 30px)) rotate(-4deg);
-            }
-
-            .js .card-photo {
-                transform: translate(calc(-50% + 68px), calc(-50% + 13px)) rotate(4deg);
-            }
-
-            .js .experience.is-open .card-primary.is-selected,
-            .js .experience.is-open .card-details.is-selected,
-            .js .experience.is-open .card-photo.is-selected {
-                width: var(--selected-width);
-                transform: translate(-50%, -50%) rotate(0deg) scale(1);
-            }
-
-            .js .experience.is-open + .replay-button {
-                opacity: 1;
-                pointer-events: auto;
-            }
-        }
     </style>
 </head>
 
@@ -790,8 +718,8 @@
         <div class="experience" id="experience">
 
             <div class="suite-stage">
-                <!-- Envelope layers -->
-                <div class="envelope-stage" aria-hidden="true">
+                <!-- Envelope -->
+                <div class="envelope-stage">
                     <div class="envelope-back"></div>
                     <div class="envelope-liner"></div>
 
@@ -814,7 +742,7 @@
                     ></button>
                 </div>
 
-                <!-- Main invitation -->
+                <!-- Main formal invitation -->
                 <div class="extraction-pocket">
                     <button
                         type="button"
@@ -861,7 +789,7 @@
                     >
                 </button>
 
-                <!-- Side card navigation -->
+                <!-- Side arrows -->
                 <div class="card-navigation" aria-label="Invitation card navigation">
                     <button
                         class="nav-arrow"
@@ -883,13 +811,13 @@
                 </div>
             </div>
 
-            <!-- Hidden until the envelope opens -->
+            <!-- Visible after envelope opens -->
             <div class="suite-actions">
                 <a
                     class="website-button"
                     href="https://zumicuji.github.io/TheCujis/index.html"
                 >
-                    Visit Our Wedding Website to RSVP
+                    Visit Our Wedding Website
                 </a>
             </div>
         </div>
@@ -906,7 +834,6 @@
             const replayButton = document.getElementById("replayButton");
             const previousButton = document.getElementById("previousCard");
             const nextButton = document.getElementById("nextCard");
-            const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
             const interactiveCards = [
                 document.querySelector(".card-primary"),
@@ -915,12 +842,13 @@
             ];
 
             let activeCardIndex = 0;
+            let touchHandled = false;
 
             document.documentElement.classList.add("js");
 
             /*
-                Calculate the largest readable width for each selected PNG
-                while maintaining that image's original aspect ratio.
+                Fit each selected PNG to the usable device viewport while
+                preserving its exact original aspect ratio.
             */
             function updateCardFitSizes() {
                 const viewportWidth = document.documentElement.clientWidth;
@@ -932,27 +860,22 @@
                     const naturalHeight = image.naturalHeight || image.height || 1;
                     const aspectRatio = naturalWidth / naturalHeight;
 
-                    /*
-                        Main and details cards receive nearly the full
-                        viewport. The photo card remains intentionally
-                        smaller but still adapts to screen size.
-                    */
-                    const widthLimit = index === 2
+                    const maxWidth = index === 2
                         ? viewportWidth * 0.64
                         : viewportWidth * 0.96;
 
-                    const heightLimit = index === 2
+                    const maxHeight = index === 2
                         ? viewportHeight * 0.58
                         : viewportHeight - 112;
 
-                    const fittedWidth = Math.max(
+                    const selectedWidth = Math.max(
                         120,
-                        Math.min(widthLimit, heightLimit * aspectRatio)
+                        Math.min(maxWidth, maxHeight * aspectRatio)
                     );
 
                     card.style.setProperty(
                         "--selected-width",
-                        `${Math.floor(fittedWidth)}px`
+                        `${Math.floor(selectedWidth)}px`
                     );
                 });
             }
@@ -964,10 +887,10 @@
                 updateCardFitSizes();
 
                 interactiveCards.forEach(function (card, cardIndex) {
-                    const isActive = cardIndex === activeCardIndex;
+                    const selected = cardIndex === activeCardIndex;
 
-                    card.classList.toggle("is-selected", isActive);
-                    card.setAttribute("aria-pressed", isActive ? "true" : "false");
+                    card.classList.toggle("is-selected", selected);
+                    card.setAttribute("aria-pressed", selected ? "true" : "false");
                 });
             }
 
@@ -1039,6 +962,26 @@
                 cycleCards(1);
             });
 
+            /*
+                Both click and touchend are included for reliable
+                mobile Safari and Android browser interaction.
+            */
+            openButton.addEventListener("click", function () {
+                if (!touchHandled) {
+                    openInvitation();
+                }
+
+                touchHandled = false;
+            });
+
+            openButton.addEventListener("touchend", function (event) {
+                event.preventDefault();
+                touchHandled = true;
+                openInvitation();
+            }, { passive: false });
+
+            replayButton.addEventListener("click", replayInvitation);
+
             window.addEventListener("resize", function () {
                 updateCardFitSizes();
 
@@ -1047,16 +990,17 @@
                 }
             });
 
-            updateCardFitSizes();
+            window.addEventListener("orientationchange", function () {
+                window.setTimeout(function () {
+                    updateCardFitSizes();
 
-            if (reducedMotion.matches) {
-                experience.classList.add("is-open");
-                openButton.disabled = true;
-                selectCard(0);
-            } else {
-                openButton.addEventListener("click", openInvitation);
-                replayButton.addEventListener("click", replayInvitation);
-            }
+                    if (experience.classList.contains("is-open")) {
+                        selectCard(activeCardIndex);
+                    }
+                }, 250);
+            });
+
+            updateCardFitSizes();
         })();
     </script>
 </body>
