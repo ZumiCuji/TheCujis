@@ -1,9 +1,8 @@
 /* =========================================================
    Zumi & Morgan — e-invitation styles
-   Structure: tokens → base → envelope → suite (carousel) → dock → utilities
-   All envelope motion is driven from invite.js (Web Animations API);
-   this file only defines resting states, so nothing can get "stuck"
-   mid-transition on mobile browsers.
+   tokens → base → envelope → suite (carousel) → dock
+   Envelope motion is driven from invite.js (Web Animations API);
+   this file only defines resting states.
    ========================================================= */
 
 /* ---------- Design tokens ---------- */
@@ -21,8 +20,7 @@
 
     --font: "Montserrat", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 
-    /* Viewport height: 100vh fallback → 100dvh where supported.
-       invite.js overrides --app-h with innerHeight on browsers without dvh (iOS < 15.4). */
+    /* 100vh fallback → 100dvh where supported (invite.js covers iOS < 15.4) */
     --app-h: 100vh;
 
     --safe-t: env(safe-area-inset-top, 0px);
@@ -31,8 +29,8 @@
     --safe-l: env(safe-area-inset-left, 0px);
 
     --gutter: clamp(16px, 5vw, 56px);
-    --dock-h: calc(172px + var(--safe-b));
-    --card-pad: 20px;                 /* vertical breathing room around a card */
+    --dock-h: calc(104px + var(--safe-b));
+    --card-pad: 20px;
     --seal: clamp(76px, 20vw, 112px);
 
     --paper: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .25  0 0 0 0 .32  0 0 0 0 .12  0 0 0 .09 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
@@ -42,10 +40,9 @@
     :root { --app-h: 100dvh; }
 }
 
-/* Short landscape phones: dock collapses to a single row */
 @media (max-height: 520px) and (orientation: landscape) {
     :root {
-        --dock-h: calc(64px + var(--safe-b));
+        --dock-h: calc(68px + var(--safe-b));
         --card-pad: 12px;
     }
 }
@@ -105,9 +102,8 @@ a { -webkit-tap-highlight-color: transparent; }
 }
 .skip-link:focus { transform: none; }
 
-/* ---------- Shared card image sizing ----------
-   Used by BOTH the carousel slides and the card inside the envelope, so the
-   card that slides out of the envelope lands pixel-for-pixel on slide 1. */
+/* Shared card sizing: carousel slides and the card inside the envelope use the
+   same box, so the card that slides out lands exactly on slide 1. */
 .card-img {
     display: block;
     width: min(calc(100vw - (var(--gutter) * 2)), 960px);
@@ -116,7 +112,8 @@ a { -webkit-tap-highlight-color: transparent; }
     -webkit-user-drag: none;
     user-select: none;
     -webkit-user-select: none;
-    filter: drop-shadow(0 14px 22px rgba(54, 72, 25, 0.24));
+    /* Shadow kept inside the 20px card padding so the carousel never clips it into a hard line */
+    filter: drop-shadow(0 5px 11px rgba(54, 72, 25, 0.28));
 }
 
 .card-fallback {
@@ -133,13 +130,10 @@ a { -webkit-tap-highlight-color: transparent; }
 
 /* =========================================================
    ENVELOPE
-   Layer order (back → front):
-   back · liner · card · front folds · flap · seal/UI
-   The card sits BETWEEN the liner and the front folds, so it visibly
-   slides out of the envelope pocket instead of rising behind everything.
+   back(1) · liner(2) · card(3) · side folds(4) · bottom fold(5) · top flap(6) · UI(7+)
    ========================================================= */
 .envelope {
-    display: none;                      /* only shown when JS is running (.js) */
+    display: none;                      /* shown only when JS is running (.js) */
     position: fixed;
     inset: 0;
     z-index: 100;
@@ -154,12 +148,9 @@ a { -webkit-tap-highlight-color: transparent; }
 .envelope[hidden] { display: none !important; }
 
 .envelope__back,
-.envelope__liner,
-.envelope__front {
+.envelope__liner {
     position: absolute;
     inset: 0;
-    width: 100%;
-    height: 100%;
     pointer-events: none;
 }
 
@@ -171,13 +162,16 @@ a { -webkit-tap-highlight-color: transparent; }
         var(--pear-deep);
 }
 
+/* Inside of the envelope: cream paper, faint pattern, soft vignette for depth */
 .envelope__liner {
     z-index: 2;
     opacity: 0;                         /* faded in by invite.js as the flap lifts */
     background:
         var(--paper),
-        radial-gradient(circle at 18% 25%, rgba(83, 101, 45, 0.11) 0 5px, transparent 6px),
-        radial-gradient(circle at 72% 58%, rgba(83, 101, 45, 0.11) 0 6px, transparent 7px),
+        radial-gradient(ellipse at 50% 46%, transparent 42%, rgba(83, 101, 45, 0.16) 100%),
+        radial-gradient(circle at 18% 25%, rgba(83, 101, 45, 0.1) 0 5px, transparent 6px),
+        radial-gradient(circle at 72% 58%, rgba(83, 101, 45, 0.1) 0 6px, transparent 7px),
+        radial-gradient(circle at 40% 82%, rgba(83, 101, 45, 0.1) 0 5px, transparent 6px),
         var(--cream);
 }
 
@@ -194,30 +188,96 @@ a { -webkit-tap-highlight-color: transparent; }
     will-change: transform;
 }
 
-.envelope__front {
+/* ----- Hinged folds -----
+   Perspective sits on the wrapper (iOS needs it on an ancestor); perspective-origin is
+   set so every fold shares the screen centre as its vanishing point.
+   Each fold has two backface-hidden faces: paper outside, cream inside. */
+.fold {
+    position: absolute;
     z-index: 4;
+    pointer-events: none;
+    -webkit-perspective: 1400px;
+    perspective: 1400px;
+}
+.fold__hinge {
+    position: absolute;
+    inset: 0;
+    -webkit-transform-style: preserve-3d;
+    transform-style: preserve-3d;
     will-change: transform;
 }
-.envelope__front polygon { fill: var(--pear-mid); }
-.envelope__front polyline {
-    fill: none;
-    stroke: rgba(255, 255, 255, 0.28);
-    stroke-width: 1;
-    vector-effect: non-scaling-stroke;
+.fold__face {
+    position: absolute;
+    inset: 0;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+}
+.fold__face svg { display: block; width: 100%; height: 100%; }
+
+.fold--left {
+    top: 0;
+    left: 0;
+    width: 58%;
+    height: 100%;
+    -webkit-perspective-origin: 86% 50%;
+    perspective-origin: 86% 50%;
+}
+.fold--left .fold__hinge { -webkit-transform-origin: 0 50%; transform-origin: 0 50%; }
+
+.fold--right {
+    top: 0;
+    right: 0;
+    width: 58%;
+    height: 100%;
+    -webkit-perspective-origin: 14% 50%;
+    perspective-origin: 14% 50%;
+}
+.fold--right .fold__hinge { -webkit-transform-origin: 100% 50%; transform-origin: 100% 50%; }
+
+.fold--left .fold__face--in,
+.fold--right .fold__face--in {
+    -webkit-transform: rotateY(180deg);
+    transform: rotateY(180deg);
 }
 
-/* Flap: perspective lives on the wrapper (iOS needs it on an ancestor),
-   each face is its own SVG triangle — no clip-path + 3D combo. */
+.fold--bottom {
+    z-index: 5;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 54%;
+    -webkit-perspective-origin: 50% 7%;
+    perspective-origin: 50% 7%;
+}
+.fold--bottom .fold__hinge { -webkit-transform-origin: 50% 100%; transform-origin: 50% 100%; }
+.fold--bottom .fold__face--in {
+    -webkit-transform: rotateX(180deg);
+    transform: rotateX(180deg);
+}
+
+/* Crease lines drawn on every fold: a soft shadow plus a thin highlight */
+.crease-shadow,
+.crease-light {
+    fill: none;
+    vector-effect: non-scaling-stroke;
+    stroke-linejoin: round;
+}
+.crease-shadow { stroke: rgba(54, 80, 47, 0.2); stroke-width: 3; }
+.crease-light { stroke: rgba(255, 255, 255, 0.4); stroke-width: 1; }
+
+/* Top flap */
 .envelope__flap-wrap {
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     height: 56%;
-    z-index: 5;
+    z-index: 6;
     pointer-events: none;
-    -webkit-perspective: 1200px;
-    perspective: 1200px;
+    -webkit-perspective: 1400px;
+    perspective: 1400px;
+    -webkit-perspective-origin: 50% 89%;
+    perspective-origin: 50% 89%;
 }
 .envelope__flap {
     position: absolute;
@@ -268,12 +328,13 @@ a { -webkit-tap-highlight-color: transparent; }
     place-items: center;
     padding: 0;
     color: var(--cream);
-    background: var(--gold-deep);
+    background:
+        radial-gradient(circle at 35% 30%, #a98534, var(--gold-deep) 70%);
     border: clamp(2px, 0.45vw, 4px) solid #dec996;
     border-radius: 50%;
     box-shadow:
         inset 0 0 0 clamp(2px, 0.45vw, 4px) rgba(60, 40, 10, 0.25),
-        0 6px 18px rgba(53, 69, 22, 0.35);
+        0 8px 18px rgba(53, 69, 22, 0.4);
     font-family: Georgia, "Times New Roman", serif;
     font-size: clamp(1.1rem, 3.2vw, 2rem);
     font-weight: 600;
@@ -290,10 +351,11 @@ a { -webkit-tap-highlight-color: transparent; }
 }
 .seal[aria-disabled="true"] { cursor: progress; opacity: 0.85; }
 
-/* Pills on the envelope sit on a dark ground so cream text always passes contrast */
-.envelope__note,
-.envelope__skip {
+/* Dark pill so cream text always passes contrast on the green folds */
+.envelope__note {
     position: absolute;
+    left: 50%;
+    bottom: calc(var(--safe-b) + 40px);
     z-index: 9;
     margin: 0;
     padding: 9px 16px;
@@ -303,25 +365,11 @@ a { -webkit-tap-highlight-color: transparent; }
     font: 600 0.68rem/1.2 var(--font);
     letter-spacing: 2px;
     text-transform: uppercase;
-}
-.envelope__note {
-    left: 50%;
-    bottom: calc(var(--safe-b) + 40px);
-    transform: translateX(-50%);
     white-space: nowrap;
+    transform: translateX(-50%);
     pointer-events: none;
     animation: tap-pulse 2s ease-in-out infinite;
 }
-.envelope__skip {
-    top: calc(var(--safe-t) + 14px);
-    right: calc(var(--safe-r) + 14px);
-    min-height: 44px;
-    border: 0;
-    cursor: pointer;
-    touch-action: manipulation;
-}
-.envelope__skip:hover,
-.envelope__skip:focus-visible { background: var(--ink); outline: 2px solid var(--cream); outline-offset: 2px; }
 
 @keyframes tap-pulse {
     0%, 100% { opacity: 0.8; margin-bottom: 0; }
@@ -356,7 +404,7 @@ a { -webkit-tap-highlight-color: transparent; }
     -webkit-overflow-scrolling: touch;
     overscroll-behavior-x: contain;
     scrollbar-width: none;
-    cursor: grab;
+    cursor: pointer;
 }
 .track::-webkit-scrollbar { display: none; }
 .track.is-dragging {
@@ -376,189 +424,80 @@ a { -webkit-tap-highlight-color: transparent; }
 }
 
 /* =========================================================
-   DOCK (navigation + actions)
+   DOCK — position indicator + the website button
    ========================================================= */
 .dock {
-    position: relative;
     flex: 0 0 var(--dock-h);
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 8px;
-    padding: 4px max(var(--gutter), var(--safe-l)) calc(var(--safe-b) + 8px) max(var(--gutter), var(--safe-r));
+    justify-content: flex-start;
+    gap: 14px;
+    padding: 6px max(var(--gutter), var(--safe-l)) calc(var(--safe-b) + 14px) max(var(--gutter), var(--safe-r));
 }
 
-.dock__nav {
+.indicator {
     display: flex;
-    align-items: center;
-    gap: 4px;
-}
-
-.dock__actions {
-    display: flex;
-    gap: 8px;
-    width: 100%;
-    max-width: 560px;
-    overflow-x: auto;
-    scrollbar-width: none;
-}
-.dock__actions::-webkit-scrollbar { display: none; }
-.dock__actions > * { flex: 1 1 0; min-width: 52px; }
-
-.nav-arrow {
-    display: grid;
-    width: 44px;
-    height: 44px;
-    place-items: center;
-    padding: 0 0 3px;
-    color: var(--ink);
-    background: rgba(255, 253, 244, 0.6);
-    border: 1px solid rgba(83, 101, 45, 0.4);
-    border-radius: 50%;
-    cursor: pointer;
-    font: 400 1.7rem/1 Arial, sans-serif;
-    touch-action: manipulation;
-    transition: background 0.2s ease, color 0.2s ease;
-}
-.nav-arrow:hover { color: var(--cream); background: var(--ink); }
-.nav-arrow:active { transform: scale(0.94); }
-
-.dots { display: flex; }
-.dot {
-    display: grid;
-    width: 44px;
-    height: 44px;
-    place-items: center;
-    padding: 0;
-    background: none;
-    border: 0;
-    cursor: pointer;
-    touch-action: manipulation;
-}
-.dot::before {
-    content: "";
-    width: 10px;
+    gap: 10px;
     height: 10px;
+}
+.indicator span {
+    width: 8px;
+    height: 8px;
     background: rgba(83, 101, 45, 0.35);
     border-radius: 50%;
     transition: transform 0.2s ease, background 0.2s ease;
 }
-.dot[aria-current="true"]::before {
+.indicator .is-current {
     background: var(--pear-dark);
-    transform: scale(1.3);
+    transform: scale(1.35);
 }
 
 .btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-height: 44px;
-    padding: 0 8px;
+    min-height: 50px;
+    padding: 13px 19px;
     color: var(--ink);
-    background: rgba(255, 253, 244, 0.7);
+    background: rgba(185, 202, 119, 0.72);
     border: 1px solid rgba(83, 101, 45, 0.58);
-    border-radius: 2px;
-    cursor: pointer;
-    font: 600 0.62rem/1.2 var(--font);
-    letter-spacing: 1.1px;
+    box-shadow: 0 4px 12px rgba(83, 101, 45, 0.1);
+    font: 600 0.65rem/1.3 var(--font);
+    letter-spacing: 1.2px;
     text-align: center;
     text-decoration: none;
     text-transform: uppercase;
     touch-action: manipulation;
     transition: background 0.2s ease, color 0.2s ease;
 }
-.btn:hover { color: var(--cream); background: rgba(83, 101, 45, 0.9); }
-.btn[hidden] { display: none; }
-.btn[aria-pressed="true"] { color: var(--cream); background: var(--pear-dark); }
-
-.btn--primary {
-    min-height: 48px;
-    padding: 0 20px;
-    font-size: 0.65rem;
-    background: rgba(185, 202, 119, 0.72);
-    box-shadow: 0 4px 12px rgba(83, 101, 45, 0.1);
-}
-
-/* Add-to-calendar popover */
-.menu {
-    position: absolute;
-    left: 50%;
-    bottom: calc(100% - 12px);
-    z-index: 50;
-    display: flex;
-    flex-direction: column;
-    width: min(280px, calc(100vw - 32px));
-    padding: 6px;
-    background: var(--cream);
-    border: 1px solid var(--gold);
-    box-shadow: 0 16px 36px rgba(54, 72, 25, 0.28);
-    transform: translateX(-50%);
-}
-.menu[hidden] { display: none; }
-.menu a,
-.menu button {
-    display: block;
-    min-height: 44px;
-    padding: 12px 14px;
-    color: var(--ink);
-    background: none;
-    border: 0;
-    cursor: pointer;
-    font: 600 0.72rem/1.3 var(--font);
-    letter-spacing: 0.6px;
-    text-align: left;
-    text-decoration: none;
-}
-.menu a:hover,
-.menu button:hover { background: var(--pear-light); }
-
-.toast {
-    position: fixed;
-    left: 50%;
-    bottom: calc(var(--dock-h) + 12px);
-    z-index: 200;
-    max-width: calc(100vw - 32px);
-    padding: 10px 18px;
+.btn:hover,
+.btn:focus-visible {
     color: var(--cream);
-    background: rgba(54, 80, 47, 0.95);
-    border-radius: 999px;
-    font: 600 0.72rem/1.3 var(--font);
-    letter-spacing: 0.6px;
-    opacity: 0;
-    pointer-events: none;
-    transform: translate(-50%, 8px);
-    transition: opacity 0.25s ease, transform 0.25s ease;
+    background: rgba(83, 101, 45, 0.88);
 }
-.toast.is-visible { opacity: 1; transform: translate(-50%, 0); }
 
-/* ---------- Short landscape: single-row dock ---------- */
 @media (max-height: 520px) and (orientation: landscape) {
     .dock {
         flex-direction: row;
         justify-content: center;
-        gap: 12px;
+        align-items: center;
+        gap: 18px;
         padding-top: 6px;
-        overflow-x: auto;
     }
-    .dock__actions { width: auto; max-width: none; overflow: visible; }
-    .dock__actions > * { flex: 0 0 auto; min-width: 0; padding: 0 12px; }
-    .btn--primary { min-height: 44px; }
-    .menu { bottom: calc(100% - 4px); }
 }
 
-/* ---------- Reduced motion ----------
-   The envelope still works (see invite.js: it cross-fades instead of
-   flying apart); here we only quiet the decorative CSS animation. */
+/* ---------- Reduced motion: quiet decorative animation (envelope cross-fades in JS) ---------- */
 @media (prefers-reduced-motion: reduce) {
     .envelope__note { animation: none; }
-    .dot::before,
-    .btn,
-    .nav-arrow,
-    .toast { transition: none; }
+    .indicator span,
+    .btn { transition: none; }
 }
 
-/* ---------- Forced-colors / high contrast ---------- */
 @media (forced-colors: active) {
-    .dot::before { background: ButtonText; }
-    .dot[aria-current="true"]::before { background: Highlight; }
+    .indicator span { background: ButtonText; }
+    .indicator .is-current { background: Highlight; }
 }
+
+/* No-JS: hide the indicator (needs script) */
+html:not(.js) [data-needs-js] { display: none; }
