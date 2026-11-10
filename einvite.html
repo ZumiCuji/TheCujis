@@ -30,6 +30,9 @@
             --gold: #b99754;
             --ink: #36502f;
             --page: #f1f4e7;
+
+            --envelope-width: min(92vw, 374px);
+            --envelope-height: 278px;
         }
 
         * {
@@ -58,24 +61,29 @@
         }
 
         .page {
-            width: 100%;
-            min-height: 100svh;
-            padding: 24px 14px 42px;
-        }
+    width: 100%;
+    min-height: 100svh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding:
+        clamp(24px, 5svh, 64px)
+        14px;
+}
 
         .experience {
-            width: min(100%, 460px);
+            width: min(100%, 700px);
             margin: 0 auto;
             text-align: center;
         }
 
         /* =====================================================
-           CENTERED INVITATION SUITE
+           CENTERED INVITATION SUITE STAGE
            ===================================================== */
         .suite-stage {
             position: relative;
             width: 100%;
-            min-height: 610px;
+            min-height: max(590px, 78svh);
             overflow: visible;
         }
 
@@ -83,13 +91,19 @@
             display: none;
         }
 
-        /*
-            Actual PNG stack:
-            invite1.png = formal invitation
-            invite2.png = details card
-            invite3.png = photo card
-            invite4.png is not used
-        */
+        .extraction-pocket {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            z-index: 5;
+            width: var(--envelope-width);
+            height: var(--envelope-height);
+            pointer-events: none;
+            clip-path: inset(-600px 0 0 0);
+            transform: translate(-50%, -50%);
+            transition: clip-path 0s linear;
+        }
+
         .suite-card {
             position: absolute;
             top: 50%;
@@ -104,7 +118,8 @@
             transition:
                 width 0.48s cubic-bezier(0.2, 0.78, 0.25, 1),
                 transform 0.48s cubic-bezier(0.2, 0.78, 0.25, 1),
-                box-shadow 0.35s ease;
+                top 0.7s cubic-bezier(0.16, 0.9, 0.25, 1),
+                opacity 0.3s ease;
         }
 
         .suite-card:focus-visible {
@@ -116,56 +131,71 @@
             display: block;
             width: 100%;
             height: auto;
+            max-width: 100%;
             background: var(--cream);
             box-shadow: 0 14px 28px rgba(54, 72, 25, 0.2);
             image-rendering: auto;
         }
 
-        /* Main invitation: largest card in the resting stack. */
+        /* Resting invitation suite stack. */
         .card-primary {
             z-index: 4;
-            width: min(67vw, 278px);
+            width: min(67vw, 315px);
             transform: translate(-50%, -50%) rotate(-1deg);
         }
 
-        /* Details card: partially visible behind upper-left. */
         .card-details {
             z-index: 2;
-            width: min(54vw, 224px);
-            transform: translate(calc(-50% - 42px), calc(-50% - 28px)) rotate(-4deg);
+            width: min(54vw, 250px);
+            transform: translate(calc(-50% - 48px), calc(-50% - 30px)) rotate(-4deg);
         }
 
-        /* Photo card: partially visible behind right edge. */
         .card-photo {
             z-index: 1;
-            width: min(43vw, 177px);
-            transform: translate(calc(-50% + 62px), calc(-50% + 13px)) rotate(4deg);
+            width: min(43vw, 190px);
+            transform: translate(calc(-50% + 68px), calc(-50% + 13px)) rotate(4deg);
         }
 
         /*
-            Selected card becomes large, centered, and straight.
-            Each PNG keeps its natural proportions and remains uncropped.
+           JavaScript calculates --selected-width from:
+           - actual PNG aspect ratio
+           - available screen width
+           - available viewport height
+
+           This lets selected cards use the largest practical space
+           on each phone, tablet, or desktop while keeping their
+           original proportions intact.
         */
-        .suite-card.is-selected {
+        .card-primary.is-selected,
+        .card-details.is-selected {
             z-index: 15;
-            width: min(92vw, 390px);
+            width: var(--selected-width, min(96vw, 440px));
+            transform: translate(-50%, -50%) rotate(0deg) scale(1);
+        }
+
+        .card-photo.is-selected {
+            z-index: 15;
+            width: var(--selected-width, min(64vw, 280px));
             transform: translate(-50%, -50%) rotate(0deg) scale(1);
         }
 
         .suite-card.is-selected img {
+            width: 100%;
+            height: auto;
+            max-height: calc(100svh - 92px);
+            object-fit: contain;
             box-shadow: 0 25px 45px rgba(54, 72, 25, 0.3);
         }
 
         /* =====================================================
-           NEARLY TRANSLUCENT SIDE ARROWS
-           Hidden until the envelope opens.
+           SIDE NAVIGATION ARROWS
            ===================================================== */
         .card-navigation {
             position: absolute;
             top: 50%;
             right: 0;
             left: 0;
-            z-index: 25;
+            z-index: 30;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -213,10 +243,9 @@
 
         /* =====================================================
            POST-OPEN WEBSITE BUTTON
-           Pear green and somewhat translucent.
            ===================================================== */
         .suite-actions {
-            margin: -14px auto 0;
+            margin: -16px auto 0;
             transition: opacity 0.35s ease, transform 0.35s ease;
         }
 
@@ -260,7 +289,7 @@
             position: fixed;
             top: 14px;
             right: 14px;
-            z-index: 40;
+            z-index: 50;
             padding: 9px 11px;
             color: var(--ink);
             background: rgba(255, 253, 244, 0.96);
@@ -283,40 +312,35 @@
         }
 
         /* =====================================================
-           PEAR-GREEN PHYSICAL ENVELOPE
+           REALISTIC PEAR-GREEN ENVELOPE
            ===================================================== */
         .js .envelope-stage {
             position: absolute;
-            inset: 0;
+            top: 50%;
+            left: 50%;
             display: block;
+            width: var(--envelope-width);
+            height: var(--envelope-height);
             pointer-events: none;
-            transition: opacity 0.55s ease, transform 0.55s ease;
+            transform: translate(-50%, -50%);
+            transition: opacity 0.5s ease, transform 0.5s ease;
         }
 
         .js .envelope-trigger {
             position: absolute;
-            top: 50%;
-            left: 50%;
-            width: min(92vw, 374px);
-            height: 278px;
+            inset: 0;
+            z-index: 20;
             padding: 0;
             background: transparent;
             border: 0;
             cursor: pointer;
             pointer-events: auto;
-            perspective: 1200px;
-            transform: translate(-50%, -50%);
         }
 
         .js .envelope-trigger:focus-visible {
             outline: 3px solid var(--gold);
             outline-offset: 9px;
             border-radius: 8px;
-        }
-
-        .envelope {
-            position: absolute;
-            inset: 0;
         }
 
         .envelope-back {
@@ -379,10 +403,6 @@
             height: auto;
         }
 
-        /*
-            The card emerges from behind these front folds,
-            rather than phasing through the envelope.
-        */
         .envelope-front {
             position: absolute;
             right: 0;
@@ -479,8 +499,8 @@
             letter-spacing: -0.5px;
             line-height: 1;
             white-space: nowrap;
-            transform: translateX(-50%);
             transition: opacity 0.25s ease;
+            transform: translateX(-50%);
         }
 
         .tap-note {
@@ -500,7 +520,7 @@
         }
 
         /* =====================================================
-           OPENING / REPLAY STATES
+           OPENING ANIMATION STATES
            ===================================================== */
         .js .suite-actions,
         .js .card-navigation {
@@ -522,20 +542,21 @@
         }
 
         /*
-            Main card begins inside the envelope:
-            above the back layer but below front folds.
+            Primary card begins at the envelope's top opening,
+            not at the bottom of the page.
         */
         .js .card-primary {
+            top: 43%;
             z-index: 5;
-            transform: translate(-50%, calc(-50% + 148px)) scale(0.72);
+            transform: translate(-50%, -50%) rotate(0deg) scale(0.72);
         }
 
         .js .card-details {
-            transform: translate(calc(-50% - 42px), calc(-50% + 72px)) rotate(-4deg) scale(0.72);
+            transform: translate(calc(-50% - 48px), calc(-50% + 72px)) rotate(-4deg) scale(0.72);
         }
 
         .js .card-photo {
-            transform: translate(calc(-50% + 62px), calc(-50% + 76px)) rotate(4deg) scale(0.72);
+            transform: translate(calc(-50% + 68px), calc(-50% + 76px)) rotate(4deg) scale(0.72);
         }
 
         .js .experience.is-opening .envelope-flap {
@@ -548,22 +569,28 @@
         }
 
         /*
-            Main invite slides upward from inside the envelope.
-            The lower part stays hidden by front folds until it clears them.
+            Main invitation rises upward from the envelope opening.
+            Front folds conceal its lower portion until it clears.
         */
         .js .experience.is-opening .card-primary {
+            top: -35%;
             z-index: 5;
             opacity: 1;
-            transform: translate(-50%, calc(-50% - 125px)) rotate(0deg) scale(0.82);
+            transform: translate(-50%, -50%) rotate(0deg) scale(0.82);
             transition:
-                opacity 0.12s ease 0.15s,
-                transform 1.12s cubic-bezier(0.16, 0.9, 0.25, 1) 0.34s;
+                opacity 0.12s ease 0.32s,
+                top 1.08s cubic-bezier(0.18, 0.88, 0.22, 1) 0.42s,
+                transform 1.08s cubic-bezier(0.18, 0.88, 0.22, 1) 0.42s;
+        }
+
+        .js .experience.is-open .extraction-pocket {
+            clip-path: none;
         }
 
         .js .experience.is-open .envelope-stage {
             opacity: 0;
             pointer-events: none;
-            transform: scale(0.97);
+            transform: translate(-50%, -50%) scale(0.96);
         }
 
         .js .experience.is-open .suite-card {
@@ -572,24 +599,43 @@
         }
 
         .js .experience.is-open .card-primary {
+            top: 50%;
             z-index: 4;
             transform: translate(-50%, -50%) rotate(-1deg);
-            transition-delay: 0s;
+            transition:
+                top 0.58s cubic-bezier(0.2, 0.78, 0.25, 1) 0.08s,
+                width 0.48s cubic-bezier(0.2, 0.78, 0.25, 1),
+                transform 0.58s cubic-bezier(0.2, 0.78, 0.25, 1) 0.08s,
+                opacity 0.3s ease;
         }
 
         .js .experience.is-open .card-details {
-            transform: translate(calc(-50% - 42px), calc(-50% - 28px)) rotate(-4deg);
-            transition-delay: 0.1s;
+            transform: translate(calc(-50% - 48px), calc(-50% - 30px)) rotate(-4deg);
+            transition-delay: 0.12s;
         }
 
         .js .experience.is-open .card-photo {
-            transform: translate(calc(-50% + 62px), calc(-50% + 13px)) rotate(4deg);
-            transition-delay: 0.18s;
+            transform: translate(calc(-50% + 68px), calc(-50% + 13px)) rotate(4deg);
+            transition-delay: 0.2s;
         }
 
-        .js .experience.is-open .suite-card.is-selected {
+        .js .experience.is-open .card-primary.is-selected {
             z-index: 15;
-            width: min(92vw, 390px);
+            width: var(--selected-width, min(96vw, 440px));
+            transform: translate(-50%, -50%) rotate(0deg) scale(1);
+            transition-delay: 0s;
+        }
+
+        .js .experience.is-open .card-details.is-selected {
+            z-index: 15;
+            width: var(--selected-width, min(96vw, 440px));
+            transform: translate(-50%, -50%) rotate(0deg) scale(1);
+            transition-delay: 0s;
+        }
+
+        .js .experience.is-open .card-photo.is-selected {
+            z-index: 15;
+            width: var(--selected-width, min(64vw, 280px));
             transform: translate(-50%, -50%) rotate(0deg) scale(1);
             transition-delay: 0s;
         }
@@ -598,14 +644,14 @@
             opacity: 1;
             pointer-events: auto;
             transform: translateY(0);
-            transition: opacity 0.4s ease 0.48s, transform 0.4s ease 0.48s;
+            transition: opacity 0.4s ease 0.45s, transform 0.4s ease 0.45s;
         }
 
         .js .experience.is-open .card-navigation {
             opacity: 1;
             pointer-events: auto;
             transform: translateY(-50%);
-            transition: opacity 0.4s ease 0.48s;
+            transition: opacity 0.4s ease 0.45s;
         }
 
         .js .experience.is-open + .replay-button {
@@ -631,38 +677,42 @@
                 padding-top: 38px;
             }
 
+            .experience {
+                width: min(100%, 900px);
+            }
+
             .suite-stage {
-                min-height: 675px;
+                min-height: max(680px, 82svh);
             }
 
             .card-primary {
-                width: 305px;
+                width: 340px;
             }
 
             .card-details {
-                width: 246px;
-                transform: translate(calc(-50% - 49px), calc(-50% - 32px)) rotate(-4deg);
+                width: 275px;
+                transform: translate(calc(-50% - 58px), calc(-50% - 38px)) rotate(-4deg);
             }
 
             .card-photo {
-                width: 195px;
-                transform: translate(calc(-50% + 70px), calc(-50% + 8px)) rotate(4deg);
+                width: 220px;
+                transform: translate(calc(-50% + 82px), calc(-50% + 8px)) rotate(4deg);
             }
 
             .js .card-details {
-                transform: translate(calc(-50% - 49px), calc(-50% + 72px)) rotate(-4deg) scale(0.72);
+                transform: translate(calc(-50% - 58px), calc(-50% + 72px)) rotate(-4deg) scale(0.72);
             }
 
             .js .card-photo {
-                transform: translate(calc(-50% + 70px), calc(-50% + 76px)) rotate(4deg) scale(0.72);
+                transform: translate(calc(-50% + 82px), calc(-50% + 76px)) rotate(4deg) scale(0.72);
             }
 
             .js .experience.is-open .card-details {
-                transform: translate(calc(-50% - 49px), calc(-50% - 32px)) rotate(-4deg);
+                transform: translate(calc(-50% - 58px), calc(-50% - 38px)) rotate(-4deg);
             }
 
             .js .experience.is-open .card-photo {
-                transform: translate(calc(-50% + 70px), calc(-50% + 8px)) rotate(4deg);
+                transform: translate(calc(-50% + 82px), calc(-50% + 8px)) rotate(4deg);
             }
 
             .replay-button {
@@ -685,6 +735,10 @@
                 display: none;
             }
 
+            .js .extraction-pocket {
+                clip-path: none;
+            }
+
             .js .suite-card {
                 opacity: 1;
                 pointer-events: auto;
@@ -703,19 +757,23 @@
             }
 
             .js .card-primary {
+                top: 50%;
+                z-index: 4;
                 transform: translate(-50%, -50%) rotate(-1deg);
             }
 
             .js .card-details {
-                transform: translate(calc(-50% - 42px), calc(-50% - 28px)) rotate(-4deg);
+                transform: translate(calc(-50% - 48px), calc(-50% - 30px)) rotate(-4deg);
             }
 
             .js .card-photo {
-                transform: translate(calc(-50% + 62px), calc(-50% + 13px)) rotate(4deg);
+                transform: translate(calc(-50% + 68px), calc(-50% + 13px)) rotate(4deg);
             }
 
-            .js .experience.is-open .suite-card.is-selected {
-                width: min(92vw, 390px);
+            .js .experience.is-open .card-primary.is-selected,
+            .js .experience.is-open .card-details.is-selected,
+            .js .experience.is-open .card-photo.is-selected {
+                width: var(--selected-width);
                 transform: translate(-50%, -50%) rotate(0deg) scale(1);
             }
 
@@ -732,31 +790,44 @@
         <div class="experience" id="experience">
 
             <div class="suite-stage">
-                <!-- Closed pear-green envelope -->
-                <div class="envelope-stage">
+                <!-- Envelope layers -->
+                <div class="envelope-stage" aria-hidden="true">
+                    <div class="envelope-back"></div>
+                    <div class="envelope-liner"></div>
+
+                    <div class="primary-card-peek">
+                        <img src="invite1.png" alt="">
+                    </div>
+
+                    <div class="envelope-front"></div>
+                    <div class="envelope-bottom-fold"></div>
+                    <div class="envelope-flap"></div>
+                    <div class="wax-seal">Z&amp;M</div>
+
+                    <p class="tap-note">Tap to open</p>
+
                     <button
                         class="envelope-trigger"
                         id="openInvite"
                         type="button"
                         aria-label="Open Zumi and Morgan's wedding invitation suite"
+                    ></button>
+                </div>
+
+                <!-- Main invitation -->
+                <div class="extraction-pocket">
+                    <button
+                        type="button"
+                        class="suite-card card-primary"
+                        aria-label="View formal wedding invitation"
+                        aria-pressed="false"
                     >
-                        <div class="envelope">
-                            <div class="envelope-back"></div>
-                            <div class="envelope-liner"></div>
-
-                            <!-- Primary invitation peeking from envelope -->
-                            <div class="primary-card-peek" aria-hidden="true">
-                                <img src="invite1.png" alt="">
-                            </div>
-
-                            <div class="envelope-front"></div>
-                            <div class="envelope-bottom-fold"></div>
-                            <div class="envelope-flap"></div>
-
-                            <div class="wax-seal">Z & M</div>
-                        </div>
-
-                        <p class="tap-note">Tap to open</p>
+                        <img
+                            src="invite1.png"
+                            alt="Formal wedding invitation for Zumi Cuji and Morgan Fields"
+                            decoding="async"
+                            fetchpriority="high"
+                        >
                     </button>
                 </div>
 
@@ -790,22 +861,7 @@
                     >
                 </button>
 
-                <!-- Primary invitation -->
-                <button
-                    type="button"
-                    class="suite-card card-primary"
-                    aria-label="View formal wedding invitation"
-                    aria-pressed="false"
-                >
-                    <img
-                        src="invite1.png"
-                        alt="Formal wedding invitation for Zumi Cuji and Morgan Fields"
-                        decoding="async"
-                        fetchpriority="high"
-                    >
-                </button>
-
-                <!-- Side navigation appears only after opening -->
+                <!-- Side card navigation -->
                 <div class="card-navigation" aria-label="Invitation card navigation">
                     <button
                         class="nav-arrow"
@@ -827,7 +883,7 @@
                 </div>
             </div>
 
-            <!-- Hidden until envelope opens -->
+            <!-- Hidden until the envelope opens -->
             <div class="suite-actions">
                 <a
                     class="website-button"
@@ -852,12 +908,6 @@
             const nextButton = document.getElementById("nextCard");
             const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
-            /*
-                Cycle through all three visible PNG cards:
-                1. Formal invitation
-                2. Details card
-                3. Photo card
-            */
             const interactiveCards = [
                 document.querySelector(".card-primary"),
                 document.querySelector(".card-details"),
@@ -868,9 +918,50 @@
 
             document.documentElement.classList.add("js");
 
+            /*
+                Calculate the largest readable width for each selected PNG
+                while maintaining that image's original aspect ratio.
+            */
+            function updateCardFitSizes() {
+                const viewportWidth = document.documentElement.clientWidth;
+                const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+
+                interactiveCards.forEach(function (card, index) {
+                    const image = card.querySelector("img");
+                    const naturalWidth = image.naturalWidth || image.width || 1;
+                    const naturalHeight = image.naturalHeight || image.height || 1;
+                    const aspectRatio = naturalWidth / naturalHeight;
+
+                    /*
+                        Main and details cards receive nearly the full
+                        viewport. The photo card remains intentionally
+                        smaller but still adapts to screen size.
+                    */
+                    const widthLimit = index === 2
+                        ? viewportWidth * 0.64
+                        : viewportWidth * 0.96;
+
+                    const heightLimit = index === 2
+                        ? viewportHeight * 0.58
+                        : viewportHeight - 112;
+
+                    const fittedWidth = Math.max(
+                        120,
+                        Math.min(widthLimit, heightLimit * aspectRatio)
+                    );
+
+                    card.style.setProperty(
+                        "--selected-width",
+                        `${Math.floor(fittedWidth)}px`
+                    );
+                });
+            }
+
             function selectCard(index) {
                 activeCardIndex =
                     (index + interactiveCards.length) % interactiveCards.length;
+
+                updateCardFitSizes();
 
                 interactiveCards.forEach(function (card, cardIndex) {
                     const isActive = cardIndex === activeCardIndex;
@@ -898,7 +989,6 @@
 
                 experience.classList.add("is-opening");
                 openButton.disabled = true;
-                openButton.setAttribute("aria-hidden", "true");
 
                 window.setTimeout(function () {
                     experience.classList.remove("is-opening");
@@ -916,9 +1006,7 @@
                 });
 
                 activeCardIndex = 0;
-
                 openButton.disabled = false;
-                openButton.setAttribute("aria-hidden", "false");
 
                 void experience.offsetWidth;
 
@@ -933,6 +1021,14 @@
                         selectCard(index);
                     }
                 });
+
+                const image = card.querySelector("img");
+
+                if (image.complete) {
+                    updateCardFitSizes();
+                } else {
+                    image.addEventListener("load", updateCardFitSizes, { once: true });
+                }
             });
 
             previousButton.addEventListener("click", function () {
@@ -943,10 +1039,19 @@
                 cycleCards(1);
             });
 
+            window.addEventListener("resize", function () {
+                updateCardFitSizes();
+
+                if (experience.classList.contains("is-open")) {
+                    selectCard(activeCardIndex);
+                }
+            });
+
+            updateCardFitSizes();
+
             if (reducedMotion.matches) {
                 experience.classList.add("is-open");
                 openButton.disabled = true;
-                openButton.setAttribute("aria-hidden", "true");
                 selectCard(0);
             } else {
                 openButton.addEventListener("click", openInvitation);
