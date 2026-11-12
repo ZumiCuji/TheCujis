@@ -207,11 +207,8 @@
     }
 
     function canAnimate() {
-        return (
-            typeof Element.prototype.animate === 'function' &&
-            !reducedMotion.matches
-        );
-    }
+    return typeof Element.prototype.animate === 'function';
+}
 
     /*
        Reliable WAAPI helper:
