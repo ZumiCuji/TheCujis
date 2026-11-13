@@ -308,11 +308,13 @@ perspective-origin: 8% 50%;
     z-index: 7;
     margin: 0;
     padding: 0 24px;
-    text-align: center;
     color: var(--ink);
-    font-size: 0.72rem;
-    font-weight: 600;
-    letter-spacing: 3px;
+    font-family: "Cinzel", serif;
+    font-size: clamp(0.72rem, 2.2vw, 1rem);
+    font-weight: 500;
+    letter-spacing: 2.8px;
+    line-height: 1.5;
+    text-align: center;
     text-transform: uppercase;
     pointer-events: none;
 }
