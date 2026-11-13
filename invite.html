@@ -6,48 +6,20 @@
     <title>You Are Invited! — Zumi & Morgan</title>
 
     <meta name="description" content="You are invited to the wedding of Zumi Cuji and Morgan Fields — Monday, May 3, 2027, Raleigh, NC.">
-    <meta name="theme-color" content="#71843f">
-    <meta name="color-scheme" content="light">
+    <meta name="theme-color" content="#b9ca77">
     <link rel="canonical" href="https://zumicuji.github.io/TheCujis/invite.html">
-
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%238a6a28'/%3E%3Ctext x='32' y='40' font-family='Georgia,serif' font-size='24' font-weight='600' text-anchor='middle' fill='%23fffdf4'%3EZM%3C/text%3E%3C/svg%3E">
-    <link rel="apple-touch-icon" href="apple-touch-icon.png">
 
     <meta property="og:title" content="You Are Invited! — Zumi & Morgan">
     <meta property="og:description" content="Monday, May 3, 2027 · Raleigh, NC">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://zumicuji.github.io/TheCujis/invite.html">
     <meta property="og:image" content="https://zumicuji.github.io/TheCujis/og-image.jpg">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
     <meta property="og:image:alt" content="Zumi and Morgan's wedding invitation">
 
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="You Are Invited! — Zumi & Morgan">
     <meta name="twitter:description" content="Monday, May 3, 2027 · Raleigh, NC">
     <meta name="twitter:image" content="https://zumicuji.github.io/TheCujis/og-image.jpg">
-
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "Event",
-        "name": "Wedding of Zumi Cuji & Morgan Fields",
-        "startDate": "2027-05-03",
-        "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
-        "eventStatus": "https://schema.org/EventScheduled",
-        "location": {
-            "@type": "Place",
-            "name": "The Merrimon-Wynne House",
-            "address": {
-                "@type": "PostalAddress",
-                "addressLocality": "Raleigh",
-                "addressRegion": "NC",
-                "addressCountry": "US"
-            }
-        },
-        "url": "https://zumicuji.github.io/TheCujis/invite.html"
-    }
-    </script>
 
     <script>
         document.documentElement.classList.add("js");
@@ -61,24 +33,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
     <link
-        rel="preload"
-        as="style"
-        href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Montserrat:wght@400;500;600&display=swap"
-    >
-
-    <link
         rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Montserrat:wght@400;500;600&display=swap"
-        media="print"
-        onload="this.media='all'"
+        href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cinzel:wght@400;500;600&family=Montserrat:wght@400;500;600&display=swap"
     >
-
-    <noscript>
-        <link
-            rel="stylesheet"
-            href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Montserrat:wght@400;500;600&display=swap"
-        >
-    </noscript>
 
     <link rel="preload" as="image" href="invite1.png" fetchpriority="high">
 
@@ -94,12 +51,12 @@
             position: fixed;
             inset: 0;
             z-index: 100;
-            background: #71843f;
+            background: #b9ca77;
         }
     </style>
 
-    <link rel="stylesheet" href="invite.css?v=7">
-    <script src="invite.js?v=7" defer></script>
+    <link rel="stylesheet" href="invite.css?v=8">
+    <script src="invite.js?v=8" defer></script>
 </head>
 
 <body>
@@ -110,12 +67,13 @@
         <section class="envelope" id="envelope" aria-label="Wedding invitation envelope">
             <div class="envelope__scene" id="envelopeScene">
 
-                <!-- Closed envelope front: personalized guest name only -->
+                <!-- Closed front of envelope -->
                 <div class="envelope__front-face">
                     <p class="envelope__front-recipient" id="frontGuestLine" hidden></p>
+                    <p class="envelope__front-instruction">Tap to Open</p>
                 </div>
 
-                <!-- Reverse side of envelope: used for opening animation -->
+                <!-- Reverse side used for opening animation -->
                 <div class="envelope__inside-face">
                     <div class="envelope__back"></div>
                     <div class="envelope__liner"></div>
@@ -227,14 +185,9 @@
                             </div>
                         </div>
                     </div>
-
-                    <p class="envelope__note" id="envNote" aria-live="polite">
-                        Opening invitation…
-                    </p>
                 </div>
             </div>
 
-            <!-- Invisible but keyboard-accessible full envelope opening target -->
             <button
                 class="envelope__open-target"
                 id="openInvite"
