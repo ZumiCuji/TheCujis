@@ -1,6 +1,3 @@
-/* =========================================================
-   Zumi & Morgan — e-invitation behavior
-   ========================================================= */
 (function () {
     "use strict";
 
@@ -31,7 +28,7 @@
 
     var app = $("#app");
     var envelope = $("#envelope");
-    var seal = $("#seal");
+    var openTarget = $("#openInvite");
     var note = $("#envNote");
     var frontGuestLine = $("#frontGuestLine");
     var envelopeScene = $("#envelopeScene");
@@ -51,9 +48,6 @@
     var ready = false;
     var lastTouchTime = 0;
 
-    /* =========================================================
-       MOBILE VIEWPORT HEIGHT
-       ========================================================= */
     function setAppHeight() {
         var height = window.visualViewport
             ? window.visualViewport.height
@@ -78,9 +72,6 @@
         window.visualViewport.addEventListener("scroll", setAppHeight);
     }
 
-    /* =========================================================
-       OPTIONAL ANALYTICS
-       ========================================================= */
     function track(name, data) {
         try {
             window.dispatchEvent(
@@ -100,9 +91,6 @@
         }
     }
 
-    /* =========================================================
-       IMAGE HANDLING
-       ========================================================= */
     function isBroken(image) {
         return image.complete && image.naturalWidth === 0;
     }
@@ -164,9 +152,6 @@
         });
     }
 
-    /* =========================================================
-       ENVELOPE STATE
-       ========================================================= */
     function cancelAnimations() {
         animations.forEach(function (animation) {
             try {
@@ -183,20 +168,6 @@
         state = nextState;
         app.dataset.state = nextState;
 
-        if (nextState === "opened") {
-            envelope.hidden = true;
-            envelope.style.pointerEvents = "none";
-
-            cancelAnimations();
-
-            suite.removeAttribute("inert");
-            suite.removeAttribute("aria-hidden");
-
-            suiteHeading.focus({
-                preventScroll: true
-            });
-        }
-
         if (nextState === "closed") {
             cancelAnimations();
 
@@ -205,6 +176,29 @@
 
             suite.setAttribute("inert", "");
             suite.setAttribute("aria-hidden", "true");
+        }
+
+        if (nextState === "opened") {
+            envelope.hidden = true;
+            envelope.style.pointerEvents = "none";
+
+            suite.removeAttribute("inert");
+            suite.removeAttribute("aria-hidden");
+
+            /*
+               The next animation frame ensures the browser has completed
+               layout after the envelope disappears before the carousel
+               begins accepting touch/swipe and keyboard interaction.
+            */
+            window.requestAnimationFrame(function () {
+                track$.style.pointerEvents = "auto";
+                track$.scrollLeft = 0;
+                setIndex(0, true);
+
+                suiteHeading.focus({
+                    preventScroll: true
+                });
+            });
         }
     }
 
@@ -247,10 +241,6 @@
         );
     }
 
-    /* =========================================================
-       ENVELOPE OPENING
-       Front name → seal fades → flip → normal open sequence
-       ========================================================= */
     async function playFullSequence(token) {
         var alive = function () {
             return token === runId;
@@ -263,63 +253,9 @@
         var liner = $(".envelope__liner");
         var cardInner = $(".envelope__card-inner");
 
-        /* 1. Seal presses. */
-        await run(
-            seal,
-            [
-                { transform: "scale(1)" },
-                { transform: "scale(0.9)" }
-            ],
-            {
-                duration: 220,
-                easing: "ease-out"
-            }
-        );
-
-        if (!alive()) {
-            return;
-        }
-
-        /* 2. Seal and guest name fade. */
-        run(
-            seal,
-            [
-                {
-                    transform: "scale(0.9) rotate(0deg)",
-                    opacity: 1
-                },
-                {
-                    transform: "scale(1.35) rotate(10deg)",
-                    opacity: 0
-                }
-            ],
-            {
-                duration: 330,
-                easing: "ease-out"
-            }
-        );
-
-        if (!frontGuestLine.hidden) {
-            run(
-                frontGuestLine,
-                [
-                    { opacity: 1 },
-                    { opacity: 0 }
-                ],
-                {
-                    duration: 220,
-                    easing: "ease-out"
-                }
-            );
-        }
-
-        await wait(150);
-
-        if (!alive()) {
-            return;
-        }
-
-        /* 3. Closed envelope front flips to the opening side. */
+        /*
+           1. The personalized front flips to the envelope opening side.
+        */
         await run(
             envelopeScene,
             [
@@ -336,7 +272,9 @@
             return;
         }
 
-        /* 4. Cream liner appears. */
+        /*
+           2. The inside liner appears.
+        */
         run(
             liner,
             [
@@ -361,7 +299,9 @@
             }
         );
 
-        /* 5. Top flap opens. */
+        /*
+           3. The top flap opens.
+        */
         var flapDone = run(
             flap,
             [
@@ -380,7 +320,9 @@
             return;
         }
 
-        /* 6. Side folds open. */
+        /*
+           4. Shortened side folds open.
+        */
         var sideEase = "cubic-bezier(0.3, 0.7, 0.2, 1)";
 
         var leftDone = run(
@@ -413,7 +355,9 @@
             return;
         }
 
-        /* 7. Invitation rises from its envelope pocket. */
+        /*
+           5. Invitation rises naturally from the envelope pocket.
+        */
         var cardDone = run(
             cardInner,
             [
@@ -436,7 +380,9 @@
             return;
         }
 
-        /* 8. Bottom fold opens down. */
+        /*
+           6. Bottom fold opens.
+        */
         var bottomDone = run(
             bottomFold,
             [
@@ -461,7 +407,9 @@
             return;
         }
 
-        /* 9. Fade into the carousel invitation. */
+        /*
+           7. Envelope fades into the live invitation carousel.
+        */
         await run(
             envelope,
             [
@@ -516,7 +464,7 @@
                 wait(9000)
             ]);
         } catch (error) {
-            /* Always proceed to invitation suite. */
+            /* Always continue to the invitation suite. */
         }
 
         if (token !== runId) {
@@ -547,23 +495,17 @@
         openInvitation();
     }
 
-    seal.addEventListener("click", requestOpen);
-
-    seal.addEventListener("touchend", function (event) {
+    openTarget.addEventListener("touchend", function (event) {
         lastTouchTime = Date.now();
         requestOpen(event);
     }, { passive: false });
 
-    envelope.addEventListener("click", function (event) {
+    openTarget.addEventListener("click", function (event) {
         if (Date.now() - lastTouchTime < 700) {
             return;
         }
 
-        if (event.target === seal) {
-            return;
-        }
-
-        openInvitation();
+        requestOpen(event);
     });
 
     document.addEventListener("keydown", function (event) {
@@ -577,12 +519,12 @@
 
         if (event.key === "Tab") {
             event.preventDefault();
-            seal.focus();
+            openTarget.focus();
         }
 
         if (
             (event.key === "Enter" || event.key === " ") &&
-            document.activeElement === seal
+            document.activeElement === openTarget
         ) {
             event.preventDefault();
             openInvitation();
@@ -684,7 +626,6 @@
         }
     });
 
-    /* Native mobile swipe remains enabled. Mouse dragging is added for desktop. */
     var drag = null;
     var justDragged = false;
 
@@ -742,7 +683,6 @@
     track$.addEventListener("pointerup", endDrag);
     track$.addEventListener("pointercancel", endDrag);
 
-    /* Tap the visible card to advance. */
     track$.addEventListener("click", function () {
         if (justDragged || state !== "opened") {
             return;
@@ -796,8 +736,8 @@
         var guest = readGuest();
 
         /*
-           Closed envelope front only displays the invitee's name.
-           When no guest parameter exists, it stays blank.
+           Closed envelope displays only the personalized guest name.
+           No fallback name is used when a guest parameter is absent.
         */
         if (guest) {
             frontGuestLine.textContent = guest;
@@ -809,8 +749,8 @@
 
         note.textContent = "Preparing…";
 
-        seal.disabled = true;
-        seal.setAttribute("aria-disabled", "true");
+        openTarget.disabled = true;
+        openTarget.setAttribute("aria-disabled", "true");
 
         Promise.all(
             cardImages.map(function (image) {
@@ -819,10 +759,10 @@
         ).then(function () {
             ready = true;
 
-            seal.disabled = false;
-            seal.removeAttribute("aria-disabled");
+            openTarget.disabled = false;
+            openTarget.removeAttribute("aria-disabled");
 
-            note.textContent = "Tap to open";
+            note.textContent = "Opening invitation…";
 
             track("ready");
         });
