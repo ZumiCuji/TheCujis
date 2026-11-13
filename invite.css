@@ -1,7 +1,3 @@
-/* =========================================================
-   Zumi & Morgan — e-invitation styles
-   ========================================================= */
-
 :root {
     --pear-light: #dce7ad;
     --pear: #b9ca77;
@@ -26,21 +22,11 @@
     --gutter: clamp(16px, 5vw, 56px);
     --dock-h: calc(104px + var(--safe-b));
     --card-pad: 20px;
-    --seal: clamp(76px, 20vw, 112px);
-
-    --paper: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .25 0 0 0 0 .32 0 0 0 0 .12 0 0 0 .09 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
 }
 
 @supports (height: 100dvh) {
     :root {
         --app-h: 100dvh;
-    }
-}
-
-@media (max-height: 520px) and (orientation: landscape) {
-    :root {
-        --dock-h: calc(68px + var(--safe-b));
-        --card-pad: 12px;
     }
 }
 
@@ -64,7 +50,6 @@ body {
     -webkit-text-size-adjust: 100%;
     text-size-adjust: 100%;
     background:
-        var(--paper),
         radial-gradient(circle at 12% 10%, rgba(220, 231, 173, 0.76), transparent 30%),
         radial-gradient(circle at 88% 90%, rgba(185, 151, 84, 0.12), transparent 28%),
         #f1f4e7;
@@ -107,7 +92,6 @@ a {
     transform: none;
 }
 
-/* Shared invitation-card sizing. */
 .card-img {
     display: block;
     width: min(calc(100vw - (var(--gutter) * 2)), 960px);
@@ -116,7 +100,6 @@ a {
     -webkit-user-drag: none;
     user-select: none;
     -webkit-user-select: none;
-    filter: drop-shadow(0 5px 11px rgba(54, 72, 25, 0.28));
 }
 
 .card-fallback {
@@ -132,7 +115,7 @@ a {
 }
 
 /* =========================================================
-   ENVELOPE — FRONT FACE / FLIP / OPENING SIDE
+   ENVELOPE
    ========================================================= */
 .envelope {
     display: none;
@@ -140,8 +123,7 @@ a {
     inset: 0;
     z-index: 100;
     overflow: hidden;
-    cursor: pointer;
-    background: var(--pear-dark);
+    background: var(--pear-deep);
     touch-action: manipulation;
     isolation: isolate;
     -webkit-perspective: 1800px;
@@ -160,6 +142,7 @@ a {
 .envelope__scene {
     position: absolute;
     inset: 0;
+    pointer-events: none;
     -webkit-transform-style: preserve-3d;
     transform-style: preserve-3d;
     -webkit-transform-origin: center center;
@@ -180,11 +163,8 @@ a {
     display: flex;
     align-items: center;
     justify-content: center;
-    background:
-        var(--paper),
-        linear-gradient(135deg, rgba(255, 255, 255, 0.08), transparent 38%),
-        var(--pear-deep);
-    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.14);
+    background: var(--pear-deep);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.12);
 }
 
 .envelope__inside-face {
@@ -192,10 +172,6 @@ a {
     transform: rotateY(180deg);
 }
 
-/*
-   The only text on the closed envelope front:
-   the invitee's personalized name in white cursive.
-*/
 .envelope__front-recipient {
     max-width: min(84vw, 680px);
     margin: 0;
@@ -206,9 +182,7 @@ a {
     font-weight: 400;
     line-height: 1;
     text-align: center;
-    text-shadow:
-        0 2px 8px rgba(54, 72, 25, 0.3),
-        0 1px 0 rgba(255, 255, 255, 0.15);
+    text-shadow: 0 2px 8px rgba(54, 72, 25, 0.28);
 }
 
 .envelope__back,
@@ -220,21 +194,16 @@ a {
 
 .envelope__back {
     z-index: 1;
-    background:
-        var(--paper),
-        linear-gradient(135deg, rgba(255, 255, 255, 0.08), transparent 38%),
-        var(--pear-deep);
+    background: var(--pear-deep);
 }
 
 .envelope__liner {
     z-index: 2;
     opacity: 0;
     background:
-        var(--paper),
         radial-gradient(ellipse at 50% 46%, transparent 42%, rgba(83, 101, 45, 0.16) 100%),
         radial-gradient(circle at 18% 25%, rgba(83, 101, 45, 0.1) 0 5px, transparent 6px),
         radial-gradient(circle at 72% 58%, rgba(83, 101, 45, 0.1) 0 6px, transparent 7px),
-        radial-gradient(circle at 40% 82%, rgba(83, 101, 45, 0.1) 0 5px, transparent 6px),
         var(--cream);
 }
 
@@ -252,7 +221,7 @@ a {
     will-change: transform;
 }
 
-/* Hinged folds. */
+/* Hinged folds */
 .fold {
     position: absolute;
     z-index: 4;
@@ -353,7 +322,6 @@ a {
     stroke-width: 1;
 }
 
-/* Top flap. */
 .envelope__flap-wrap {
     position: absolute;
     top: 0;
@@ -396,47 +364,6 @@ a {
     transform: rotateX(180deg);
 }
 
-.seal {
-    position: absolute;
-    top: calc(54% - (var(--seal) / 2));
-    left: calc(50% - (var(--seal) / 2));
-    z-index: 20;
-    display: grid;
-    width: var(--seal);
-    height: var(--seal);
-    place-items: center;
-    padding: 0;
-    color: var(--cream);
-    background:
-        radial-gradient(circle at 35% 30%, #a98534, var(--gold-deep) 70%);
-    border: clamp(2px, 0.45vw, 4px) solid #dec996;
-    border-radius: 50%;
-    box-shadow:
-        inset 0 0 0 clamp(2px, 0.45vw, 4px) rgba(60, 40, 10, 0.25),
-        0 8px 18px rgba(53, 69, 22, 0.4);
-    font-family: Georgia, "Times New Roman", serif;
-    font-size: clamp(1.1rem, 3.2vw, 2rem);
-    font-weight: 600;
-    letter-spacing: -1px;
-    line-height: 1;
-    white-space: nowrap;
-    cursor: pointer;
-    touch-action: manipulation;
-}
-
-.seal:focus-visible {
-    outline: 3px solid var(--cream);
-    outline-offset: 4px;
-    box-shadow:
-        0 0 0 8px var(--pear-dark),
-        0 6px 18px rgba(53, 69, 22, 0.35);
-}
-
-.seal[aria-disabled="true"] {
-    cursor: progress;
-    opacity: 0.85;
-}
-
 .envelope__note {
     position: absolute;
     bottom: calc(var(--safe-b) + 40px);
@@ -455,8 +382,24 @@ a {
     pointer-events: none;
 }
 
+.envelope__open-target {
+    position: absolute;
+    inset: 0;
+    z-index: 50;
+    padding: 0;
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    touch-action: manipulation;
+}
+
+.envelope__open-target:focus-visible {
+    outline: 4px solid var(--gold);
+    outline-offset: -10px;
+}
+
 /* =========================================================
-   INVITATION SUITE / CAROUSEL
+   INVITATION SUITE
    ========================================================= */
 .suite {
     position: relative;
@@ -484,6 +427,7 @@ a {
     overscroll-behavior-x: contain;
     scrollbar-width: none;
     cursor: pointer;
+    touch-action: pan-x;
 }
 
 .track::-webkit-scrollbar {
@@ -571,6 +515,11 @@ a {
 }
 
 @media (max-height: 520px) and (orientation: landscape) {
+    :root {
+        --dock-h: calc(68px + var(--safe-b));
+        --card-pad: 12px;
+    }
+
     .dock {
         flex-direction: row;
         align-items: center;
