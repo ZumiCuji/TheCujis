@@ -63,12 +63,12 @@
     <link
         rel="preload"
         as="style"
-        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Montserrat:wght@400;500;600&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cinzel:wght@400;500;600&family=Montserrat:wght@400;500;600&display=swap"
     >
 
     <link
         rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Montserrat:wght@400;500;600&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cinzel:wght@400;500;600&family=Montserrat:wght@400;500;600&display=swap"
         media="print"
         onload="this.media='all'"
     >
@@ -76,7 +76,7 @@
     <noscript>
         <link
             rel="stylesheet"
-            href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Montserrat:wght@400;500;600&display=swap"
+            href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cinzel:wght@400;500;600&family=Montserrat:wght@400;500;600&display=swap"
         >
     </noscript>
 
@@ -98,9 +98,8 @@
         }
     </style>
 
-    <!-- Increase these cache versions whenever you update files -->
-    <link rel="stylesheet" href="invite.css?v=4">
-    <script src="invite.js?v=4" defer></script>
+    <link rel="stylesheet" href="invite.css?v=6">
+    <script src="invite.js?v=6" defer></script>
 </head>
 
 <body>
@@ -111,21 +110,20 @@
         <!-- ================= ENVELOPE ================= -->
         <section class="envelope" id="envelope" aria-label="Wedding invitation envelope">
 
-            <!-- This scene flips from the closed/front side to the opening side -->
+            <!-- The closed envelope front flips to reveal the opening side -->
             <div class="envelope__scene" id="envelopeScene">
 
-                <!-- Front of the envelope: couple names and personalized recipient -->
+                <!-- Front of envelope: invitee name only -->
                 <div class="envelope__front-face">
-                    <p class="envelope__couple-names">Zumi &amp; Morgan</p>
                     <p class="envelope__front-recipient" id="frontGuestLine" hidden></p>
                 </div>
 
-                <!-- Reverse side: existing envelope opening mechanism -->
+                <!-- Reverse/opening side -->
                 <div class="envelope__inside-face">
                     <div class="envelope__back"></div>
                     <div class="envelope__liner"></div>
 
-                    <!-- Decorative copy of main invitation that rises from the pocket -->
+                    <!-- Decorative copy of the main invitation -->
                     <div class="envelope__card" aria-hidden="true">
                         <div class="envelope__card-inner">
                             <img
@@ -138,7 +136,7 @@
                         </div>
                     </div>
 
-                    <!-- LEFT side fold -->
+                    <!-- Left side fold -->
                     <div class="fold fold--left" aria-hidden="true">
                         <div class="fold__hinge">
                             <div class="fold__face fold__face--out">
@@ -163,7 +161,7 @@
                         </div>
                     </div>
 
-                    <!-- RIGHT side fold -->
+                    <!-- Right side fold -->
                     <div class="fold fold--right" aria-hidden="true">
                         <div class="fold__hinge">
                             <div class="fold__face fold__face--out">
@@ -188,7 +186,7 @@
                         </div>
                     </div>
 
-                    <!-- BOTTOM fold -->
+                    <!-- Bottom fold -->
                     <div class="fold fold--bottom" aria-hidden="true">
                         <div class="fold__hinge">
                             <div class="fold__face fold__face--out">
@@ -213,7 +211,7 @@
                         </div>
                     </div>
 
-                    <!-- TOP flap -->
+                    <!-- Top opening flap -->
                     <div class="envelope__flap-wrap" aria-hidden="true">
                         <div class="envelope__flap" id="envFlap">
                             <div class="envelope__flap-face envelope__flap-face--out">
@@ -238,16 +236,13 @@
                         </div>
                     </div>
 
-                    <!-- This recipient line appears briefly on the opening side -->
-                    <p class="envelope__to" id="guestLine" hidden></p>
-
                     <p class="envelope__note" id="envNote" aria-live="polite">
-                        Tap to open
+                        Opening invitation…
                     </p>
                 </div>
             </div>
 
-            <!-- Seal stays outside scene so it remains tappable on the front -->
+            <!-- Seal stays outside the flip scene so it remains tappable -->
             <button
                 class="seal"
                 id="seal"
@@ -315,7 +310,10 @@
                     <span></span>
                 </div>
 
-                <a class="btn" href="https://zumicuji.github.io/TheCujis/index.html">
+                <a
+                    class="btn"
+                    href="https://zumicuji.github.io/TheCujis/index.html#rsvp"
+                >
                     Visit Our Wedding Website to RSVP!
                 </a>
             </div>
