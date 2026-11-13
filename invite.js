@@ -72,25 +72,6 @@
         window.visualViewport.addEventListener("scroll", setAppHeight);
     }
 
-    function track(name, data) {
-        try {
-            window.dispatchEvent(
-                new CustomEvent("invite:event", {
-                    detail: Object.assign(
-                        { name: name },
-                        data || {}
-                    )
-                })
-            );
-
-            if (typeof window.inviteAnalytics === "function") {
-                window.inviteAnalytics(name, data || {});
-            }
-        } catch (error) {
-            /* Analytics must never break the invitation. */
-        }
-    }
-
     function isBroken(image) {
         return image.complete && image.naturalWidth === 0;
     }
@@ -118,10 +99,6 @@
             "This card could not be loaded. Please refresh or visit our wedding website for details.";
 
         image.replaceWith(fallback);
-
-        track("image_error", {
-            src: image.getAttribute("src")
-        });
     }
 
     function whenLoaded(image, timeoutMilliseconds) {
@@ -185,11 +162,6 @@
             suite.removeAttribute("inert");
             suite.removeAttribute("aria-hidden");
 
-            /*
-               The next animation frame ensures the browser has completed
-               layout after the envelope disappears before the carousel
-               begins accepting touch/swipe and keyboard interaction.
-            */
             window.requestAnimationFrame(function () {
                 track$.style.pointerEvents = "auto";
                 track$.scrollLeft = 0;
@@ -253,9 +225,6 @@
         var liner = $(".envelope__liner");
         var cardInner = $(".envelope__card-inner");
 
-        /*
-           1. The personalized front flips to the envelope opening side.
-        */
         await run(
             envelopeScene,
             [
@@ -272,9 +241,6 @@
             return;
         }
 
-        /*
-           2. The inside liner appears.
-        */
         run(
             liner,
             [
@@ -299,9 +265,6 @@
             }
         );
 
-        /*
-           3. The top flap opens.
-        */
         var flapDone = run(
             flap,
             [
@@ -320,9 +283,6 @@
             return;
         }
 
-        /*
-           4. Shortened side folds open.
-        */
         var sideEase = "cubic-bezier(0.3, 0.7, 0.2, 1)";
 
         var leftDone = run(
@@ -355,9 +315,6 @@
             return;
         }
 
-        /*
-           5. Invitation rises naturally from the envelope pocket.
-        */
         var cardDone = run(
             cardInner,
             [
@@ -380,9 +337,6 @@
             return;
         }
 
-        /*
-           6. Bottom fold opens.
-        */
         var bottomDone = run(
             bottomFold,
             [
@@ -407,9 +361,6 @@
             return;
         }
 
-        /*
-           7. Envelope fades into the live invitation carousel.
-        */
         await run(
             envelope,
             [
@@ -450,10 +401,6 @@
 
         var token = ++runId;
 
-        track("open", {
-            mode: canAnimate() ? "full" : "simple"
-        });
-
         try {
             var sequence = canAnimate()
                 ? playFullSequence(token)
@@ -464,7 +411,7 @@
                 wait(9000)
             ]);
         } catch (error) {
-            /* Always continue to the invitation suite. */
+            /* Continue to invitation suite. */
         }
 
         if (token !== runId) {
@@ -480,9 +427,6 @@
         }
 
         runId++;
-
-        track("skip");
-
         setState("opened");
     }
 
@@ -528,12 +472,6 @@
         ) {
             event.preventDefault();
             openInvitation();
-        }
-    });
-
-    window.addEventListener("pageshow", function (event) {
-        if (event.persisted && state === "opening") {
-            skipAnimation();
         }
     });
 
@@ -586,12 +524,6 @@
         });
 
         setIndex(nextIndex, options.silent);
-
-        if (!options.silent) {
-            track("card", {
-                index: nextIndex
-            });
-        }
     }
 
     track$.addEventListener("scroll", function () {
@@ -626,65 +558,8 @@
         }
     });
 
-    var drag = null;
-    var justDragged = false;
-
-    track$.addEventListener("pointerdown", function (event) {
-        if (event.pointerType !== "mouse" || event.button !== 0) {
-            return;
-        }
-
-        drag = {
-            x: event.clientX,
-            left: track$.scrollLeft
-        };
-
-        track$.setPointerCapture(event.pointerId);
-        track$.classList.add("is-dragging");
-    });
-
-    track$.addEventListener("pointermove", function (event) {
-        if (!drag) {
-            return;
-        }
-
-        track$.scrollLeft = drag.left - (event.clientX - drag.x);
-    });
-
-    function endDrag(event) {
-        if (!drag) {
-            return;
-        }
-
-        var movement = event.clientX - drag.x;
-        var width = track$.clientWidth || 1;
-        var target = Math.round(track$.scrollLeft / width);
-
-        if (Math.abs(movement) > width * 0.12) {
-            target = clamp(
-                index + (movement < 0 ? 1 : -1),
-                0,
-                slides.length - 1
-            );
-        }
-
-        justDragged = Math.abs(movement) > 5;
-
-        window.setTimeout(function () {
-            justDragged = false;
-        }, 0);
-
-        drag = null;
-        track$.classList.remove("is-dragging");
-
-        goTo(target);
-    }
-
-    track$.addEventListener("pointerup", endDrag);
-    track$.addEventListener("pointercancel", endDrag);
-
     track$.addEventListener("click", function () {
-        if (justDragged || state !== "opened") {
+        if (state !== "opened") {
             return;
         }
 
@@ -702,7 +577,6 @@
 
     window.addEventListener("resize", function () {
         window.clearTimeout(resizeTimer);
-
         resizeTimer = window.setTimeout(realign, 150);
     });
 
@@ -710,9 +584,6 @@
         window.setTimeout(realign, 280);
     });
 
-    /* =========================================================
-       INITIALIZATION
-       ========================================================= */
     function readGuest() {
         try {
             var guest = new URLSearchParams(
@@ -735,37 +606,22 @@
 
         var guest = readGuest();
 
-        /*
-           Closed envelope displays only the personalized guest name.
-           No fallback name is used when a guest parameter is absent.
-        */
         if (guest) {
-            frontGuestLine.textContent = guest;
+            frontGuestLine.textContent = "For " + guest;
             frontGuestLine.hidden = false;
         }
 
         setState("closed");
         setIndex(0, true);
 
-        note.textContent = "Preparing…";
-
-        openTarget.disabled = true;
-        openTarget.setAttribute("aria-disabled", "true");
+        /* Open immediately; image loading continues in the background. */
+        ready = true;
 
         Promise.all(
             cardImages.map(function (image) {
                 return whenLoaded(image, 8000);
             })
-        ).then(function () {
-            ready = true;
-
-            openTarget.disabled = false;
-            openTarget.removeAttribute("aria-disabled");
-
-            note.textContent = "Opening invitation…";
-
-            track("ready");
-        });
+        );
     }
 
     init();
