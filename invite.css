@@ -1,11 +1,7 @@
 /* =========================================================
    Zumi & Morgan — e-invitation styles
-   tokens → base → envelope → suite (carousel) → dock
-   Envelope motion is driven from invite.js (Web Animations API);
-   this file only defines resting states.
    ========================================================= */
 
-/* ---------- Design tokens ---------- */
 :root {
     --pear-light: #dce7ad;
     --pear: #b9ca77;
@@ -14,13 +10,13 @@
     --pear-dark: #53652d;
     --cream: #fffdf4;
     --gold: #b99754;
-    --gold-deep: #8a6a28;       /* darker gold: cream text on it passes AA */
+    --gold-deep: #8a6a28;
     --ink: #36502f;
     --page: #f1f4e7;
 
-    --font: "Montserrat", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --font: "Montserrat", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    --envelope-font: "Cinzel", Georgia, serif;
 
-    /* 100vh fallback → 100dvh where supported (invite.js covers iOS < 15.4) */
     --app-h: 100vh;
 
     --safe-t: env(safe-area-inset-top, 0px);
@@ -33,11 +29,13 @@
     --card-pad: 20px;
     --seal: clamp(76px, 20vw, 112px);
 
-    --paper: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .25  0 0 0 0 .32  0 0 0 0 .12  0 0 0 .09 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+    --paper: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .25 0 0 0 0 .32 0 0 0 0 .12 0 0 0 .09 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
 }
 
 @supports (height: 100dvh) {
-    :root { --app-h: 100dvh; }
+    :root {
+        --app-h: 100dvh;
+    }
 }
 
 @media (max-height: 520px) and (orientation: landscape) {
@@ -47,13 +45,16 @@
     }
 }
 
-/* ---------- Base ---------- */
 *,
 *::before,
-*::after { box-sizing: border-box; }
+*::after {
+    box-sizing: border-box;
+}
 
 html,
-body { height: 100%; }
+body {
+    height: 100%;
+}
 
 body {
     margin: 0;
@@ -71,7 +72,9 @@ body {
 }
 
 button,
-a { -webkit-tap-highlight-color: transparent; }
+a {
+    -webkit-tap-highlight-color: transparent;
+}
 
 :focus-visible {
     outline: 3px solid var(--gold-deep);
@@ -100,10 +103,12 @@ a { -webkit-tap-highlight-color: transparent; }
     background: var(--ink);
     transform: translateY(-200%);
 }
-.skip-link:focus { transform: none; }
 
-/* Shared card sizing: carousel slides and the card inside the envelope use the
-   same box, so the card that slides out lands exactly on slide 1. */
+.skip-link:focus {
+    transform: none;
+}
+
+/* Shared card sizing. */
 .card-img {
     display: block;
     width: min(calc(100vw - (var(--gutter) * 2)), 960px);
@@ -112,7 +117,6 @@ a { -webkit-tap-highlight-color: transparent; }
     -webkit-user-drag: none;
     user-select: none;
     -webkit-user-select: none;
-    /* Shadow kept inside the 20px card padding so the carousel never clips it into a hard line */
     filter: drop-shadow(0 5px 11px rgba(54, 72, 25, 0.28));
 }
 
@@ -120,20 +124,19 @@ a { -webkit-tap-highlight-color: transparent; }
     display: grid;
     place-items: center;
     padding: 24px;
-    text-align: center;
-    font-size: 0.85rem;
-    line-height: 1.6;
     color: var(--ink);
     background: var(--cream);
     border: 1px solid var(--gold);
+    font-size: 0.85rem;
+    line-height: 1.6;
+    text-align: center;
 }
 
 /* =========================================================
-   ENVELOPE
-   back(1) · liner(2) · card(3) · side folds(4) · bottom fold(5) · top flap(6) · UI(7+)
+   ENVELOPE / 3D FRONT-TO-BACK FLIP
    ========================================================= */
 .envelope {
-    display: none;                      /* shown only when JS is running (.js) */
+    display: none;
     position: fixed;
     inset: 0;
     z-index: 100;
@@ -142,10 +145,81 @@ a { -webkit-tap-highlight-color: transparent; }
     background: var(--pear-dark);
     touch-action: manipulation;
     isolation: isolate;
+    -webkit-perspective: 1800px;
+    perspective: 1800px;
 }
-.js .envelope { display: block; }
+
+.js .envelope {
+    display: block;
+}
+
 .js-failed .envelope,
-.envelope[hidden] { display: none !important; }
+.envelope[hidden] {
+    display: none !important;
+}
+
+/* Entire front/back envelope object flips horizontally. */
+.envelope__scene {
+    position: absolute;
+    inset: 0;
+    -webkit-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+    -webkit-transform-origin: center center;
+    transform-origin: center center;
+    will-change: transform;
+}
+
+.envelope__front-face,
+.envelope__inside-face {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+}
+
+.envelope__front-face {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--cream);
+    background:
+        var(--paper),
+        linear-gradient(135deg, rgba(255, 255, 255, 0.08), transparent 38%),
+        var(--pear-deep);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.14);
+}
+
+.envelope__inside-face {
+    -webkit-transform: rotateY(180deg);
+    transform: rotateY(180deg);
+}
+
+.envelope__couple-names {
+    margin: 0;
+    color: var(--cream);
+    font-family: var(--envelope-font);
+    font-size: clamp(1.55rem, 6vw, 3rem);
+    font-weight: 500;
+    letter-spacing: 2px;
+    line-height: 1.35;
+    text-align: center;
+    text-shadow: 0 2px 8px rgba(54, 72, 25, 0.25);
+    text-transform: uppercase;
+}
+
+.envelope__front-recipient {
+    margin: 1rem 1.5rem 0;
+    color: rgba(255, 253, 244, 0.94);
+    font-family: var(--envelope-font);
+    font-size: clamp(0.68rem, 2.2vw, 0.95rem);
+    font-weight: 500;
+    letter-spacing: 2.2px;
+    line-height: 1.5;
+    text-align: center;
+    text-transform: uppercase;
+}
 
 .envelope__back,
 .envelope__liner {
@@ -162,10 +236,9 @@ a { -webkit-tap-highlight-color: transparent; }
         var(--pear-deep);
 }
 
-/* Inside of the envelope: cream paper, faint pattern, soft vignette for depth */
 .envelope__liner {
     z-index: 2;
-    opacity: 0;                         /* faded in by invite.js as the flap lifts */
+    opacity: 0;
     background:
         var(--paper),
         radial-gradient(ellipse at 50% 46%, transparent 42%, rgba(83, 101, 45, 0.16) 100%),
@@ -177,21 +250,19 @@ a { -webkit-tap-highlight-color: transparent; }
 
 .envelope__card {
     position: absolute;
-    left: 50%;
     top: calc((var(--app-h) - var(--dock-h) + var(--safe-t)) / 2);
+    left: 50%;
     z-index: 3;
-    transform: translate(-50%, -50%);
     pointer-events: none;
+    transform: translate(-50%, -50%);
 }
+
 .envelope__card-inner {
-    transform: translateY(34%) scale(0.8);      /* resting: tucked into the pocket */
+    transform: translateY(34%) scale(0.8);
     will-change: transform;
 }
 
-/* ----- Hinged folds -----
-   Perspective sits on the wrapper (iOS needs it on an ancestor); perspective-origin is
-   set so every fold shares the screen centre as its vanishing point.
-   Each fold has two backface-hidden faces: paper outside, cream inside. */
+/* Hinged envelope folds. */
 .fold {
     position: absolute;
     z-index: 4;
@@ -199,6 +270,7 @@ a { -webkit-tap-highlight-color: transparent; }
     -webkit-perspective: 1400px;
     perspective: 1400px;
 }
+
 .fold__hinge {
     position: absolute;
     inset: 0;
@@ -206,33 +278,47 @@ a { -webkit-tap-highlight-color: transparent; }
     transform-style: preserve-3d;
     will-change: transform;
 }
+
 .fold__face {
     position: absolute;
     inset: 0;
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
 }
-.fold__face svg { display: block; width: 100%; height: 100%; }
+
+.fold__face svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
 
 .fold--left {
     top: 0;
     left: 0;
-    width: 52%;
+    width: 53%;
     height: 100%;
     -webkit-perspective-origin: 92% 50%;
-perspective-origin: 92% 50%;
+    perspective-origin: 92% 50%;
 }
-.fold--left .fold__hinge { -webkit-transform-origin: 0 50%; transform-origin: 0 50%; }
+
+.fold--left .fold__hinge {
+    -webkit-transform-origin: 0 50%;
+    transform-origin: 0 50%;
+}
 
 .fold--right {
     top: 0;
     right: 0;
-    width: 52%;
+    width: 53%;
     height: 100%;
     -webkit-perspective-origin: 8% 50%;
-perspective-origin: 8% 50%;
+    perspective-origin: 8% 50%;
 }
-.fold--right .fold__hinge { -webkit-transform-origin: 100% 50%; transform-origin: 100% 50%; }
+
+.fold--right .fold__hinge {
+    -webkit-transform-origin: 100% 50%;
+    transform-origin: 100% 50%;
+}
 
 .fold--left .fold__face--in,
 .fold--right .fold__face--in {
@@ -249,36 +335,49 @@ perspective-origin: 8% 50%;
     -webkit-perspective-origin: 50% 7%;
     perspective-origin: 50% 7%;
 }
-.fold--bottom .fold__hinge { -webkit-transform-origin: 50% 100%; transform-origin: 50% 100%; }
+
+.fold--bottom .fold__hinge {
+    -webkit-transform-origin: 50% 100%;
+    transform-origin: 50% 100%;
+}
+
 .fold--bottom .fold__face--in {
     -webkit-transform: rotateX(180deg);
     transform: rotateX(180deg);
 }
 
-/* Crease lines drawn on every fold: a soft shadow plus a thin highlight */
 .crease-shadow,
 .crease-light {
     fill: none;
     vector-effect: non-scaling-stroke;
     stroke-linejoin: round;
 }
-.crease-shadow { stroke: rgba(54, 80, 47, 0.2); stroke-width: 3; }
-.crease-light { stroke: rgba(255, 255, 255, 0.4); stroke-width: 1; }
 
-/* Top flap */
+.crease-shadow {
+    stroke: rgba(54, 80, 47, 0.2);
+    stroke-width: 3;
+}
+
+.crease-light {
+    stroke: rgba(255, 255, 255, 0.4);
+    stroke-width: 1;
+}
+
+/* Top opening flap. */
 .envelope__flap-wrap {
     position: absolute;
     top: 0;
-    left: 0;
     right: 0;
-    height: 56%;
+    left: 0;
     z-index: 6;
+    height: 56%;
     pointer-events: none;
     -webkit-perspective: 1400px;
     perspective: 1400px;
     -webkit-perspective-origin: 50% 89%;
     perspective-origin: 50% 89%;
 }
+
 .envelope__flap {
     position: absolute;
     inset: 0;
@@ -288,28 +387,36 @@ perspective-origin: 8% 50%;
     transform-style: preserve-3d;
     will-change: transform;
 }
+
 .envelope__flap-face {
     position: absolute;
     inset: 0;
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
 }
-.envelope__flap-face svg { display: block; width: 100%; height: 100%; }
+
+.envelope__flap-face svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
 .envelope__flap-face--in {
     -webkit-transform: rotateX(180deg);
     transform: rotateX(180deg);
 }
 
+/* Personalized line on the opening side, using Cinzel. */
 .envelope__to {
     position: absolute;
     top: calc(var(--safe-t) + 11%);
-    left: 0;
     right: 0;
+    left: 0;
     z-index: 7;
     margin: 0;
     padding: 0 24px;
     color: var(--ink);
-    font-family: "Cinzel", serif;
+    font-family: var(--envelope-font);
     font-size: clamp(0.72rem, 2.2vw, 1rem);
     font-weight: 500;
     letter-spacing: 2.8px;
@@ -321,9 +428,9 @@ perspective-origin: 8% 50%;
 
 .seal {
     position: absolute;
-    left: calc(50% - (var(--seal) / 2));
     top: calc(54% - (var(--seal) / 2));
-    z-index: 8;
+    left: calc(50% - (var(--seal) / 2));
+    z-index: 20;
     display: grid;
     width: var(--seal);
     height: var(--seal);
@@ -346,18 +453,24 @@ perspective-origin: 8% 50%;
     cursor: pointer;
     touch-action: manipulation;
 }
+
 .seal:focus-visible {
     outline: 3px solid var(--cream);
     outline-offset: 4px;
-    box-shadow: 0 0 0 8px var(--pear-dark), 0 6px 18px rgba(53, 69, 22, 0.35);
+    box-shadow:
+        0 0 0 8px var(--pear-dark),
+        0 6px 18px rgba(53, 69, 22, 0.35);
 }
-.seal[aria-disabled="true"] { cursor: progress; opacity: 0.85; }
 
-/* Dark pill so cream text always passes contrast on the green folds */
+.seal[aria-disabled="true"] {
+    cursor: progress;
+    opacity: 0.85;
+}
+
 .envelope__note {
     position: absolute;
-    left: 50%;
     bottom: calc(var(--safe-b) + 40px);
+    left: 50%;
     z-index: 9;
     margin: 0;
     padding: 9px 16px;
@@ -374,12 +487,20 @@ perspective-origin: 8% 50%;
 }
 
 @keyframes tap-pulse {
-    0%, 100% { opacity: 0.8; margin-bottom: 0; }
-    50% { opacity: 1; margin-bottom: 4px; }
+    0%,
+    100% {
+        opacity: 0.8;
+        margin-bottom: 0;
+    }
+
+    50% {
+        opacity: 1;
+        margin-bottom: 4px;
+    }
 }
 
 /* =========================================================
-   SUITE (carousel)
+   SUITE / CAROUSEL
    ========================================================= */
 .suite {
     position: relative;
@@ -408,12 +529,19 @@ perspective-origin: 8% 50%;
     scrollbar-width: none;
     cursor: pointer;
 }
-.track::-webkit-scrollbar { display: none; }
+
+.track::-webkit-scrollbar {
+    display: none;
+}
+
 .track.is-dragging {
     scroll-snap-type: none;
     cursor: grabbing;
 }
-.track:focus-visible { outline-offset: -6px; }
+
+.track:focus-visible {
+    outline-offset: -6px;
+}
 
 .slide {
     flex: 0 0 100%;
@@ -426,7 +554,7 @@ perspective-origin: 8% 50%;
 }
 
 /* =========================================================
-   DOCK — position indicator + the website button
+   BOTTOM DOCK
    ========================================================= */
 .dock {
     flex: 0 0 var(--dock-h);
@@ -435,7 +563,11 @@ perspective-origin: 8% 50%;
     align-items: center;
     justify-content: flex-start;
     gap: 14px;
-    padding: 6px max(var(--gutter), var(--safe-l)) calc(var(--safe-b) + 14px) max(var(--gutter), var(--safe-r));
+    padding:
+        6px
+        max(var(--gutter), var(--safe-r))
+        calc(var(--safe-b) + 14px)
+        max(var(--gutter), var(--safe-l));
 }
 
 .indicator {
@@ -443,6 +575,7 @@ perspective-origin: 8% 50%;
     gap: 10px;
     height: 10px;
 }
+
 .indicator span {
     width: 8px;
     height: 8px;
@@ -450,6 +583,7 @@ perspective-origin: 8% 50%;
     border-radius: 50%;
     transition: transform 0.2s ease, background 0.2s ease;
 }
+
 .indicator .is-current {
     background: var(--pear-dark);
     transform: scale(1.35);
@@ -473,6 +607,7 @@ perspective-origin: 8% 50%;
     touch-action: manipulation;
     transition: background 0.2s ease, color 0.2s ease;
 }
+
 .btn:hover,
 .btn:focus-visible {
     color: var(--cream);
@@ -482,24 +617,34 @@ perspective-origin: 8% 50%;
 @media (max-height: 520px) and (orientation: landscape) {
     .dock {
         flex-direction: row;
-        justify-content: center;
         align-items: center;
+        justify-content: center;
         gap: 18px;
         padding-top: 6px;
     }
 }
 
-/* ---------- Reduced motion: quiet decorative animation (envelope cross-fades in JS) ---------- */
 @media (prefers-reduced-motion: reduce) {
-    .envelope__note { animation: none; }
+    .envelope__note {
+        animation: none;
+    }
+
     .indicator span,
-    .btn { transition: none; }
+    .btn {
+        transition: none;
+    }
 }
 
 @media (forced-colors: active) {
-    .indicator span { background: ButtonText; }
-    .indicator .is-current { background: Highlight; }
+    .indicator span {
+        background: ButtonText;
+    }
+
+    .indicator .is-current {
+        background: Highlight;
+    }
 }
 
-/* No-JS: hide the indicator (needs script) */
-html:not(.js) [data-needs-js] { display: none; }
+html:not(.js) [data-needs-js] {
+    display: none;
+}
