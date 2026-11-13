@@ -1,14 +1,12 @@
 /* =========================================================
    Zumi & Morgan — e-invitation behavior
-   Mobile-ready version
    ========================================================= */
 (function () {
-    'use strict';
+    "use strict";
 
     var CARD_LABELS = [
-        'Formal invitation',
-        'Wedding details',
-        'Photo card'
+        "Formal invitation",
+        "Wedding details"
     ];
 
     var root = document.documentElement;
@@ -28,51 +26,57 @@
     };
 
     var reducedMotion = window.matchMedia(
-        '(prefers-reduced-motion: reduce)'
+        "(prefers-reduced-motion: reduce)"
     );
 
-    var app = $('#app');
-    var envelope = $('#envelope');
-    var seal = $('#seal');
-    var note = $('#envNote');
-    var guestLine = $('#guestLine');
-    var suite = $('#suite');
-    var suiteHeading = $('#suiteHeading');
-    var track$ = $('#track');
-    var liveEl = $('#live');
+    var app = $("#app");
+    var envelope = $("#envelope");
+    var seal = $("#seal");
+    var note = $("#envNote");
+    var guestLine = $("#guestLine");
+    var frontGuestLine = $("#frontGuestLine");
+    var envelopeScene = $("#envelopeScene");
+
+    var suite = $("#suite");
+    var suiteHeading = $("#suiteHeading");
+    var track$ = $("#track");
+    var liveEl = $("#live");
 
     var cardImages = Array.prototype.slice.call(
-        document.querySelectorAll('.card-img')
+        document.querySelectorAll(".card-img")
     );
 
-    var state = 'closed';
+    var state = "closed";
     var runId = 0;
     var animations = [];
     var ready = false;
     var lastTouchTime = 0;
 
     /* =========================================================
-       VIEWPORT HEIGHT — Stabilizes iPhone Safari browser chrome
+       MOBILE VIEWPORT HEIGHT
        ========================================================= */
     function setAppHeight() {
         var height = window.visualViewport
             ? window.visualViewport.height
             : window.innerHeight;
 
-        root.style.setProperty('--app-h', Math.round(height) + 'px');
+        root.style.setProperty(
+            "--app-h",
+            Math.round(height) + "px"
+        );
     }
 
     setAppHeight();
 
-    window.addEventListener('resize', setAppHeight);
+    window.addEventListener("resize", setAppHeight);
 
-    window.addEventListener('orientationchange', function () {
+    window.addEventListener("orientationchange", function () {
         window.setTimeout(setAppHeight, 250);
     });
 
     if (window.visualViewport) {
-        window.visualViewport.addEventListener('resize', setAppHeight);
-        window.visualViewport.addEventListener('scroll', setAppHeight);
+        window.visualViewport.addEventListener("resize", setAppHeight);
+        window.visualViewport.addEventListener("scroll", setAppHeight);
     }
 
     /* =========================================================
@@ -81,12 +85,15 @@
     function track(name, data) {
         try {
             window.dispatchEvent(
-                new CustomEvent('invite:event', {
-                    detail: Object.assign({ name: name }, data || {})
+                new CustomEvent("invite:event", {
+                    detail: Object.assign(
+                        { name: name },
+                        data || {}
+                    )
                 })
             );
 
-            if (typeof window.inviteAnalytics === 'function') {
+            if (typeof window.inviteAnalytics === "function") {
                 window.inviteAnalytics(name, data || {});
             }
         } catch (error) {
@@ -95,7 +102,7 @@
     }
 
     /* =========================================================
-       IMAGE FALLBACKS
+       IMAGE LOADING / FALLBACK
        ========================================================= */
     function isBroken(image) {
         return image.complete && image.naturalWidth === 0;
@@ -106,24 +113,27 @@
             return;
         }
 
-        if (image.closest('.envelope__card')) {
-            image.closest('.envelope__card').hidden = true;
+        if (image.closest(".envelope__card")) {
+            image.closest(".envelope__card").hidden = true;
             return;
         }
 
-        var fallback = document.createElement('div');
+        var fallback = document.createElement("div");
 
-        fallback.className = 'card-img card-fallback';
-        fallback.setAttribute('role', 'img');
-        fallback.setAttribute('aria-label', 'Invitation card unavailable');
+        fallback.className = "card-img card-fallback";
+        fallback.setAttribute("role", "img");
+        fallback.setAttribute(
+            "aria-label",
+            "Invitation card unavailable"
+        );
 
         fallback.textContent =
-            'This card could not be loaded. Please refresh, or visit our wedding website for details.';
+            "This card could not be loaded. Please refresh or visit our wedding website for details.";
 
         image.replaceWith(fallback);
 
-        track('image_error', {
-            src: image.getAttribute('src')
+        track("image_error", {
+            src: image.getAttribute("src")
         });
     }
 
@@ -140,11 +150,11 @@
                 return;
             }
 
-            image.addEventListener('load', function () {
+            image.addEventListener("load", function () {
                 resolve(true);
             }, { once: true });
 
-            image.addEventListener('error', function () {
+            image.addEventListener("error", function () {
                 markBroken(image);
                 resolve(false);
             }, { once: true });
@@ -174,64 +184,63 @@
         state = nextState;
         app.dataset.state = nextState;
 
-        if (nextState === 'opened') {
+        if (nextState === "opened") {
             envelope.hidden = true;
-
-            /*
-               Critical mobile fix:
-               Disable all envelope interaction after the animation.
-               This prevents the invisible overlay from blocking
-               swipes, card taps, and carousel interactions.
-            */
-            envelope.style.pointerEvents = 'none';
+            envelope.style.pointerEvents = "none";
 
             cancelAnimations();
 
-            suite.removeAttribute('inert');
-            suite.removeAttribute('aria-hidden');
+            suite.removeAttribute("inert");
+            suite.removeAttribute("aria-hidden");
 
             suiteHeading.focus({
                 preventScroll: true
             });
         }
 
-        if (nextState === 'closed') {
+        if (nextState === "closed") {
             cancelAnimations();
 
             envelope.hidden = false;
-            envelope.style.pointerEvents = 'auto';
+            envelope.style.pointerEvents = "auto";
 
-            suite.setAttribute('inert', '');
-            suite.setAttribute('aria-hidden', 'true');
+            suite.setAttribute("inert", "");
+            suite.setAttribute("aria-hidden", "true");
         }
     }
 
     function canAnimate() {
-    return typeof Element.prototype.animate === 'function';
-}
+        return (
+            typeof Element.prototype.animate === "function" &&
+            !reducedMotion.matches
+        );
+    }
 
     /*
-       Reliable WAAPI helper:
-       Older mobile Safari can expose .animate() while not reliably
-       exposing Animation.finished, so this always has a timer fallback.
+       Reliable Web Animations API wrapper.
+       Includes a timeout fallback for older mobile Safari behavior.
     */
     function run(element, keyframes, options) {
-        options = Object.assign({
-            fill: 'forwards'
-        }, options || {});
+        options = Object.assign(
+            { fill: "forwards" },
+            options || {}
+        );
 
-        if (
-            !element ||
-            typeof element.animate !== 'function'
-        ) {
-            return wait(options.duration || 0);
+        if (!element || typeof element.animate !== "function") {
+            return wait(
+                (options.delay || 0) +
+                (options.duration || 0)
+            );
         }
 
         var animation = element.animate(keyframes, options);
 
         animations.push(animation);
 
-        if (animation.finished && typeof animation.finished.then === 'function') {
+        if (
+            animation.finished &&
+            typeof animation.finished.then === "function"
+        ) {
             return animation.finished.catch(function () {
                 return undefined;
             });
@@ -244,65 +253,113 @@
     }
 
     /* =========================================================
-       FULL ENVELOPE OPENING SEQUENCE
+       ENVELOPE OPENING SEQUENCE
+       Front names → seal fades → envelope flips → opens normally
        ========================================================= */
     async function playFullSequence(token) {
-        var isAlive = function () {
+        var alive = function () {
             return token === runId;
         };
 
-        var flap = $('#envFlap');
-        var leftFold = $('.fold--left .fold__hinge');
-        var rightFold = $('.fold--right .fold__hinge');
-        var bottomFold = $('.fold--bottom .fold__hinge');
-        var liner = $('.envelope__liner');
-        var cardInner = $('.envelope__card-inner');
+        var flap = $("#envFlap");
+        var leftFold = $(".fold--left .fold__hinge");
+        var rightFold = $(".fold--right .fold__hinge");
+        var bottomFold = $(".fold--bottom .fold__hinge");
+        var liner = $(".envelope__liner");
+        var cardInner = $(".envelope__card-inner");
 
-        /* 1. Seal presses slightly inward. */
+        /*
+           Step 1: Seal presses slightly.
+        */
         await run(
             seal,
             [
-                { transform: 'scale(1)' },
-                { transform: 'scale(0.9)' }
+                { transform: "scale(1)" },
+                { transform: "scale(0.9)" }
             ],
             {
                 duration: 220,
-                easing: 'ease-out'
+                easing: "ease-out"
             }
         );
 
-        if (!isAlive()) {
+        if (!alive()) {
             return;
         }
 
-        /* 2. Seal and note disappear; liner begins appearing. */
+        /*
+           Step 2: Seal and recipient text fade away from the front.
+        */
         run(
             seal,
             [
                 {
-                    transform: 'scale(0.9) rotate(0deg)',
+                    transform: "scale(0.9) rotate(0deg)",
                     opacity: 1
                 },
                 {
-                    transform: 'scale(1.35) rotate(10deg)',
+                    transform: "scale(1.35) rotate(10deg)",
                     opacity: 0
                 }
             ],
             {
-                duration: 340,
-                easing: 'ease-out'
+                duration: 330,
+                easing: "ease-out"
             }
         );
 
-        run(
-            note,
+        if (!frontGuestLine.hidden) {
+            run(
+                frontGuestLine,
+                [
+                    { opacity: 1 },
+                    { opacity: 0 }
+                ],
+                {
+                    duration: 220,
+                    easing: "ease-out"
+                }
+            );
+        }
+
+        await wait(150);
+
+        if (!alive()) {
+            return;
+        }
+
+        /*
+           Step 3: The full envelope flips to its opening side.
+        */
+        await run(
+            envelopeScene,
             [
-                { opacity: 1 },
-                { opacity: 0 }
+                { transform: "rotateY(0deg)" },
+                { transform: "rotateY(180deg)" }
             ],
             {
-                duration: 220,
-                easing: 'ease-out'
+                duration: 720,
+                easing: "cubic-bezier(0.22, 0.8, 0.25, 1)"
+            }
+        );
+
+        if (!alive()) {
+            return;
+        }
+
+        /*
+           Step 4: Opening-side liner appears. The inside recipient
+           line fades away before the card begins moving.
+        */
+        run(
+            liner,
+            [
+                { opacity: 0 },
+                { opacity: 1 }
+            ],
+            {
+                duration: 350,
+                easing: "ease-out"
             }
         );
 
@@ -314,52 +371,55 @@
                     { opacity: 0 }
                 ],
                 {
-                    duration: 220,
-                    easing: 'ease-out'
+                    duration: 200,
+                    easing: "ease-out"
                 }
             );
         }
 
         run(
-            liner,
+            note,
             [
-                { opacity: 0 },
-                { opacity: 1 }
+                { opacity: 1 },
+                { opacity: 0 }
             ],
             {
-                duration: 400,
-                delay: 100,
-                easing: 'ease-out'
+                duration: 180,
+                easing: "ease-out"
             }
         );
 
-        /* 3. Top flap opens. */
+        /*
+           Step 5: The top flap opens.
+        */
         var flapDone = run(
             flap,
             [
-                { transform: 'rotateX(0deg)' },
-                { transform: 'rotateX(-180deg)' }
+                { transform: "rotateX(0deg)" },
+                { transform: "rotateX(-180deg)" }
             ],
             {
-                duration: 780,
-                easing: 'cubic-bezier(0.22, 0.8, 0.25, 1)'
+                duration: 800,
+                easing: "cubic-bezier(0.22, 0.8, 0.25, 1)"
             }
         );
 
-        await wait(360);
+        await wait(350);
 
-        if (!isAlive()) {
+        if (!alive()) {
             return;
         }
 
-        /* 4. Side folds swing outward. */
-        var sideEase = 'cubic-bezier(0.3, 0.7, 0.2, 1)';
+        /*
+           Step 6: Shorter side folds swing outward.
+        */
+        var sideEase = "cubic-bezier(0.3, 0.7, 0.2, 1)";
 
         var leftDone = run(
             leftFold,
             [
-                { transform: 'rotateY(0deg)' },
-                { transform: 'rotateY(180deg)' }
+                { transform: "rotateY(0deg)" },
+                { transform: "rotateY(180deg)" }
             ],
             {
                 duration: 820,
@@ -370,8 +430,8 @@
         var rightDone = run(
             rightFold,
             [
-                { transform: 'rotateY(0deg)' },
-                { transform: 'rotateY(-180deg)' }
+                { transform: "rotateY(0deg)" },
+                { transform: "rotateY(-180deg)" }
             ],
             {
                 duration: 820,
@@ -381,39 +441,43 @@
 
         await wait(280);
 
-        if (!isAlive()) {
+        if (!alive()) {
             return;
         }
 
-        /* 5. Invitation rises from the center pocket. */
+        /*
+           Step 7: Main invitation rises from the envelope pocket.
+        */
         var cardDone = run(
             cardInner,
             [
                 {
-                    transform: 'translateY(34%) scale(0.8)'
+                    transform: "translateY(34%) scale(0.8)"
                 },
                 {
-                    transform: 'translateY(0) scale(1)'
+                    transform: "translateY(0) scale(1)"
                 }
             ],
             {
                 duration: 950,
-                easing: 'cubic-bezier(0.18, 0.88, 0.22, 1)'
+                easing: "cubic-bezier(0.18, 0.88, 0.22, 1)"
             }
         );
 
         await wait(320);
 
-        if (!isAlive()) {
+        if (!alive()) {
             return;
         }
 
-        /* 6. Bottom fold opens downward. */
+        /*
+           Step 8: Bottom fold opens down.
+        */
         var bottomDone = run(
             bottomFold,
             [
-                { transform: 'rotateX(0deg)' },
-                { transform: 'rotateX(180deg)' }
+                { transform: "rotateX(0deg)" },
+                { transform: "rotateX(180deg)" }
             ],
             {
                 duration: 720,
@@ -429,11 +493,13 @@
             bottomDone
         ]);
 
-        if (!isAlive()) {
+        if (!alive()) {
             return;
         }
 
-        /* 7. Fade envelope into the main carousel card. */
+        /*
+           Step 9: Fade into the matching carousel card.
+        */
         await run(
             envelope,
             [
@@ -442,13 +508,13 @@
             ],
             {
                 duration: 400,
-                easing: 'ease-out'
+                easing: "ease-out"
             }
         );
     }
 
     async function playSimpleSequence() {
-        if (typeof envelope.animate === 'function') {
+        if (typeof envelope.animate === "function") {
             await run(
                 envelope,
                 [
@@ -457,7 +523,7 @@
                 ],
                 {
                     duration: 250,
-                    easing: 'linear'
+                    easing: "linear"
                 }
             );
         } else {
@@ -466,57 +532,50 @@
     }
 
     async function openInvitation() {
-        if (state !== 'closed' || !ready) {
+        if (state !== "closed" || !ready) {
             return;
         }
 
-        setState('opening');
+        setState("opening");
 
         var token = ++runId;
 
-        track('open', {
-            mode: canAnimate() ? 'full' : 'simple'
+        track("open", {
+            mode: canAnimate() ? "full" : "simple"
         });
 
         try {
-            var animation = canAnimate()
+            var sequence = canAnimate()
                 ? playFullSequence(token)
                 : playSimpleSequence();
 
             await Promise.race([
-                animation,
-                wait(7000)
+                sequence,
+                wait(8500)
             ]);
         } catch (error) {
-            /* Always proceed to the invitation suite. */
+            /* Always move to the suite. */
         }
 
         if (token !== runId) {
             return;
         }
 
-        setState('opened');
+        setState("opened");
     }
 
     function skipAnimation() {
-        if (state === 'opened') {
+        if (state === "opened") {
             return;
         }
 
         runId++;
 
-        track('skip');
+        track("skip");
 
-        setState('opened');
+        setState("opened");
     }
 
-    /*
-       Mobile-safe opening:
-       - seal click works for mouse and keyboard
-       - seal touchend works for iPhone/Android
-       - envelope click allows tapping anywhere on the envelope
-       - duplicate events are ignored
-    */
     function requestOpen(event) {
         if (event) {
             event.preventDefault();
@@ -526,14 +585,14 @@
         openInvitation();
     }
 
-    seal.addEventListener('click', requestOpen);
+    seal.addEventListener("click", requestOpen);
 
-    seal.addEventListener('touchend', function (event) {
+    seal.addEventListener("touchend", function (event) {
         lastTouchTime = Date.now();
         requestOpen(event);
     }, { passive: false });
 
-    envelope.addEventListener('click', function (event) {
+    envelope.addEventListener("click", function (event) {
         if (Date.now() - lastTouchTime < 700) {
             return;
         }
@@ -545,30 +604,31 @@
         openInvitation();
     });
 
-    document.addEventListener('keydown', function (event) {
-        if (state === 'opened') {
+    document.addEventListener("keydown", function (event) {
+        if (state === "opened") {
             return;
         }
 
-        if (event.key === 'Escape') {
+        if (event.key === "Escape") {
             skipAnimation();
         }
 
-        if (event.key === 'Tab') {
+        if (event.key === "Tab") {
             event.preventDefault();
             seal.focus();
         }
 
-        if (event.key === 'Enter' || event.key === ' ') {
-            if (document.activeElement === seal) {
-                event.preventDefault();
-                openInvitation();
-            }
+        if (
+            (event.key === "Enter" || event.key === " ") &&
+            document.activeElement === seal
+        ) {
+            event.preventDefault();
+            openInvitation();
         }
     });
 
-    window.addEventListener('pageshow', function (event) {
-        if (event.persisted && state === 'opening') {
+    window.addEventListener("pageshow", function (event) {
+        if (event.persisted && state === "opening") {
             skipAnimation();
         }
     });
@@ -578,7 +638,7 @@
        ========================================================= */
     var slides = Array.prototype.slice.call(track$.children);
     var pips = Array.prototype.slice.call(
-        document.querySelectorAll('.indicator span')
+        document.querySelectorAll(".indicator span")
     );
 
     var index = 0;
@@ -589,19 +649,19 @@
 
         pips.forEach(function (pip, pipIndex) {
             pip.classList.toggle(
-                'is-current',
+                "is-current",
                 pipIndex === nextIndex
             );
         });
 
         if (!silent) {
             liveEl.textContent =
-                'Card ' +
+                "Card " +
                 (nextIndex + 1) +
-                ' of ' +
+                " of " +
                 slides.length +
-                ': ' +
-                (CARD_LABELS[nextIndex] || '');
+                ": " +
+                (CARD_LABELS[nextIndex] || "");
         }
     }
 
@@ -617,20 +677,20 @@
             left: nextIndex * track$.clientWidth,
             behavior:
                 options.instant || reducedMotion.matches
-                    ? 'auto'
-                    : 'smooth'
+                    ? "auto"
+                    : "smooth"
         });
 
         setIndex(nextIndex, options.silent);
 
         if (!options.silent) {
-            track('card', {
+            track("card", {
                 index: nextIndex
             });
         }
     }
 
-    track$.addEventListener('scroll', function () {
+    track$.addEventListener("scroll", function () {
         window.cancelAnimationFrame(scrollFrame);
 
         scrollFrame = window.requestAnimationFrame(function () {
@@ -648,7 +708,7 @@
         });
     }, { passive: true });
 
-    track$.addEventListener('keydown', function (event) {
+    track$.addEventListener("keydown", function (event) {
         var keyMap = {
             ArrowLeft: index - 1,
             ArrowRight: index + 1,
@@ -662,15 +722,12 @@
         }
     });
 
-    /*
-       Native mobile touch scrolling is preserved.
-       Mouse dragging is added only for desktop users.
-    */
+    /* Desktop mouse dragging; phones retain native swipe behavior. */
     var drag = null;
     var justDragged = false;
 
-    track$.addEventListener('pointerdown', function (event) {
-        if (event.pointerType !== 'mouse' || event.button !== 0) {
+    track$.addEventListener("pointerdown", function (event) {
+        if (event.pointerType !== "mouse" || event.button !== 0) {
             return;
         }
 
@@ -680,10 +737,10 @@
         };
 
         track$.setPointerCapture(event.pointerId);
-        track$.classList.add('is-dragging');
+        track$.classList.add("is-dragging");
     });
 
-    track$.addEventListener('pointermove', function (event) {
+    track$.addEventListener("pointermove", function (event) {
         if (!drag) {
             return;
         }
@@ -715,17 +772,17 @@
         }, 0);
 
         drag = null;
-        track$.classList.remove('is-dragging');
+        track$.classList.remove("is-dragging");
 
         goTo(target);
     }
 
-    track$.addEventListener('pointerup', endDrag);
-    track$.addEventListener('pointercancel', endDrag);
+    track$.addEventListener("pointerup", endDrag);
+    track$.addEventListener("pointercancel", endDrag);
 
-    /* Tap current card to advance to the next card. */
-    track$.addEventListener('click', function () {
-        if (justDragged || state !== 'opened') {
+    /* Tap a visible card to advance to the next one. */
+    track$.addEventListener("click", function () {
+        if (justDragged || state !== "opened") {
             return;
         }
 
@@ -735,19 +792,19 @@
     function realign() {
         track$.scrollTo({
             left: index * track$.clientWidth,
-            behavior: 'auto'
+            behavior: "auto"
         });
     }
 
     var resizeTimer = 0;
 
-    window.addEventListener('resize', function () {
+    window.addEventListener("resize", function () {
         window.clearTimeout(resizeTimer);
 
         resizeTimer = window.setTimeout(realign, 150);
     });
 
-    window.addEventListener('orientationchange', function () {
+    window.addEventListener("orientationchange", function () {
         window.setTimeout(realign, 280);
     });
 
@@ -758,36 +815,39 @@
         try {
             var guest = new URLSearchParams(
                 window.location.search
-            ).get('guest') || '';
+            ).get("guest") || "";
 
             return guest
-                .replace(/[\u0000-\u001f\u007f<>]/g, '')
+                .replace(/[\u0000-\u001f\u007f<>]/g, "")
                 .trim()
                 .slice(0, 60);
         } catch (error) {
-            return '';
+            return "";
         }
     }
 
     function init() {
         window.clearTimeout(window.__inviteBoot);
 
-        root.classList.remove('js-failed');
+        root.classList.remove("js-failed");
 
         var guest = readGuest();
 
         if (guest) {
-            guestLine.textContent = 'For ' + guest;
+            guestLine.textContent = "For " + guest;
             guestLine.hidden = false;
+
+            frontGuestLine.textContent = "For " + guest;
+            frontGuestLine.hidden = false;
         }
 
-        setState('closed');
+        setState("closed");
         setIndex(0, true);
 
-        note.textContent = 'Preparing…';
+        note.textContent = "Preparing…";
 
         seal.disabled = true;
-        seal.setAttribute('aria-disabled', 'true');
+        seal.setAttribute("aria-disabled", "true");
 
         Promise.all(
             cardImages.map(function (image) {
@@ -797,11 +857,11 @@
             ready = true;
 
             seal.disabled = false;
-            seal.removeAttribute('aria-disabled');
+            seal.removeAttribute("aria-disabled");
 
-            note.textContent = 'Tap to open';
+            note.textContent = "Tap to open";
 
-            track('ready');
+            track("ready");
         });
     }
 
