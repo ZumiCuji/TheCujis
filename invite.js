@@ -33,7 +33,6 @@
     var envelope = $("#envelope");
     var seal = $("#seal");
     var note = $("#envNote");
-    var guestLine = $("#guestLine");
     var frontGuestLine = $("#frontGuestLine");
     var envelopeScene = $("#envelopeScene");
 
@@ -80,7 +79,7 @@
     }
 
     /* =========================================================
-       OPTIONAL ANALYTICS HOOK
+       OPTIONAL ANALYTICS
        ========================================================= */
     function track(name, data) {
         try {
@@ -102,7 +101,7 @@
     }
 
     /* =========================================================
-       IMAGE LOADING / FALLBACK
+       IMAGE HANDLING
        ========================================================= */
     function isBroken(image) {
         return image.complete && image.naturalWidth === 0;
@@ -216,10 +215,6 @@
         );
     }
 
-    /*
-       Reliable Web Animations API wrapper.
-       Includes a timeout fallback for older mobile Safari behavior.
-    */
     function run(element, keyframes, options) {
         options = Object.assign(
             { fill: "forwards" },
@@ -253,8 +248,8 @@
     }
 
     /* =========================================================
-       ENVELOPE OPENING SEQUENCE
-       Front names → seal fades → envelope flips → opens normally
+       ENVELOPE OPENING
+       Front name → seal fades → flip → normal open sequence
        ========================================================= */
     async function playFullSequence(token) {
         var alive = function () {
@@ -268,9 +263,7 @@
         var liner = $(".envelope__liner");
         var cardInner = $(".envelope__card-inner");
 
-        /*
-           Step 1: Seal presses slightly.
-        */
+        /* 1. Seal presses. */
         await run(
             seal,
             [
@@ -287,9 +280,7 @@
             return;
         }
 
-        /*
-           Step 2: Seal and recipient text fade away from the front.
-        */
+        /* 2. Seal and guest name fade. */
         run(
             seal,
             [
@@ -328,9 +319,7 @@
             return;
         }
 
-        /*
-           Step 3: The full envelope flips to its opening side.
-        */
+        /* 3. Closed envelope front flips to the opening side. */
         await run(
             envelopeScene,
             [
@@ -347,10 +336,7 @@
             return;
         }
 
-        /*
-           Step 4: Opening-side liner appears. The inside recipient
-           line fades away before the card begins moving.
-        */
+        /* 4. Cream liner appears. */
         run(
             liner,
             [
@@ -362,20 +348,6 @@
                 easing: "ease-out"
             }
         );
-
-        if (!guestLine.hidden) {
-            run(
-                guestLine,
-                [
-                    { opacity: 1 },
-                    { opacity: 0 }
-                ],
-                {
-                    duration: 200,
-                    easing: "ease-out"
-                }
-            );
-        }
 
         run(
             note,
@@ -389,9 +361,7 @@
             }
         );
 
-        /*
-           Step 5: The top flap opens.
-        */
+        /* 5. Top flap opens. */
         var flapDone = run(
             flap,
             [
@@ -410,9 +380,7 @@
             return;
         }
 
-        /*
-           Step 6: Shorter side folds swing outward.
-        */
+        /* 6. Side folds open. */
         var sideEase = "cubic-bezier(0.3, 0.7, 0.2, 1)";
 
         var leftDone = run(
@@ -445,9 +413,7 @@
             return;
         }
 
-        /*
-           Step 7: Main invitation rises from the envelope pocket.
-        */
+        /* 7. Invitation rises from its envelope pocket. */
         var cardDone = run(
             cardInner,
             [
@@ -470,9 +436,7 @@
             return;
         }
 
-        /*
-           Step 8: Bottom fold opens down.
-        */
+        /* 8. Bottom fold opens down. */
         var bottomDone = run(
             bottomFold,
             [
@@ -497,9 +461,7 @@
             return;
         }
 
-        /*
-           Step 9: Fade into the matching carousel card.
-        */
+        /* 9. Fade into the carousel invitation. */
         await run(
             envelope,
             [
@@ -551,10 +513,10 @@
 
             await Promise.race([
                 sequence,
-                wait(8500)
+                wait(9000)
             ]);
         } catch (error) {
-            /* Always move to the suite. */
+            /* Always proceed to invitation suite. */
         }
 
         if (token !== runId) {
@@ -722,7 +684,7 @@
         }
     });
 
-    /* Desktop mouse dragging; phones retain native swipe behavior. */
+    /* Native mobile swipe remains enabled. Mouse dragging is added for desktop. */
     var drag = null;
     var justDragged = false;
 
@@ -753,19 +715,19 @@
             return;
         }
 
-        var change = event.clientX - drag.x;
+        var movement = event.clientX - drag.x;
         var width = track$.clientWidth || 1;
         var target = Math.round(track$.scrollLeft / width);
 
-        if (Math.abs(change) > width * 0.12) {
+        if (Math.abs(movement) > width * 0.12) {
             target = clamp(
-                index + (change < 0 ? 1 : -1),
+                index + (movement < 0 ? 1 : -1),
                 0,
                 slides.length - 1
             );
         }
 
-        justDragged = Math.abs(change) > 5;
+        justDragged = Math.abs(movement) > 5;
 
         window.setTimeout(function () {
             justDragged = false;
@@ -780,7 +742,7 @@
     track$.addEventListener("pointerup", endDrag);
     track$.addEventListener("pointercancel", endDrag);
 
-    /* Tap a visible card to advance to the next one. */
+    /* Tap the visible card to advance. */
     track$.addEventListener("click", function () {
         if (justDragged || state !== "opened") {
             return;
@@ -809,7 +771,7 @@
     });
 
     /* =========================================================
-       INIT
+       INITIALIZATION
        ========================================================= */
     function readGuest() {
         try {
@@ -833,11 +795,12 @@
 
         var guest = readGuest();
 
+        /*
+           Closed envelope front only displays the invitee's name.
+           When no guest parameter exists, it stays blank.
+        */
         if (guest) {
-            guestLine.textContent = "For " + guest;
-            guestLine.hidden = false;
-
-            frontGuestLine.textContent = "For " + guest;
+            frontGuestLine.textContent = guest;
             frontGuestLine.hidden = false;
         }
 
