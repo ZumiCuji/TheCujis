@@ -1,29 +1,20 @@
 /* =========================================================
    EDIT REGISTRY HERE
-   =========================================================
 
-   1. Add or edit gifts inside registryItems.
-   2. Update image paths after uploading your own authorized
-      product images into images/registry/.
-   3. Replace each example.com URL with a real retailer item URL.
-   4. Set quantityNeeded and quantityPurchased manually.
-   5. Change status to:
-      - "available"
-      - "purchased"
-   6. Add/edit cash funds inside registryFunds.
-   7. Replace example fund URLs with a secure external source
-      such as Zola, Honeyfund, PayPal, Venmo, etc.
-   8. Add/edit external store registry links in registryLinks.
-
-   This static GitHub Pages page does NOT process payments,
-   reserve gifts, or automatically update purchase status.
-   Retailer pages are the source of truth for inventory and purchases.
+   1. Replace every example.com URL before publishing.
+   2. Add your own authorized product images in:
+      images/registry/
+   3. Update gift image paths, titles, prices, retailers,
+      quantityNeeded, quantityPurchased, and status below.
+   4. Cash-fund links should lead to a secure external payment
+      or fund page. Do not collect payment information here.
+   5. Credit-card referral URLs must be issuer-generated secure
+      referral links. Do not collect applicant information here.
    ========================================================= */
 
 
 /* =========================================================
    CASH / EXPERIENCE FUNDS
-   Replace every "url" value before publishing.
    ========================================================= */
 const registryFunds = [
     {
@@ -62,36 +53,45 @@ const registryFunds = [
 
 
 /* =========================================================
-   EXTERNAL REGISTRY LINKS
-   Replace URLs with your real registry pages.
+   CREDIT CARD REFERRAL OFFERS
+
+   Replace referralUrl with your issuer-generated referral URL.
+   Do not add application, bank, income, or financial-data forms
+   to this website.
    ========================================================= */
-const registryLinks = [
+const referralOffers = [
     {
-        name: "Crate & Barrel",
-        description: "Home and kitchen favorites for the years ahead.",
-        url: "https://example.com/crate-barrel-registry"
+        id: "example-travel-card",
+        issuer: "Card Issuer Name",
+        cardName: "Travel Rewards Card",
+        description: "For guests already considering a travel-focused rewards card.",
+        note: "Using this eligible referral link may help us earn points.",
+        referralUrl: "PASTE_YOUR_SECURE_CARD_REFERRAL_LINK_HERE",
+        buttonText: "Explore Offer"
     },
     {
-        name: "Target",
-        description: "Everyday essentials and a few fun extras.",
-        url: "https://example.com/target-registry"
+        id: "example-everyday-card",
+        issuer: "Card Issuer Name",
+        cardName: "Everyday Rewards Card",
+        description: "For guests already considering a card for everyday purchases.",
+        note: "Using this eligible referral link may help us earn points.",
+        referralUrl: "PASTE_YOUR_SECURE_CARD_REFERRAL_LINK_HERE",
+        buttonText: "Explore Offer"
     },
     {
-        name: "Amazon",
-        description: "Practical favorites for our new home.",
-        url: "https://example.com/amazon-registry"
-    },
-    {
-        name: "Zola",
-        description: "Our combined registry and experience funds.",
-        url: "https://example.com/zola-registry"
+        id: "example-cash-back-card",
+        issuer: "Card Issuer Name",
+        cardName: "Cash Back Card",
+        description: "For guests already considering a simple rewards or cash-back card.",
+        note: "Using this eligible referral link may help us earn points.",
+        referralUrl: "PASTE_YOUR_SECURE_CARD_REFERRAL_LINK_HERE",
+        buttonText: "Explore Offer"
     }
 ];
 
 
 /* =========================================================
    GIFT REGISTRY DATA
-   Replace examples with your actual items and authorized images.
    ========================================================= */
 const registryItems = [
     {
@@ -288,7 +288,7 @@ let favoriteIds = loadFavorites();
    DOM REFERENCES
    ========================================================= */
 const fundGrid = document.getElementById("fund-grid");
-const registryLinkGrid = document.getElementById("registry-link-grid");
+const referralGrid = document.getElementById("referral-grid");
 const categoryFilters = document.getElementById("category-filters");
 const giftGrid = document.getElementById("gift-grid");
 const searchInput = document.getElementById("registry-search");
@@ -303,10 +303,7 @@ const emptyState = document.getElementById("empty-state");
 function loadFavorites() {
     try {
         const storedFavorites = localStorage.getItem("cujisRegistryFavorites");
-
-        return storedFavorites
-            ? JSON.parse(storedFavorites)
-            : [];
+        return storedFavorites ? JSON.parse(storedFavorites) : [];
     } catch (error) {
         return [];
     }
@@ -319,7 +316,7 @@ function saveFavorites() {
             JSON.stringify(favoriteIds)
         );
     } catch (error) {
-        /* Favorites remain session-only if localStorage is unavailable. */
+        /* The page still works if localStorage is unavailable. */
     }
 }
 
@@ -346,7 +343,7 @@ function toggleFavorite(itemId) {
    ========================================================= */
 function escapeHTML(value) {
     const temporaryElement = document.createElement("div");
-    temporaryElement.textContent = value;
+    temporaryElement.textContent = String(value);
     return temporaryElement.innerHTML;
 }
 
@@ -361,6 +358,14 @@ function getInitials(title) {
         .toUpperCase();
 }
 
+function formatCurrency(amount) {
+    return new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD",
+        maximumFractionDigits: 0
+    }).format(amount);
+}
+
 function calculateFundProgress(fund) {
     if (!fund.goal || fund.goal <= 0) {
         return 0;
@@ -372,17 +377,9 @@ function calculateFundProgress(fund) {
     );
 }
 
-function formatCurrency(amount) {
-    return new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "USD",
-        maximumFractionDigits: 0
-    }).format(amount);
-}
-
 
 /* =========================================================
-   FUNDS RENDERING
+   FUNDS
    ========================================================= */
 function renderFunds() {
     fundGrid.innerHTML = registryFunds.map(function (fund) {
@@ -409,7 +406,7 @@ function renderFunds() {
                     <div class="progress-bar" style="width: ${progress}%"></div>
                 </div>
 
-                <div class="amount-options" role="group" aria-label="Choose a contribution amount for ${escapeHTML(fund.title)}">
+                <div class="amount-options" role="group" aria-label="Choose an amount for ${escapeHTML(fund.title)}">
                     <button class="amount-btn" type="button" data-fund-id="${fund.id}" data-amount="25">$25</button>
                     <button class="amount-btn" type="button" data-fund-id="${fund.id}" data-amount="50">$50</button>
                     <button class="amount-btn" type="button" data-fund-id="${fund.id}" data-amount="100">$100</button>
@@ -421,7 +418,6 @@ function renderFunds() {
                     href="${escapeHTML(fund.url)}"
                     target="_blank"
                     rel="noopener noreferrer"
-                    data-fund-link="${fund.id}"
                 >
                     Contribute
                 </a>
@@ -465,34 +461,30 @@ function handleAmountSelection(event) {
 
     clickedButton.classList.add("is-selected");
     clickedButton.setAttribute("aria-pressed", "true");
-
-    const fundLink = document.querySelector(
-        `[data-fund-link="${fundId}"]`
-    );
-
-    if (fundLink) {
-        fundLink.dataset.selectedAmount = selectedAmount;
-    }
 }
 
 
 /* =========================================================
-   EXTERNAL REGISTRY LINKS
+   CREDIT CARD REFERRAL OFFERS
    ========================================================= */
-function renderRegistryLinks() {
-    registryLinkGrid.innerHTML = registryLinks.map(function (link) {
+function renderReferralOffers() {
+    referralGrid.innerHTML = referralOffers.map(function (offer) {
         return `
-            <article class="registry-link-card">
-                <h3>${escapeHTML(link.name)}</h3>
-                <p>${escapeHTML(link.description)}</p>
+            <article class="referral-card">
+                <span class="referral-label">Referral Offer</span>
+                <p class="referral-issuer">${escapeHTML(offer.issuer)}</p>
+                <h3>${escapeHTML(offer.cardName)}</h3>
+                <p>${escapeHTML(offer.description)}</p>
+                <p>${escapeHTML(offer.note)}</p>
 
                 <a
-                    href="${escapeHTML(link.url)}"
+                    class="referral-link"
+                    href="${escapeHTML(offer.referralUrl)}"
                     target="_blank"
                     rel="noopener noreferrer"
-                    aria-label="Shop Zumi and Morgan's ${escapeHTML(link.name)} registry in a new tab"
+                    aria-label="${escapeHTML(offer.buttonText)} for ${escapeHTML(offer.cardName)} in a new tab"
                 >
-                    Shop Registry
+                    ${escapeHTML(offer.buttonText)}
                 </a>
             </article>
         `;
@@ -523,6 +515,19 @@ function renderCategoryFilters() {
         button.addEventListener("click", function () {
             activeCategory = button.dataset.category;
             renderCategoryFilters();
+
+            if (activeCategory === "Cash Funds") {
+                document.getElementById("cash-funds").scrollIntoView({
+                    behavior: "smooth",
+                    block: "start"
+                });
+
+                resultsStatus.textContent =
+                    "Cash funds are available in the Featured Funds section above.";
+
+                return;
+            }
+
             renderGifts();
         });
     });
@@ -530,7 +535,7 @@ function renderCategoryFilters() {
 
 
 /* =========================================================
-   GIFT FILTERING / SEARCH
+   GIFT FILTERING
    ========================================================= */
 function getFilteredItems() {
     const normalizedSearch = searchTerm.trim().toLowerCase();
@@ -558,9 +563,15 @@ function getFilteredItems() {
 
 
 /* =========================================================
-   GIFT CARD RENDERING
+   GIFT RENDERING
    ========================================================= */
 function renderGifts() {
+    if (activeCategory === "Cash Funds") {
+        giftGrid.innerHTML = "";
+        emptyState.hidden = true;
+        return;
+    }
+
     const filteredItems = getFilteredItems();
 
     giftGrid.innerHTML = filteredItems.map(function (item) {
@@ -571,15 +582,15 @@ function renderGifts() {
             0
         );
 
-        const quantityLabel = purchased
-            ? "Purchased"
-            : `${item.quantityPurchased} of ${item.quantityNeeded} purchased`;
-
         const statusLabel = purchased
             ? "Purchased"
             : remaining > 0
                 ? "Still Needed"
                 : "Completed";
+
+        const quantityLabel = purchased
+            ? "Purchased"
+            : `${item.quantityPurchased} of ${item.quantityNeeded} purchased`;
 
         return `
             <article class="gift-card">
@@ -671,6 +682,12 @@ function renderGifts() {
    ========================================================= */
 searchInput.addEventListener("input", function () {
     searchTerm = searchInput.value;
+
+    if (activeCategory === "Cash Funds") {
+        activeCategory = "All Gifts";
+        renderCategoryFilters();
+    }
+
     renderGifts();
 });
 
@@ -678,14 +695,20 @@ clearSearchButton.addEventListener("click", function () {
     searchInput.value = "";
     searchTerm = "";
     searchInput.focus();
+
+    if (activeCategory === "Cash Funds") {
+        activeCategory = "All Gifts";
+        renderCategoryFilters();
+    }
+
     renderGifts();
 });
 
 
 /* =========================================================
-   INITIAL PAGE RENDER
+   INITIAL RENDER
    ========================================================= */
 renderFunds();
-renderRegistryLinks();
+renderReferralOffers();
 renderCategoryFilters();
 renderGifts();
