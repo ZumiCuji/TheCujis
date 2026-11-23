@@ -1,7 +1,3 @@
-/* =========================================================
-   THE CUJIS — WEDDING REGISTRY
-   ========================================================= */
-
 :root {
     --script-font: "Alex Brush", cursive;
     --serif-font: "Cinzel", serif;
@@ -19,6 +15,7 @@
     --muted: #6c6e61;
     --line: #e2dccf;
     --gold: #b99754;
+    --gold-dark: #896725;
     --red: #8a4942;
 
     --shadow: 0 8px 22px rgba(61, 75, 34, 0.08);
@@ -36,6 +33,7 @@ html {
 
 body {
     margin: 0;
+    overflow-x: hidden;
     color: var(--ink);
     background:
         radial-gradient(circle at 10% 10%, rgba(220, 231, 173, 0.3), transparent 24%),
@@ -43,7 +41,6 @@ body {
         var(--paper);
     font-family: var(--body-font);
     line-height: 1.65;
-    overflow-x: hidden;
 }
 
 button,
@@ -101,7 +98,7 @@ a {
 }
 
 /* =========================================================
-   HEADER / NAVIGATION
+   HEADER
    ========================================================= */
 
 .site-header {
@@ -112,8 +109,8 @@ a {
     flex-direction: column;
     align-items: center;
     gap: 0.3rem;
-    padding: 0.75rem 1rem;
-    background: rgba(255, 253, 248, 0.95);
+    padding: 0.8rem 1rem;
+    background: rgba(255, 253, 248, 0.96);
     border-bottom: 1px solid var(--line);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
@@ -131,7 +128,7 @@ a {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 0.4rem 1rem;
+    gap: 0.35rem 1rem;
 }
 
 .site-nav a {
@@ -149,7 +146,7 @@ a {
 }
 
 /* =========================================================
-   SHARED SECTIONS
+   SHARED TYPOGRAPHY / SECTIONS
    ========================================================= */
 
 .registry-section {
@@ -159,7 +156,7 @@ a {
 }
 
 .section-heading {
-    max-width: 700px;
+    max-width: 720px;
     margin: 0 auto 2.2rem;
     text-align: center;
 }
@@ -210,15 +207,6 @@ h3 {
     font-size: 0.95rem;
 }
 
-.availability-note {
-    max-width: 570px;
-    padding: 0.8rem 1rem;
-    color: var(--pear-dark) !important;
-    background: rgba(220, 231, 173, 0.28);
-    border: 1px solid rgba(166, 185, 101, 0.35);
-    font-size: 0.8rem !important;
-}
-
 /* =========================================================
    HERO
    ========================================================= */
@@ -227,7 +215,7 @@ h3 {
     padding: clamp(4.5rem, 10vw, 8rem) 1rem;
     text-align: center;
     background:
-        linear-gradient(180deg, rgba(220, 231, 173, 0.32), transparent),
+        linear-gradient(180deg, rgba(220, 231, 173, 0.34), transparent),
         var(--warm-white);
     border-bottom: 1px solid var(--line);
 }
@@ -273,48 +261,53 @@ h3 {
 }
 
 /* =========================================================
-   FEATURED FUNDS
+   FUNDS
    ========================================================= */
 
-.funds-section {
+.funds-section,
+.referral-section {
     border-bottom: 1px solid var(--line);
 }
 
-.fund-grid {
+.fund-grid,
+.referral-grid {
     display: grid;
     grid-template-columns: 1fr;
     gap: 1rem;
 }
 
-.fund-card {
+.fund-card,
+.referral-card {
     display: flex;
     flex-direction: column;
-    padding: 1.45rem;
+    padding: 1.4rem;
     background: #ffffff;
     border: 1px solid var(--line);
     box-shadow: var(--shadow);
 }
 
-.fund-card h3 {
-    margin-bottom: 0.75rem;
-    font-size: 2.25rem;
+.fund-card h3,
+.referral-card h3 {
+    margin-bottom: 0.7rem;
+    font-size: 2.2rem;
 }
 
-.fund-card p {
-    margin-bottom: 1.15rem;
+.fund-card p,
+.referral-card p {
+    margin-bottom: 1rem;
     color: var(--muted);
-    font-size: 0.88rem;
+    font-size: 0.86rem;
 }
 
 .fund-meta {
     display: flex;
     justify-content: space-between;
-    gap: 0.75rem;
+    gap: 0.6rem;
     margin-bottom: 0.55rem;
     color: var(--pear-dark);
-    font-size: 0.68rem;
+    font-size: 0.66rem;
     font-weight: 600;
-    letter-spacing: 0.8px;
+    letter-spacing: 0.7px;
     text-transform: uppercase;
 }
 
@@ -335,17 +328,17 @@ h3 {
 .amount-options {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 0.45rem;
+    gap: 0.4rem;
     margin-bottom: 0.8rem;
 }
 
 .amount-btn {
     min-height: 38px;
-    padding: 0.4rem;
+    padding: 0.35rem;
     color: var(--forest);
     background: var(--warm-white);
     border: 1px solid var(--line);
-    font-size: 0.72rem;
+    font-size: 0.68rem;
     font-weight: 600;
 }
 
@@ -355,7 +348,8 @@ h3 {
     border-color: var(--pear-dark);
 }
 
-.fund-link {
+.fund-link,
+.referral-link {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -365,86 +359,89 @@ h3 {
     color: #ffffff;
     background: var(--forest);
     border: 1px solid var(--forest);
-    font-size: 0.68rem;
-    font-weight: 600;
-    letter-spacing: 1.1px;
-    text-align: center;
-    text-decoration: none;
-    text-transform: uppercase;
-    transition: background 0.2s ease, color 0.2s ease;
-}
-
-.fund-link:hover,
-.fund-link:focus-visible {
-    color: var(--forest);
-    background: transparent;
-}
-
-/* =========================================================
-   EXTERNAL REGISTRY LINKS
-   ========================================================= */
-
-.shop-section {
-    border-bottom: 1px solid var(--line);
-}
-
-.registry-link-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 1rem;
-}
-
-.registry-link-card {
-    display: flex;
-    flex-direction: column;
-    min-height: 210px;
-    padding: 1.5rem;
-    background: rgba(255, 255, 255, 0.74);
-    border: 1px solid var(--line);
-}
-
-.registry-link-card h3 {
-    margin-bottom: 0.7rem;
-    font-size: 2.1rem;
-}
-
-.registry-link-card p {
-    margin-bottom: 1.25rem;
-    color: var(--muted);
-    font-size: 0.86rem;
-}
-
-.registry-link-card a {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 44px;
-    margin-top: auto;
-    padding: 0.65rem 1rem;
-    color: var(--forest);
-    background: transparent;
-    border: 1px solid var(--pear-dark);
     font-size: 0.66rem;
     font-weight: 600;
     letter-spacing: 1px;
     text-align: center;
     text-decoration: none;
     text-transform: uppercase;
-    transition: background 0.2s ease, color 0.2s ease;
+    transition: color 0.2s ease, background 0.2s ease;
 }
 
-.registry-link-card a:hover,
-.registry-link-card a:focus-visible {
-    color: #ffffff;
-    background: var(--pear-dark);
+.fund-link:hover,
+.fund-link:focus-visible,
+.referral-link:hover,
+.referral-link:focus-visible {
+    color: var(--forest);
+    background: transparent;
 }
 
 /* =========================================================
-   FILTERS / SEARCH
+   CREDIT CARD REFERRAL SECTION
+   ========================================================= */
+
+.referral-section {
+    background: rgba(220, 231, 173, 0.12);
+}
+
+.referral-intro {
+    max-width: 790px;
+    margin: 0 auto 2rem;
+    padding: 1.25rem;
+    color: var(--muted);
+    background: rgba(255, 253, 248, 0.76);
+    border: 1px solid rgba(166, 185, 101, 0.35);
+    font-size: 0.88rem;
+}
+
+.referral-intro p:last-child {
+    margin-bottom: 0;
+}
+
+.referral-disclosure {
+    padding-top: 0.85rem;
+    color: var(--gold-dark) !important;
+    border-top: 1px solid var(--line);
+    font-size: 0.72rem !important;
+    font-weight: 600;
+    letter-spacing: 0.4px;
+}
+
+.referral-label {
+    display: inline-block;
+    margin-bottom: 0.65rem;
+    color: var(--gold-dark);
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+}
+
+.referral-issuer {
+    margin-bottom: 0.7rem;
+    color: var(--pear-dark);
+    font-family: var(--serif-font);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+/* =========================================================
+   SEARCH / FILTERS
    ========================================================= */
 
 .gifts-section {
     padding-bottom: clamp(5rem, 10vw, 8rem);
+}
+
+.availability-note {
+    max-width: 570px;
+    padding: 0.8rem 1rem;
+    color: var(--pear-dark) !important;
+    background: rgba(220, 231, 173, 0.28);
+    border: 1px solid rgba(166, 185, 101, 0.35);
+    font-size: 0.8rem !important;
 }
 
 .registry-tools {
@@ -477,7 +474,7 @@ h3 {
     color: var(--forest);
     background: var(--warm-white);
     border: 1px solid var(--pear-dark);
-    font-size: 0.68rem;
+    font-size: 0.66rem;
     font-weight: 600;
     letter-spacing: 1px;
     text-transform: uppercase;
@@ -507,11 +504,11 @@ h3 {
     background: #ffffff;
     border: 1px solid var(--line);
     border-radius: 999px;
-    font-size: 0.67rem;
+    font-size: 0.65rem;
     font-weight: 600;
     letter-spacing: 0.7px;
     text-transform: uppercase;
-    transition: background 0.2s ease, color 0.2s ease;
+    transition: color 0.2s ease, background 0.2s ease;
 }
 
 .filter-btn.is-active {
@@ -529,7 +526,7 @@ h3 {
 }
 
 /* =========================================================
-   GIFT GRID / CARDS
+   GIFT GRID / GIFT CARDS
    ========================================================= */
 
 .gift-grid {
@@ -550,7 +547,7 @@ h3 {
 .gift-image-wrap {
     position: relative;
     display: grid;
-    min-height: 235px;
+    min-height: 230px;
     place-items: center;
     overflow: hidden;
     background: var(--warm-white);
@@ -568,8 +565,7 @@ h3 {
 .gift-image-fallback {
     display: none;
     width: 100%;
-    height: 100%;
-    min-height: 235px;
+    min-height: 230px;
     place-items: center;
     color: var(--pear-dark);
     background:
@@ -622,7 +618,7 @@ h3 {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
-    gap: 0.65rem;
+    gap: 0.6rem;
     margin-bottom: 0.55rem;
 }
 
@@ -656,14 +652,14 @@ h3 {
 
 .featured-badge {
     margin-bottom: 0.45rem;
-    color: var(--gold-deep);
+    color: var(--gold-dark);
 }
 
 .gift-card h3 {
     margin-bottom: 0.55rem;
     color: var(--forest);
     font-family: var(--serif-font);
-    font-size: 1.05rem;
+    font-size: 1rem;
     font-weight: 600;
     line-height: 1.45;
 }
@@ -706,7 +702,7 @@ h3 {
     text-align: center;
     text-decoration: none;
     text-transform: uppercase;
-    transition: background 0.2s ease, color 0.2s ease;
+    transition: color 0.2s ease, background 0.2s ease;
 }
 
 .gift-link:hover,
@@ -758,7 +754,7 @@ h3 {
 
 @media (min-width: 580px) {
     .fund-grid,
-    .registry-link-grid {
+    .referral-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
@@ -779,8 +775,8 @@ h3 {
         grid-template-columns: repeat(4, minmax(0, 1fr));
     }
 
-    .registry-link-grid {
-        grid-template-columns: repeat(4, minmax(0, 1fr));
+    .referral-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
     }
 
     .gift-grid {
