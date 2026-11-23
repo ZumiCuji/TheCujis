@@ -1,15 +1,15 @@
 /* =========================================================
    EDIT REGISTRY HERE
 
-   1. Replace every example.com URL before publishing.
-   2. Add your own authorized product images in:
+   1. Replace every example.com product or fund URL.
+   2. Upload your authorized product images to:
       images/registry/
-   3. Update gift image paths, titles, prices, retailers,
-      quantityNeeded, quantityPurchased, and status below.
-   4. Cash-fund links should lead to a secure external payment
-      or fund page. Do not collect payment information here.
-   5. Credit-card referral URLs must be issuer-generated secure
-      referral links. Do not collect applicant information here.
+   3. Replace each image path below once you add images.
+   4. Update quantityNeeded, quantityPurchased, and status
+      manually when gifts are purchased.
+   5. Do not process payments or collect payment information
+      directly through this static GitHub Pages website.
+   6. Referral URLs should only be issuer-generated links.
    ========================================================= */
 
 
@@ -53,210 +53,221 @@ const registryFunds = [
 
 
 /* =========================================================
-   CREDIT CARD REFERRAL OFFERS
+   CREDIT CARD / REFERRAL OFFERS
 
-   Replace referralUrl with your issuer-generated referral URL.
-   Do not add application, bank, income, or financial-data forms
-   to this website.
+   Referral links are provided by the user. Review each
+   issuer-generated landing page and its terms before publishing.
    ========================================================= */
 const referralOffers = [
     {
-        id: "example-travel-card",
-        issuer: "Card Issuer Name",
-        cardName: "Travel Rewards Card",
-        description: "For guests already considering a travel-focused rewards card.",
-        note: "Using this eligible referral link may help us earn points.",
-        referralUrl: "PASTE_YOUR_SECURE_CARD_REFERRAL_LINK_HERE",
-        buttonText: "Explore Offer"
+        id: "chase-sapphire",
+        issuer: "Chase",
+        cardName: "Sapphire Preferred® or Sapphire Reserve®",
+        description: "For guests already considering a travel rewards credit card.",
+        note: "The referral landing page includes Sapphire Preferred® and Sapphire Reserve® offer options.",
+        referralUrl: "https://www.referyourchasecard.com/19y/J1EPDCR9Q0",
+        buttonText: "Explore Sapphire Offers"
     },
     {
-        id: "example-everyday-card",
-        issuer: "Card Issuer Name",
-        cardName: "Everyday Rewards Card",
-        description: "For guests already considering a card for everyday purchases.",
-        note: "Using this eligible referral link may help us earn points.",
-        referralUrl: "PASTE_YOUR_SECURE_CARD_REFERRAL_LINK_HERE",
-        buttonText: "Explore Offer"
+        id: "amex-blue-cash-everyday",
+        issuer: "American Express",
+        cardName: "Blue Cash Everyday® Card",
+        description: "For guests already considering an everyday cash-back card.",
+        note: "Offer details, eligibility, and potential referral benefits are determined by the issuer.",
+        referralUrl: "https://americanexpress.com/en-us/referral/blue-cash-everyday-credit-card?ref=ZUMICGAMY&XL=MIANS",
+        buttonText: "Explore Amex Offer"
     },
     {
-        id: "example-cash-back-card",
-        issuer: "Card Issuer Name",
-        cardName: "Cash Back Card",
-        description: "For guests already considering a simple rewards or cash-back card.",
-        note: "Using this eligible referral link may help us earn points.",
-        referralUrl: "PASTE_YOUR_SECURE_CARD_REFERRAL_LINK_HERE",
-        buttonText: "Explore Offer"
+        id: "capital-one-referral",
+        issuer: "Capital One",
+        cardName: "Capital One Referral Offer",
+        description: "For guests already considering a Capital One credit card offer.",
+        note: "Offer details, eligibility, and potential referral benefits are determined by the issuer.",
+        referralUrl: "https://i.capitalone.com/Jpfn1MDdx",
+        buttonText: "Explore Capital One Offer"
+    },
+    {
+        id: "sofi-referral",
+        issuer: "SoFi",
+        cardName: "SoFi Referral Offer",
+        description: "For guests already considering a SoFi money or banking product.",
+        note: "Offer details, eligibility, and potential referral benefits are determined by the issuer.",
+        referralUrl: "https://www.sofi.com/invite/money?gcp=a422572d-a764-460a-b234-2128c6fa714f&isAliasGcp=false&siid=68d8188b-75aa-4e62-a3c9-45a8fba7dabc",
+        buttonText: "Explore SoFi Offer"
     }
 ];
 
 
 /* =========================================================
-   GIFT REGISTRY DATA
+   GIFT REGISTRY ITEMS
+
+   Replace retailer names, prices, image paths, and product URLs
+   after selecting the exact products you want.
    ========================================================= */
 const registryItems = [
     {
-        id: "example-item-1",
-        title: "Everyday Dinnerware Set",
+        id: "rice-cooker",
+        title: "Rice Cooker",
         category: "Kitchen & Dining",
-        retailer: "Crate & Barrel",
-        price: "$89.95",
-        description: "A timeless set for weeknight meals, celebrations, and hosting the people we love.",
-        image: "images/registry/placeholder-dinnerware.jpg",
-        url: "https://example.com/product-link-1",
+        retailer: "Add Retailer",
+        price: "Add Price",
+        description: "For easy weeknight meals, rice bowls, and homemade comfort food.",
+        image: "images/registry/rice-cooker.jpg",
+        url: "https://example.com/rice-cooker",
+        status: "available",
+        quantityNeeded: 1,
+        quantityPurchased: 0,
+        featured: true
+    },
+    {
+        id: "king-size-comforter",
+        title: "King-Size Comforter Set",
+        category: "Home",
+        retailer: "Add Retailer",
+        price: "Add Price",
+        description: "A comfortable, beautiful bedding set for our newlywed home.",
+        image: "images/registry/king-size-comforter.jpg",
+        url: "https://example.com/king-size-comforter",
+        status: "available",
+        quantityNeeded: 1,
+        quantityPurchased: 0,
+        featured: true
+    },
+    {
+        id: "picture-frames",
+        title: "Picture Frame Collection",
+        category: "Home",
+        retailer: "Add Retailer",
+        price: "Add Price",
+        description: "A collection of frames for wedding photos, family memories, and future adventures.",
+        image: "images/registry/picture-frames.jpg",
+        url: "https://example.com/picture-frames",
+        status: "available",
+        quantityNeeded: 1,
+        quantityPurchased: 0,
+        featured: false
+    },
+    {
+        id: "rotating-mop",
+        title: "Rotating Mop System",
+        category: "Newlywed Essentials",
+        retailer: "Add Retailer",
+        price: "Add Price",
+        description: "A practical cleaning essential for keeping our future home fresh and comfortable.",
+        image: "images/registry/rotating-mop.jpg",
+        url: "https://example.com/rotating-mop",
+        status: "available",
+        quantityNeeded: 1,
+        quantityPurchased: 0,
+        featured: false
+    },
+    {
+        id: "robot-vacuum-mop",
+        title: "Vacuuming & Mopping Robot",
+        category: "Newlywed Essentials",
+        retailer: "Add Retailer",
+        price: "Add Price",
+        description: "A helpful home upgrade for vacuuming and mopping while we focus on life together.",
+        image: "images/registry/robot-vacuum-mop.jpg",
+        url: "https://example.com/robot-vacuum-mop",
+        status: "available",
+        quantityNeeded: 1,
+        quantityPurchased: 0,
+        featured: true
+    },
+    {
+        id: "tool-set",
+        title: "Home Tool Set",
+        category: "Newlywed Essentials",
+        retailer: "Add Retailer",
+        price: "Add Price",
+        description: "A reliable tool kit for little fixes, projects, and our first home together.",
+        image: "images/registry/tool-set.jpg",
+        url: "https://example.com/tool-set",
+        status: "available",
+        quantityNeeded: 1,
+        quantityPurchased: 0,
+        featured: false
+    },
+    {
+        id: "pasta-bowl-set",
+        title: "Wide Shallow Pasta Bowl Set",
+        category: "Kitchen & Dining",
+        retailer: "Add Retailer",
+        price: "Add Price",
+        description: "Wide, shallow bowls with raised edges for pasta, rice bowls, saucy dishes, soups, salads, and everyday dinners.",
+        image: "images/registry/pasta-bowl-set.jpg",
+        url: "https://example.com/pasta-bowl-set",
         status: "available",
         quantityNeeded: 2,
         quantityPurchased: 0,
         featured: true
     },
     {
-        id: "example-item-2",
-        title: "Glassware Collection",
-        category: "Kitchen & Dining",
-        retailer: "Crate & Barrel",
-        price: "$44.95",
-        description: "Classic glassware for shared dinners, toast-worthy moments, and future gatherings.",
-        image: "images/registry/placeholder-glassware.jpg",
-        url: "https://example.com/product-link-2",
+        id: "luggage-set",
+        title: "Luggage Set",
+        category: "Experiences",
+        retailer: "Add Retailer",
+        price: "Add Price",
+        description: "A durable luggage set for our honeymoon and future adventures together.",
+        image: "images/registry/luggage-set.jpg",
+        url: "https://example.com/luggage-set",
+        status: "available",
+        quantityNeeded: 1,
+        quantityPurchased: 0,
+        featured: true
+    },
+    {
+        id: "throw-blankets",
+        title: "Cozy Throw Blankets",
+        category: "Home",
+        retailer: "Add Retailer",
+        price: "Add Price",
+        description: "Soft throws for quiet nights, movie marathons, and making our space feel like home.",
+        image: "images/registry/throw-blankets.jpg",
+        url: "https://example.com/throw-blankets",
         status: "available",
         quantityNeeded: 2,
         quantityPurchased: 0,
         featured: false
     },
     {
-        id: "example-item-3",
+        id: "cookware-set",
         title: "Cookware Set",
         category: "Kitchen & Dining",
-        retailer: "Target",
-        price: "$129.99",
-        description: "A practical kitchen upgrade for cooking new recipes together.",
-        image: "images/registry/placeholder-cookware.jpg",
-        url: "https://example.com/product-link-3",
-        status: "available",
-        quantityNeeded: 1,
-        quantityPurchased: 0,
-        featured: true
-    },
-    {
-        id: "example-item-4",
-        title: "Soft Throw Blanket",
-        category: "Home",
-        retailer: "Target",
-        price: "$39.99",
-        description: "A cozy finishing touch for quiet nights at home.",
-        image: "images/registry/placeholder-throw.jpg",
-        url: "https://example.com/product-link-4",
+        retailer: "Add Retailer",
+        price: "Add Price",
+        description: "A versatile set for learning recipes, hosting dinners, and cooking together.",
+        image: "images/registry/cookware-set.jpg",
+        url: "https://example.com/cookware-set",
         status: "available",
         quantityNeeded: 1,
         quantityPurchased: 0,
         featured: false
     },
     {
-        id: "example-item-5",
-        title: "Framed Wall Mirror",
-        category: "Home",
-        retailer: "Amazon",
-        price: "$74.99",
-        description: "A simple, versatile piece for helping our first home feel complete.",
-        image: "images/registry/placeholder-mirror.jpg",
-        url: "https://example.com/product-link-5",
-        status: "available",
-        quantityNeeded: 1,
-        quantityPurchased: 0,
-        featured: false
-    },
-    {
-        id: "example-item-6",
-        title: "Linen Sheet Set",
-        category: "Newlywed Essentials",
-        retailer: "Crate & Barrel",
-        price: "$109.95",
-        description: "Comfortable linens for a restful and welcoming home.",
-        image: "images/registry/placeholder-linens.jpg",
-        url: "https://example.com/product-link-6",
-        status: "available",
-        quantityNeeded: 1,
-        quantityPurchased: 0,
-        featured: true
-    },
-    {
-        id: "example-item-7",
+        id: "bath-towel-set",
         title: "Bath Towel Set",
         category: "Newlywed Essentials",
-        retailer: "Target",
-        price: "$35.00",
-        description: "An everyday essential for our newlywed home.",
-        image: "images/registry/placeholder-towels.jpg",
-        url: "https://example.com/product-link-7",
+        retailer: "Add Retailer",
+        price: "Add Price",
+        description: "An everyday home essential in a soft, neutral style.",
+        image: "images/registry/bath-towel-set.jpg",
+        url: "https://example.com/bath-towel-set",
         status: "available",
         quantityNeeded: 2,
         quantityPurchased: 0,
         featured: false
     },
     {
-        id: "example-item-8",
-        title: "Coffee Maker",
-        category: "Kitchen & Dining",
-        retailer: "Amazon",
-        price: "$99.99",
-        description: "For slow mornings, busy mornings, and everything in between.",
-        image: "images/registry/placeholder-coffee.jpg",
-        url: "https://example.com/product-link-8",
-        status: "available",
-        quantityNeeded: 1,
-        quantityPurchased: 0,
-        featured: true
-    },
-    {
-        id: "example-item-9",
-        title: "Local Restaurant Gift Card",
+        id: "restaurant-gift-card",
+        title: "Restaurant Gift Card",
         category: "Gift Cards",
         retailer: "Local Favorite",
         price: "$25–$100",
         description: "A thoughtful way to help us enjoy a newlywed date night.",
-        image: "images/registry/placeholder-gift-card.jpg",
-        url: "https://example.com/product-link-9",
-        status: "available",
-        quantityNeeded: 1,
-        quantityPurchased: 0,
-        featured: false
-    },
-    {
-        id: "example-item-10",
-        title: "Museum Membership",
-        category: "Experiences",
-        retailer: "Local Experience",
-        price: "$75",
-        description: "For future weekends exploring, learning, and making memories together.",
-        image: "images/registry/placeholder-museum.jpg",
-        url: "https://example.com/product-link-10",
-        status: "available",
-        quantityNeeded: 1,
-        quantityPurchased: 0,
-        featured: false
-    },
-    {
-        id: "example-item-11",
-        title: "Picnic Basket Set",
-        category: "Experiences",
-        retailer: "Amazon",
-        price: "$59.99",
-        description: "For dates in the park, weekend adventures, and long sunny afternoons.",
-        image: "images/registry/placeholder-picnic.jpg",
-        url: "https://example.com/product-link-11",
-        status: "available",
-        quantityNeeded: 1,
-        quantityPurchased: 0,
-        featured: false
-    },
-    {
-        id: "example-item-12",
-        title: "Tool Kit for the Home",
-        category: "Newlywed Essentials",
-        retailer: "Target",
-        price: "$49.99",
-        description: "A practical starter kit for the projects and little fixes ahead.",
-        image: "images/registry/placeholder-tools.jpg",
-        url: "https://example.com/product-link-12",
+        image: "images/registry/restaurant-gift-card.jpg",
+        url: "https://example.com/restaurant-gift-card",
         status: "available",
         quantityNeeded: 1,
         quantityPurchased: 0,
@@ -302,8 +313,8 @@ const emptyState = document.getElementById("empty-state");
    ========================================================= */
 function loadFavorites() {
     try {
-        const storedFavorites = localStorage.getItem("cujisRegistryFavorites");
-        return storedFavorites ? JSON.parse(storedFavorites) : [];
+        const savedFavorites = localStorage.getItem("cujisRegistryFavorites");
+        return savedFavorites ? JSON.parse(savedFavorites) : [];
     } catch (error) {
         return [];
     }
@@ -316,7 +327,7 @@ function saveFavorites() {
             JSON.stringify(favoriteIds)
         );
     } catch (error) {
-        /* The page still works if localStorage is unavailable. */
+        /* The page remains functional if storage is unavailable. */
     }
 }
 
@@ -342,9 +353,9 @@ function toggleFavorite(itemId) {
    UTILITY FUNCTIONS
    ========================================================= */
 function escapeHTML(value) {
-    const temporaryElement = document.createElement("div");
-    temporaryElement.textContent = String(value);
-    return temporaryElement.innerHTML;
+    const element = document.createElement("div");
+    element.textContent = String(value);
+    return element.innerHTML;
 }
 
 function getInitials(title) {
@@ -379,7 +390,7 @@ function calculateFundProgress(fund) {
 
 
 /* =========================================================
-   FUNDS
+   FUNDS RENDERING
    ========================================================= */
 function renderFunds() {
     fundGrid.innerHTML = registryFunds.map(function (fund) {
@@ -465,7 +476,7 @@ function handleAmountSelection(event) {
 
 
 /* =========================================================
-   CREDIT CARD REFERRAL OFFERS
+   REFERRAL OFFER RENDERING
    ========================================================= */
 function renderReferralOffers() {
     referralGrid.innerHTML = referralOffers.map(function (offer) {
@@ -493,7 +504,7 @@ function renderReferralOffers() {
 
 
 /* =========================================================
-   CATEGORY FILTERS
+   CATEGORY FILTER RENDERING
    ========================================================= */
 function renderCategoryFilters() {
     categoryFilters.innerHTML = categories.map(function (category) {
@@ -535,7 +546,7 @@ function renderCategoryFilters() {
 
 
 /* =========================================================
-   GIFT FILTERING
+   SEARCH / FILTERING
    ========================================================= */
 function getFilteredItems() {
     const normalizedSearch = searchTerm.trim().toLowerCase();
@@ -563,7 +574,7 @@ function getFilteredItems() {
 
 
 /* =========================================================
-   GIFT RENDERING
+   GIFT CARD RENDERING
    ========================================================= */
 function renderGifts() {
     if (activeCategory === "Cash Funds") {
@@ -577,6 +588,7 @@ function renderGifts() {
     giftGrid.innerHTML = filteredItems.map(function (item) {
         const purchased = item.status === "purchased";
         const favorite = isFavorite(item.id);
+
         const remaining = Math.max(
             item.quantityNeeded - item.quantityPurchased,
             0
@@ -620,6 +632,7 @@ function renderGifts() {
                 <div class="gift-content">
                     <div class="gift-topline">
                         <span class="category-label">${escapeHTML(item.category)}</span>
+
                         <span class="status-badge ${purchased ? "is-purchased" : ""}">
                             ${statusLabel}
                         </span>
