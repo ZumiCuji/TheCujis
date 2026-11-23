@@ -240,20 +240,6 @@ const registryItems = [
         quantityNeeded: 1,
         quantityPurchased: 0,
         featured: false
-    },
-    {
-        id: "restaurant-gift-card",
-        title: "Restaurant Gift Card",
-        category: "Gift Cards",
-        retailer: "Local Favorite",
-        price: "$25–$100",
-        description: "A thoughtful way to help us enjoy a newlywed date night.",
-        image: "images/registry/restaurant-gift-card.jpg",
-        url: "https://example.com/restaurant-gift-card",
-        status: "available",
-        quantityNeeded: 1,
-        quantityPurchased: 0,
-        featured: false
     }
 ];
 
@@ -267,7 +253,6 @@ const categories = [
     "Kitchen & Dining",
     "Experiences",
     "Cash Funds",
-    "Gift Cards",
     "Newlywed Essentials",
     "Favorites"
 ];
