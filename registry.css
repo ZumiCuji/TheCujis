@@ -149,7 +149,8 @@ a {
    SHARED SECTIONS
    ========================================================= */
 
-.registry-section {
+.registry-section,
+.fund-page-section {
     width: min(100% - 2rem, 1200px);
     margin: 0 auto;
     padding: clamp(4.5rem, 9vw, 7rem) 0;
@@ -211,7 +212,8 @@ h3 {
    HERO
    ========================================================= */
 
-.registry-hero {
+.registry-hero,
+.fund-page-hero {
     padding: clamp(4.5rem, 10vw, 8rem) 1rem;
     text-align: center;
     background:
@@ -248,7 +250,7 @@ h3 {
 }
 
 .hero-copy {
-    max-width: 640px;
+    max-width: 650px;
     margin: 0 auto 1.2rem;
     color: var(--ink);
     font-size: clamp(1rem, 3vw, 1.1rem);
@@ -261,177 +263,11 @@ h3 {
 }
 
 /* =========================================================
-   FUNDS
-   ========================================================= */
-
-.funds-section,
-.referral-section {
-    border-bottom: 1px solid var(--line);
-}
-
-.fund-grid,
-.referral-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 1rem;
-}
-
-.fund-card,
-.referral-card {
-    display: flex;
-    flex-direction: column;
-    padding: 1.4rem;
-    background: #ffffff;
-    border: 1px solid var(--line);
-    box-shadow: var(--shadow);
-}
-
-.fund-card h3,
-.referral-card h3 {
-    margin-bottom: 0.7rem;
-    font-size: 2.2rem;
-}
-
-.fund-card p,
-.referral-card p {
-    margin-bottom: 1rem;
-    color: var(--muted);
-    font-size: 0.86rem;
-}
-
-.fund-meta {
-    display: flex;
-    justify-content: space-between;
-    gap: 0.6rem;
-    margin-bottom: 0.55rem;
-    color: var(--pear-dark);
-    font-size: 0.66rem;
-    font-weight: 600;
-    letter-spacing: 0.7px;
-    text-transform: uppercase;
-}
-
-.progress-track {
-    height: 7px;
-    margin-bottom: 1rem;
-    overflow: hidden;
-    background: var(--cream);
-    border-radius: 999px;
-}
-
-.progress-bar {
-    height: 100%;
-    background: var(--pear-mid);
-    border-radius: inherit;
-}
-
-.amount-options {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 0.4rem;
-    margin-bottom: 0.8rem;
-}
-
-.amount-btn {
-    min-height: 38px;
-    padding: 0.35rem;
-    color: var(--forest);
-    background: var(--warm-white);
-    border: 1px solid var(--line);
-    font-size: 0.68rem;
-    font-weight: 600;
-}
-
-.amount-btn.is-selected {
-    color: #ffffff;
-    background: var(--pear-dark);
-    border-color: var(--pear-dark);
-}
-
-.fund-link,
-.referral-link {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 46px;
-    margin-top: auto;
-    padding: 0.7rem 1rem;
-    color: #ffffff;
-    background: var(--forest);
-    border: 1px solid var(--forest);
-    font-size: 0.66rem;
-    font-weight: 600;
-    letter-spacing: 1px;
-    text-align: center;
-    text-decoration: none;
-    text-transform: uppercase;
-    transition: color 0.2s ease, background 0.2s ease;
-}
-
-.fund-link:hover,
-.fund-link:focus-visible,
-.referral-link:hover,
-.referral-link:focus-visible {
-    color: var(--forest);
-    background: transparent;
-}
-
-/* =========================================================
-   REFERRAL SECTION
-   ========================================================= */
-
-.referral-section {
-    background: rgba(220, 231, 173, 0.12);
-}
-
-.referral-intro {
-    max-width: 790px;
-    margin: 0 auto 2rem;
-    padding: 1.25rem;
-    color: var(--muted);
-    background: rgba(255, 253, 248, 0.76);
-    border: 1px solid rgba(166, 185, 101, 0.35);
-    font-size: 0.88rem;
-}
-
-.referral-intro p:last-child {
-    margin-bottom: 0;
-}
-
-.referral-disclosure {
-    padding-top: 0.85rem;
-    color: var(--gold-dark) !important;
-    border-top: 1px solid var(--line);
-    font-size: 0.72rem !important;
-    font-weight: 600;
-}
-
-.referral-label {
-    display: inline-block;
-    margin-bottom: 0.65rem;
-    color: var(--gold-dark);
-    font-size: 0.62rem;
-    font-weight: 600;
-    letter-spacing: 1.2px;
-    text-transform: uppercase;
-}
-
-.referral-issuer {
-    margin-bottom: 0.7rem !important;
-    color: var(--pear-dark) !important;
-    font-family: var(--serif-font);
-    font-size: 0.72rem !important;
-    font-weight: 600;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-}
-
-/* =========================================================
    SEARCH / FILTERS
    ========================================================= */
 
 .gifts-section {
-    padding-bottom: clamp(5rem, 10vw, 8rem);
+    padding-bottom: clamp(4rem, 8vw, 6rem);
 }
 
 .availability-note {
@@ -541,6 +377,11 @@ h3 {
     background: #ffffff;
     border: 1px solid var(--line);
     box-shadow: 0 6px 18px rgba(61, 75, 34, 0.05);
+}
+
+.gift-card.is-wedding-fund {
+    border: 1px solid rgba(166, 185, 101, 0.7);
+    box-shadow: 0 10px 26px rgba(83, 101, 45, 0.12);
 }
 
 .gift-image-wrap {
@@ -686,7 +527,10 @@ h3 {
     font-size: 0.7rem;
 }
 
-.gift-link {
+.gift-link,
+.fund-payment-link,
+.referral-link,
+.back-link {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -705,7 +549,13 @@ h3 {
 }
 
 .gift-link:hover,
-.gift-link:focus-visible {
+.gift-link:focus-visible,
+.fund-payment-link:hover,
+.fund-payment-link:focus-visible,
+.referral-link:hover,
+.referral-link:focus-visible,
+.back-link:hover,
+.back-link:focus-visible {
     color: var(--forest);
     background: transparent;
 }
@@ -727,6 +577,168 @@ h3 {
     margin: 0;
     color: var(--muted);
     font-size: 0.88rem;
+}
+
+/* =========================================================
+   REFERRAL SECTION
+   ========================================================= */
+
+.referral-section {
+    background: rgba(220, 231, 173, 0.12);
+    border-top: 1px solid var(--line);
+}
+
+.referral-intro {
+    max-width: 790px;
+    margin: 0 auto 2rem;
+    padding: 1.25rem;
+    color: var(--muted);
+    background: rgba(255, 253, 248, 0.76);
+    border: 1px solid rgba(166, 185, 101, 0.35);
+    font-size: 0.88rem;
+}
+
+.referral-intro p:last-child {
+    margin-bottom: 0;
+}
+
+.referral-disclosure {
+    padding-top: 0.85rem;
+    color: var(--gold-dark) !important;
+    border-top: 1px solid var(--line);
+    font-size: 0.72rem !important;
+    font-weight: 600;
+}
+
+.referral-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+}
+
+.referral-card {
+    display: flex;
+    flex-direction: column;
+    padding: 1.4rem;
+    background: #ffffff;
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow);
+}
+
+.referral-label {
+    display: inline-block;
+    margin-bottom: 0.65rem;
+    color: var(--gold-dark);
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+}
+
+.referral-issuer {
+    margin-bottom: 0.7rem !important;
+    color: var(--pear-dark) !important;
+    font-family: var(--serif-font);
+    font-size: 0.72rem !important;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.referral-card h3 {
+    margin-bottom: 0.7rem;
+    color: var(--forest);
+    font-family: var(--script-font);
+    font-size: 2.2rem;
+    font-weight: 400;
+}
+
+.referral-card p {
+    margin-bottom: 1rem;
+    color: var(--muted);
+    font-size: 0.86rem;
+}
+
+.referral-link {
+    margin-top: auto;
+}
+
+/* =========================================================
+   WEDDING FUND PAGE
+   ========================================================= */
+
+.fund-page-content {
+    width: min(100% - 2rem, 950px);
+    margin: 0 auto;
+}
+
+.fund-page-copy {
+    max-width: 700px;
+    margin: 0 auto;
+    color: var(--muted);
+    text-align: center;
+}
+
+.fund-page-copy p {
+    margin-bottom: 1rem;
+}
+
+.payment-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin-top: 2.25rem;
+}
+
+.payment-card {
+    display: flex;
+    flex-direction: column;
+    padding: 1.4rem;
+    background: #ffffff;
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow);
+}
+
+.payment-card h3 {
+    margin-bottom: 0.7rem;
+    font-size: 2.15rem;
+}
+
+.payment-card p {
+    margin-bottom: 1rem;
+    color: var(--muted);
+    font-size: 0.86rem;
+}
+
+.payment-card .fund-payment-link {
+    margin-top: auto;
+}
+
+.payment-card.is-disabled {
+    opacity: 0.72;
+}
+
+.payment-card.is-disabled .fund-payment-link {
+    color: var(--muted);
+    background: #eeeeea;
+    border-color: #d5d2ca;
+    cursor: not-allowed;
+}
+
+.payment-note {
+    max-width: 700px;
+    margin: 2rem auto 0;
+    padding: 1rem;
+    color: var(--pear-dark);
+    background: rgba(220, 231, 173, 0.24);
+    border: 1px solid rgba(166, 185, 101, 0.35);
+    font-size: 0.8rem;
+    text-align: center;
+}
+
+.back-link-wrap {
+    margin-top: 2rem;
+    text-align: center;
 }
 
 /* =========================================================
@@ -752,12 +764,9 @@ h3 {
    ========================================================= */
 
 @media (min-width: 580px) {
-    .fund-grid,
-    .referral-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    .gift-grid {
+    .gift-grid,
+    .referral-grid,
+    .payment-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 }
@@ -770,16 +779,16 @@ h3 {
         padding-left: 2rem;
     }
 
-    .fund-grid {
-        grid-template-columns: repeat(4, minmax(0, 1fr));
+    .gift-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
     }
 
     .referral-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
-    .gift-grid {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
+    .payment-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
     }
 }
 
