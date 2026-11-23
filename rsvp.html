@@ -687,6 +687,7 @@
 </label>
 </div>
 <button class="sleek-btn" type="submit">Send RSVP</button>
+<p class="status-msg" id="rsvp-status" aria-live="polite"></p>
 </form>
 </section>
 </main>
@@ -696,11 +697,68 @@
 
         /* =========================================
            RSVP FORM
+           Submits to the "Wedding RSVP Receiver" Apps Script
+           web app, which appends Name + Attendance to the
+           "Wedding RSVP's" sheet in thecujis@gmail.com.
            ========================================= */
-        document.getElementById("rsvp-form").addEventListener("submit", function(event) {
+        const RSVP_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyzfSpBEzIXIgnRfUkOOHns8hl-JoARYXxURJ5YLw2mgH9QfJhj_WgZQVGq-NNCuqJuSA/exec";
+
+        document.getElementById("rsvp-form").addEventListener("submit", async function(event) {
             event.preventDefault();
-            alert("Thank you! Your RSVP has been received.");
-            this.reset();
+
+            const name = document.getElementById("guest-name").value.trim();
+            const attending = document.querySelector('input[name="attending"]:checked');
+            const button = this.querySelector('button[type="submit"]');
+            const statusElement = document.getElementById("rsvp-status");
+
+            if (!name || !attending) {
+                return;
+            }
+
+            button.disabled = true;
+            button.textContent = "Sending...";
+            statusElement.textContent = "";
+            statusElement.className = "status-msg";
+
+            try {
+                const response = await fetch(RSVP_SCRIPT_URL, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "text/plain;charset=utf-8"
+                    },
+                    body: JSON.stringify({
+                        name: name,
+                        attending: attending.value
+                    })
+                });
+
+                let result = null;
+                try {
+                    result = await response.json();
+                } catch (parseError) {
+                    /* A 200 with an unparseable body still means the
+                       script ran; treat it as sent. */
+                }
+
+                if (!response.ok || (result && result.status !== "ok")) {
+                    throw new Error(
+                        (result && result.message) || "RSVP was not saved."
+                    );
+                }
+
+                statusElement.className = "status-msg success";
+                statusElement.textContent =
+                    "Thank you! Your RSVP has been received.";
+                this.reset();
+            } catch (error) {
+                console.error(error);
+                statusElement.className = "status-msg error";
+                statusElement.textContent =
+                    "Sorry, your RSVP could not be sent. Please try again.";
+            } finally {
+                button.disabled = false;
+                button.textContent = "Send RSVP";
+            }
         });
 </script>
 </body>
