@@ -11,8 +11,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cinzel:wght@400;500;600&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="registry.css">
-    <script src="registry.js" defer></script>
+    <link rel="stylesheet" href="registry.css?v=2">
+    <script src="registry.js?v=2" defer></script>
 </head>
 
 <body>
@@ -38,15 +38,16 @@
              ===================================================== -->
         <section class="registry-hero">
             <div class="hero-inner">
+                <p class="eyebrow">With Gratitude</p>
                 <h1>Registry</h1>
 
                 <div class="botanical-divider" aria-hidden="true">
-                    <svg viewBox="0 0 240 42" role="presentation">
-                        <path d="M10 22H84M156 22H230" />
-                        <path d="M93 22C101 10 109 10 120 22C131 10 139 10 147 22" />
-                        <ellipse cx="101" cy="15" rx="5" ry="9" />
-                        <ellipse cx="139" cy="15" rx="5" ry="9" />
-                        <circle cx="120" cy="22" r="4" />
+                    <svg viewBox="0 0 240 42">
+                        <path d="M10 22H84M156 22H230"></path>
+                        <path d="M93 22C101 10 109 10 120 22C131 10 139 10 147 22"></path>
+                        <ellipse cx="101" cy="15" rx="5" ry="9"></ellipse>
+                        <ellipse cx="139" cy="15" rx="5" ry="9"></ellipse>
+                        <circle cx="120" cy="22" r="4"></circle>
                     </svg>
                 </div>
 
@@ -62,7 +63,7 @@
         <!-- =====================================================
              FEATURED FUNDS
              ===================================================== -->
-        <section class="registry-section funds-section" aria-labelledby="funds-heading">
+        <section class="registry-section funds-section" id="cash-funds" aria-labelledby="funds-heading">
             <div class="section-heading">
                 <p class="eyebrow">Celebrate With Us</p>
                 <h2 id="funds-heading">Featured Funds</h2>
@@ -76,16 +77,33 @@
         </section>
 
         <!-- =====================================================
-             SHOP EXTERNAL REGISTRIES
+             REFERRAL OFFERS
              ===================================================== -->
-        <section class="registry-section shop-section" aria-labelledby="shop-heading">
+        <section class="registry-section referral-section" aria-labelledby="referral-heading">
             <div class="section-heading">
-                <p class="eyebrow">Registry Directory</p>
-                <h2 id="shop-heading">Shop Our Registries</h2>
-                <p>Visit any of our external registry pages to browse current availability.</p>
+                <p class="eyebrow">A Different Way to Celebrate</p>
+                <h2 id="referral-heading">An Easy Way to Support Our Adventures</h2>
             </div>
 
-            <div id="registry-link-grid" class="registry-link-grid"></div>
+            <div class="referral-intro">
+                <p>
+                    For friends and family who are already considering a new credit card, using one of our referral links is another meaningful way to celebrate with us.
+                </p>
+
+                <p>
+                    If you are approved through an eligible referral offer, we may receive points or other referral benefits from the card issuer. Those points help us with future travel, everyday expenses, and the experiences we hope to share as newlyweds.
+                </p>
+
+                <p>
+                    Please only explore these offers if a credit card already fits your financial plans and spending habits. Be sure to review the card issuer’s current terms, rates, fees, eligibility requirements, and rewards details before applying.
+                </p>
+
+                <p class="referral-disclosure">
+                    Referral links — terms and eligibility are determined by the issuer.
+                </p>
+            </div>
+
+            <div id="referral-grid" class="referral-grid"></div>
         </section>
 
         <!-- =====================================================
@@ -96,7 +114,7 @@
                 <p class="eyebrow">A Few Favorites</p>
                 <h2 id="gifts-heading">Our Registry</h2>
                 <p class="availability-note">
-                    Availability and purchase status may update through the retailer’s registry page.
+                    Availability and purchase status may update through the retailer’s product page.
                 </p>
             </div>
 
@@ -120,8 +138,8 @@
                     <p class="filter-label" id="filter-label">Browse gifts by category</p>
 
                     <div
-                        id="category-filters"
                         class="category-filters"
+                        id="category-filters"
                         role="group"
                         aria-labelledby="filter-label"
                     ></div>
@@ -130,11 +148,11 @@
 
             <p class="results-status" id="results-status" aria-live="polite"></p>
 
-            <div id="gift-grid" class="gift-grid"></div>
+            <div class="gift-grid" id="gift-grid"></div>
 
-            <div id="empty-state" class="empty-state" hidden>
+            <div class="empty-state" id="empty-state" hidden>
                 <h3>No gifts found</h3>
-                <p>Try a different category or clear your search to view all registry items.</p>
+                <p>Try another category or clear your search to view all registry items.</p>
             </div>
         </section>
     </main>
