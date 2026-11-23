@@ -1,62 +1,17 @@
 /* =========================================================
    EDIT REGISTRY HERE
 
-   1. Replace every example.com product or fund URL.
-   2. Upload your authorized product images to:
+   1. Replace every example.com product URL.
+   2. Upload authorized product images into:
       images/registry/
-   3. Replace each image path below once you add images.
-   4. Update quantityNeeded, quantityPurchased, and status
-      manually when gifts are purchased.
-   5. Do not process payments or collect payment information
-      directly through this static GitHub Pages website.
-   6. Referral URLs should only be issuer-generated links.
+   3. Replace image paths, prices, and retailer names.
+   4. Manually update quantityNeeded, quantityPurchased, and status.
+   5. Wedding Fund opens wedding-fund.html.
    ========================================================= */
-
-
-/* =========================================================
-   CASH / EXPERIENCE FUNDS
-   ========================================================= */
-const registryFunds = [
-    {
-        id: "honeymoon-fund",
-        title: "Honeymoon Fund",
-        description: "Help us make memories as we begin our next chapter together.",
-        goal: 3000,
-        raised: 0,
-        url: "https://example.com/honeymoon-fund"
-    },
-    {
-        id: "first-home-fund",
-        title: "First Home Fund",
-        description: "A contribution toward making our future home warm, comfortable, and ours.",
-        goal: 5000,
-        raised: 0,
-        url: "https://example.com/first-home-fund"
-    },
-    {
-        id: "date-night-fund",
-        title: "Date Night Fund",
-        description: "Help us keep celebrating the little moments long after the wedding day.",
-        goal: 750,
-        raised: 0,
-        url: "https://example.com/date-night-fund"
-    },
-    {
-        id: "future-adventures-fund",
-        title: "Future Adventures Fund",
-        description: "For future road trips, weekend getaways, and new places to explore together.",
-        goal: 1500,
-        raised: 0,
-        url: "https://example.com/future-adventures-fund"
-    }
-];
 
 
 /* =========================================================
    CREDIT CARD / REFERRAL OFFERS
-
-   Referral links are provided by the user. Review each
-   issuer-generated landing page and its terms before publishing.
    ========================================================= */
 const referralOffers = [
     {
@@ -99,12 +54,25 @@ const referralOffers = [
 
 
 /* =========================================================
-   GIFT REGISTRY ITEMS
-
-   Replace retailer names, prices, image paths, and product URLs
-   after selecting the exact products you want.
+   REGISTRY ITEMS
    ========================================================= */
 const registryItems = [
+    {
+        id: "wedding-fund",
+        title: "Wedding Fund",
+        category: "Cash Funds",
+        retailer: "Zumi & Morgan",
+        price: "Any Amount",
+        description: "A contribution toward our future home, honeymoon, and adventures as newlyweds.",
+        image: "images/registry/wedding-fund.jpg",
+        url: "wedding-fund.html",
+        status: "available",
+        quantityNeeded: 1,
+        quantityPurchased: 0,
+        featured: true,
+        internal: true,
+        buttonText: "Contribute to Our Wedding Fund"
+    },
     {
         id: "rice-cooker",
         title: "Rice Cooker",
@@ -134,14 +102,14 @@ const registryItems = [
         featured: true
     },
     {
-        id: "picture-frames",
-        title: "Picture Frame Collection",
+        id: "gold-picture-frames",
+        title: "Gold 18×24 Picture Frame Set",
         category: "Home",
-        retailer: "Add Retailer",
+        retailer: "Amazon",
         price: "Add Price",
-        description: "A collection of frames for wedding photos, family memories, and future adventures.",
-        image: "images/registry/picture-frames.jpg",
-        url: "https://example.com/picture-frames",
+        description: "Gold display frames for wedding portraits, artwork, favorite memories, and future family photographs.",
+        image: "images/registry/gold-picture-frames.jpg",
+        url: "https://www.amazon.com/ENJOYBASICS-Picture-Display-Without-Gallery/dp/B0CKLFNZ1R/ref=sr_1_1_sspa?crid=30SUKMVZYPB18&dib_tag=se&keywords=18x24%2Bframes%2Bgold&qid=1795460211&sprefix=18x24%2Bframes%2Bgol%2Caps%2C156&sr=8-1-spons&th=1",
         status: "available",
         quantityNeeded: 1,
         quantityPurchased: 0,
@@ -204,6 +172,34 @@ const registryItems = [
         featured: true
     },
     {
+        id: "serving-platter-set",
+        title: "Serving Platter Set",
+        category: "Kitchen & Dining",
+        retailer: "Amazon",
+        price: "Add Price",
+        description: "A set of serving platters in multiple sizes for hosting, holidays, dinner parties, and family gatherings.",
+        image: "images/registry/serving-platter-set.jpg",
+        url: "https://www.amazon.com/Famiware-Serving-Platters-Set-Sizes/dp/B0C88R51G4/ref=sr_1_20_sspa?crid=11SZB43LM7EK&dib_tag=se&keywords=serving%2Bset&qid=1795460938&sprefix=serving%2Bset%2Caps%2C165&sr=8-20-spons&th=1",
+        status: "available",
+        quantityNeeded: 1,
+        quantityPurchased: 0,
+        featured: false
+    },
+    {
+        id: "food-storage-containers",
+        title: "Airtight Food Storage Container Set",
+        category: "Kitchen & Dining",
+        retailer: "Amazon",
+        price: "Add Price",
+        description: "A practical airtight container set for pantry organization, meal preparation, leftovers, and everyday storage.",
+        image: "images/registry/food-storage-containers.jpg",
+        url: "https://www.amazon.com/KOMUEE-Storage-Containers-Airtight-Microwave/dp/B0DLB57XWW/ref=sr_1_3_sspa?crid=35JKABGF6HRAI&dib_tag=se&keywords=food%2Bcontainers&qid=1795461180&sprefix=food%2Bcontainers%2Caps%2C229&sr=8-3-spons&th=1",
+        status: "available",
+        quantityNeeded: 1,
+        quantityPurchased: 0,
+        featured: false
+    },
+    {
         id: "luggage-set",
         title: "Luggage Set",
         category: "Experiences",
@@ -246,20 +242,6 @@ const registryItems = [
         featured: false
     },
     {
-        id: "bath-towel-set",
-        title: "Bath Towel Set",
-        category: "Newlywed Essentials",
-        retailer: "Add Retailer",
-        price: "Add Price",
-        description: "An everyday home essential in a soft, neutral style.",
-        image: "images/registry/bath-towel-set.jpg",
-        url: "https://example.com/bath-towel-set",
-        status: "available",
-        quantityNeeded: 2,
-        quantityPurchased: 0,
-        featured: false
-    },
-    {
         id: "restaurant-gift-card",
         title: "Restaurant Gift Card",
         category: "Gift Cards",
@@ -294,11 +276,6 @@ let activeCategory = "All Gifts";
 let searchTerm = "";
 let favoriteIds = loadFavorites();
 
-
-/* =========================================================
-   DOM REFERENCES
-   ========================================================= */
-const fundGrid = document.getElementById("fund-grid");
 const referralGrid = document.getElementById("referral-grid");
 const categoryFilters = document.getElementById("category-filters");
 const giftGrid = document.getElementById("gift-grid");
@@ -309,7 +286,7 @@ const emptyState = document.getElementById("empty-state");
 
 
 /* =========================================================
-   FAVORITES / LOCAL STORAGE
+   FAVORITES
    ========================================================= */
 function loadFavorites() {
     try {
@@ -327,7 +304,7 @@ function saveFavorites() {
             JSON.stringify(favoriteIds)
         );
     } catch (error) {
-        /* The page remains functional if storage is unavailable. */
+        /* Registry remains usable when localStorage is unavailable. */
     }
 }
 
@@ -369,114 +346,9 @@ function getInitials(title) {
         .toUpperCase();
 }
 
-function formatCurrency(amount) {
-    return new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "USD",
-        maximumFractionDigits: 0
-    }).format(amount);
-}
-
-function calculateFundProgress(fund) {
-    if (!fund.goal || fund.goal <= 0) {
-        return 0;
-    }
-
-    return Math.min(
-        100,
-        Math.round((fund.raised / fund.goal) * 100)
-    );
-}
-
 
 /* =========================================================
-   FUNDS RENDERING
-   ========================================================= */
-function renderFunds() {
-    fundGrid.innerHTML = registryFunds.map(function (fund) {
-        const progress = calculateFundProgress(fund);
-
-        return `
-            <article class="fund-card">
-                <h3>${escapeHTML(fund.title)}</h3>
-                <p>${escapeHTML(fund.description)}</p>
-
-                <div class="fund-meta">
-                    <span>${formatCurrency(fund.raised)} gifted</span>
-                    <span>Goal: ${formatCurrency(fund.goal)}</span>
-                </div>
-
-                <div
-                    class="progress-track"
-                    role="progressbar"
-                    aria-label="${escapeHTML(fund.title)} progress"
-                    aria-valuemin="0"
-                    aria-valuemax="${fund.goal}"
-                    aria-valuenow="${fund.raised}"
-                >
-                    <div class="progress-bar" style="width: ${progress}%"></div>
-                </div>
-
-                <div class="amount-options" role="group" aria-label="Choose an amount for ${escapeHTML(fund.title)}">
-                    <button class="amount-btn" type="button" data-fund-id="${fund.id}" data-amount="25">$25</button>
-                    <button class="amount-btn" type="button" data-fund-id="${fund.id}" data-amount="50">$50</button>
-                    <button class="amount-btn" type="button" data-fund-id="${fund.id}" data-amount="100">$100</button>
-                    <button class="amount-btn" type="button" data-fund-id="${fund.id}" data-amount="custom">Custom</button>
-                </div>
-
-                <a
-                    class="fund-link"
-                    href="${escapeHTML(fund.url)}"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    Contribute
-                </a>
-            </article>
-        `;
-    }).join("");
-
-    document.querySelectorAll(".amount-btn").forEach(function (button) {
-        button.addEventListener("click", handleAmountSelection);
-    });
-}
-
-function handleAmountSelection(event) {
-    const clickedButton = event.currentTarget;
-    const fundId = clickedButton.dataset.fundId;
-    let selectedAmount = clickedButton.dataset.amount;
-
-    if (selectedAmount === "custom") {
-        selectedAmount = window.prompt(
-            "Enter a contribution amount in dollars:"
-        );
-
-        if (!selectedAmount) {
-            return;
-        }
-
-        selectedAmount = selectedAmount.replace(/[^0-9.]/g, "");
-
-        if (!selectedAmount || Number(selectedAmount) <= 0) {
-            window.alert("Please enter a valid amount.");
-            return;
-        }
-    }
-
-    document.querySelectorAll(
-        `.amount-btn[data-fund-id="${fundId}"]`
-    ).forEach(function (button) {
-        button.classList.remove("is-selected");
-        button.setAttribute("aria-pressed", "false");
-    });
-
-    clickedButton.classList.add("is-selected");
-    clickedButton.setAttribute("aria-pressed", "true");
-}
-
-
-/* =========================================================
-   REFERRAL OFFER RENDERING
+   REFERRAL OFFERS
    ========================================================= */
 function renderReferralOffers() {
     referralGrid.innerHTML = referralOffers.map(function (offer) {
@@ -504,7 +376,7 @@ function renderReferralOffers() {
 
 
 /* =========================================================
-   CATEGORY FILTER RENDERING
+   CATEGORY FILTERS
    ========================================================= */
 function renderCategoryFilters() {
     categoryFilters.innerHTML = categories.map(function (category) {
@@ -526,19 +398,6 @@ function renderCategoryFilters() {
         button.addEventListener("click", function () {
             activeCategory = button.dataset.category;
             renderCategoryFilters();
-
-            if (activeCategory === "Cash Funds") {
-                document.getElementById("cash-funds").scrollIntoView({
-                    behavior: "smooth",
-                    block: "start"
-                });
-
-                resultsStatus.textContent =
-                    "Cash funds are available in the Featured Funds section above.";
-
-                return;
-            }
-
             renderGifts();
         });
     });
@@ -546,7 +405,7 @@ function renderCategoryFilters() {
 
 
 /* =========================================================
-   SEARCH / FILTERING
+   FILTERING
    ========================================================= */
 function getFilteredItems() {
     const normalizedSearch = searchTerm.trim().toLowerCase();
@@ -574,15 +433,9 @@ function getFilteredItems() {
 
 
 /* =========================================================
-   GIFT CARD RENDERING
+   GIFT RENDERING
    ========================================================= */
 function renderGifts() {
-    if (activeCategory === "Cash Funds") {
-        giftGrid.innerHTML = "";
-        emptyState.hidden = true;
-        return;
-    }
-
     const filteredItems = getFilteredItems();
 
     giftGrid.innerHTML = filteredItems.map(function (item) {
@@ -600,12 +453,20 @@ function renderGifts() {
                 ? "Still Needed"
                 : "Completed";
 
-        const quantityLabel = purchased
-            ? "Purchased"
-            : `${item.quantityPurchased} of ${item.quantityNeeded} purchased`;
+        const quantityLabel = item.category === "Cash Funds"
+            ? "Choose the contribution method that works best for you."
+            : purchased
+                ? "Purchased"
+                : `${item.quantityPurchased} of ${item.quantityNeeded} purchased`;
+
+        const linkAttributes = item.internal
+            ? ""
+            : 'target="_blank" rel="noopener noreferrer"';
+
+        const linkLabel = item.buttonText || "View Gift";
 
         return `
-            <article class="gift-card">
+            <article class="gift-card ${item.id === "wedding-fund" ? "is-wedding-fund" : ""}">
                 <div class="gift-image-wrap">
                     <img
                         class="gift-image"
@@ -651,16 +512,15 @@ function renderGifts() {
                         <span>${escapeHTML(item.price)}</span>
                     </div>
 
-                    <p class="quantity-note">${quantityLabel}</p>
+                    <p class="quantity-note">${escapeHTML(quantityLabel)}</p>
 
                     <a
                         class="gift-link"
                         href="${escapeHTML(item.url)}"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        aria-label="View ${escapeHTML(item.title)} at ${escapeHTML(item.retailer)} in a new tab"
+                        ${linkAttributes}
+                        aria-label="${escapeHTML(linkLabel)}: ${escapeHTML(item.title)}"
                     >
-                        View Gift
+                        ${escapeHTML(linkLabel)}
                     </a>
                 </div>
             </article>
@@ -691,16 +551,10 @@ function renderGifts() {
 
 
 /* =========================================================
-   SEARCH EVENTS
+   SEARCH
    ========================================================= */
 searchInput.addEventListener("input", function () {
     searchTerm = searchInput.value;
-
-    if (activeCategory === "Cash Funds") {
-        activeCategory = "All Gifts";
-        renderCategoryFilters();
-    }
-
     renderGifts();
 });
 
@@ -708,12 +562,6 @@ clearSearchButton.addEventListener("click", function () {
     searchInput.value = "";
     searchTerm = "";
     searchInput.focus();
-
-    if (activeCategory === "Cash Funds") {
-        activeCategory = "All Gifts";
-        renderCategoryFilters();
-    }
-
     renderGifts();
 });
 
@@ -721,7 +569,6 @@ clearSearchButton.addEventListener("click", function () {
 /* =========================================================
    INITIAL RENDER
    ========================================================= */
-renderFunds();
 renderReferralOffers();
 renderCategoryFilters();
 renderGifts();
