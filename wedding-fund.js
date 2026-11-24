@@ -11,28 +11,28 @@
 const paymentOptions = [
     {
         id: "paypal",
-        title: "Pay with PayPal",
+        title: "Give with PayPal",
         description: "Use PayPal or an available debit or credit card checkout option.",
         buttonText: "Open PayPal",
         url: "https://paypal.me/ZumiC"
     },
     {
         id: "venmo",
-        title: "Pay with Venmo",
+        title: "Give with Venmo",
         description: "Send a contribution using Venmo.",
         buttonText: "Open Venmo",
         url: "https://venmo.com/u/Zumi-Cuji"
     },
     {
         id: "cashapp",
-        title: "Pay with Cash App",
+        title: "Give with Cash App",
         description: "Send a contribution using Cash App.",
         buttonText: "Open Cash App",
         url: "https://cash.app/$ZumiCuji"
     },
     {
         id: "zelle",
-        title: "Pay with Zelle",
+        title: "Give with Zelle",
         description: "Send a contribution through your bank's Zelle using the number below.",
         buttonText: "Copy number",
         url: "",
