@@ -710,6 +710,13 @@ h3 {
     font-size: 0.86rem;
 }
 
+.payment-card .fund-contact {
+    margin-bottom: 1rem;
+    font-size: 1.15rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+}
+
 .payment-card .fund-payment-link {
     margin-top: auto;
 }

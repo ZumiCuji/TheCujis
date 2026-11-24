@@ -29,6 +29,15 @@ const paymentOptions = [
         description: "Send a contribution using Cash App.",
         buttonText: "Open Cash App",
         url: "https://cash.app/$ZumiCuji"
+    },
+    {
+        id: "zelle",
+        title: "Pay with Zelle",
+        description: "Send a contribution through your bank's Zelle using the number below.",
+        buttonText: "Copy number",
+        url: "",
+        contact: "(910) 508-2478",
+        copyText: "9105082478"
     }
 ];
 
@@ -51,39 +60,68 @@ function isConfigured(url) {
 function renderPaymentOptions() {
     paymentGrid.innerHTML = paymentOptions.map(function (option) {
         const configured = isConfigured(option.url);
+        const hasContact = Boolean(option.contact);
+
+        let action;
+        if (configured) {
+            action = `
+                <a
+                    class="fund-payment-link"
+                    href="${escapeHTML(option.url)}"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="${escapeHTML(option.buttonText)} in a new tab"
+                >
+                    ${escapeHTML(option.buttonText)}
+                </a>
+            `;
+        } else if (hasContact) {
+            action = `
+                <p class="fund-contact">${escapeHTML(option.contact)}</p>
+                <button
+                    class="fund-payment-link"
+                    type="button"
+                    data-copy="${escapeHTML(option.copyText || option.contact)}"
+                    aria-label="Copy ${escapeHTML(option.title)} number"
+                >
+                    ${escapeHTML(option.buttonText)}
+                </button>
+            `;
+        } else {
+            action = `
+                <button
+                    class="fund-payment-link"
+                    type="button"
+                    disabled
+                    aria-label="${escapeHTML(option.title)} payment option is not configured yet"
+                >
+                    Coming Soon
+                </button>
+            `;
+        }
 
         return `
-            <article class="payment-card ${configured ? "" : "is-disabled"}">
+            <article class="payment-card ${configured || hasContact ? "" : "is-disabled"}">
                 <h3>${escapeHTML(option.title)}</h3>
                 <p>${escapeHTML(option.description)}</p>
 
-                ${
-                    configured
-                        ? `
-                            <a
-                                class="fund-payment-link"
-                                href="${escapeHTML(option.url)}"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                aria-label="${escapeHTML(option.buttonText)} in a new tab"
-                            >
-                                ${escapeHTML(option.buttonText)}
-                            </a>
-                        `
-                        : `
-                            <button
-                                class="fund-payment-link"
-                                type="button"
-                                disabled
-                                aria-label="${escapeHTML(option.title)} payment option is not configured yet"
-                            >
-                                Coming Soon
-                            </button>
-                        `
-                }
+                ${action}
             </article>
         `;
     }).join("");
+
+    paymentGrid.querySelectorAll("[data-copy]").forEach(function (button) {
+        button.addEventListener("click", function () {
+            const text = button.getAttribute("data-copy");
+            const original = button.textContent;
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(function () {
+                    button.textContent = "Copied!";
+                    setTimeout(function () { button.textContent = original; }, 2000);
+                });
+            }
+        });
+    });
 }
 
 renderPaymentOptions();

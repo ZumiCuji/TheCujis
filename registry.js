@@ -4,7 +4,7 @@
    1. Replace every example.com product URL.
    2. Upload authorized product images into:
       images/registry/
-   3. Replace image paths, prices, and retailer names.
+   3. Replace image paths and retailer names.
    4. Manually update quantityNeeded, quantityPurchased, and status.
    5. Wedding Fund opens wedding-fund.html.
 
@@ -65,7 +65,6 @@ const registryItems = [
         title: "Wedding Fund",
         category: "Cash Funds",
         retailer: "Zumi & Morgan",
-        price: "Any Amount",
         description: "A contribution toward our future home, honeymoon, and adventures as newlyweds.",
         image: "images/registry/wedding-fund.jpg",
         url: "wedding-fund.html",
@@ -81,24 +80,9 @@ const registryItems = [
         title: "Rice Cooker",
         category: "Kitchen & Dining",
         retailer: "Amazon",
-        price: "$34.14",
         description: "For easy weeknight meals, rice bowls, and homemade comfort food.",
         image: "images/registry/rice-cooker.jpg",
         url: "https://www.amazon.com/dp/B007WQ9YNO",
-        status: "available",
-        quantityNeeded: 1,
-        quantityPurchased: 0,
-        featured: true
-    },
-    {
-        id: "king-size-comforter",
-        title: "King-Size Comforter Set",
-        category: "Home",
-        retailer: "Amazon",
-        price: "$37.99",
-        description: "A comfortable, beautiful bedding set for our newlywed home.",
-        image: "images/registry/king-size-comforter.jpg",
-        url: "https://www.amazon.com/dp/B0CGV4SWGW",
         status: "available",
         quantityNeeded: 1,
         quantityPurchased: 0,
@@ -109,7 +93,6 @@ const registryItems = [
         title: "Gold 18×24 Picture Frame Set",
         category: "Home",
         retailer: "Amazon",
-        price: "$34.99",
         description: "Gold display frames for wedding portraits, artwork, favorite memories, and future family photographs.",
         image: "images/registry/gold-picture-frames.jpg",
         url: "https://www.amazon.com/ENJOYBASICS-Picture-Display-Without-Gallery/dp/B0CKLFNZ1R/ref=sr_1_1_sspa?crid=30SUKMVZYPB18&dib_tag=se&keywords=18x24%2Bframes%2Bgold&qid=1795460211&sprefix=18x24%2Bframes%2Bgol%2Caps%2C156&sr=8-1-spons&th=1",
@@ -120,38 +103,22 @@ const registryItems = [
     },
     {
         id: "rotating-mop",
-        title: "Rotating Mop System",
+        title: "Bissell SpinWave Hard Floor Expert",
         category: "Newlywed Essentials",
         retailer: "Amazon",
-        price: "$34.96",
-        description: "A practical cleaning essential for keeping our future home fresh and comfortable.",
+        description: "An electric spin mop with powered rotating pads for sealed hard floors — no more hand-scrubbing.",
         image: "images/registry/rotating-mop.jpg",
-        url: "https://www.amazon.com/dp/B00WSWGVZQ",
+        url: "https://www.amazon.com/dp/B08J4739TQ",
         status: "available",
         quantityNeeded: 1,
         quantityPurchased: 0,
         featured: false
     },
     {
-        id: "robot-vacuum-mop",
-        title: "Vacuuming & Mopping Robot",
-        category: "Newlywed Essentials",
-        retailer: "Amazon",
-        price: "$199.99",
-        description: "A helpful home upgrade for vacuuming and mopping while we focus on life together.",
-        image: "images/registry/robot-vacuum-mop.jpg",
-        url: "https://www.amazon.com/dp/B0DWX69JVG",
-        status: "available",
-        quantityNeeded: 1,
-        quantityPurchased: 0,
-        featured: true
-    },
-    {
         id: "tool-set",
         title: "Home Tool Set",
         category: "Newlywed Essentials",
         retailer: "Amazon",
-        price: "$42.38",
         description: "A reliable tool kit for little fixes, projects, and our first home together.",
         image: "images/registry/tool-set.jpg",
         url: "https://www.amazon.com/dp/B07WC1846W",
@@ -165,7 +132,6 @@ const registryItems = [
         title: "Wide Shallow Pasta Bowl Set",
         category: "Kitchen & Dining",
         retailer: "Amazon",
-        price: "$39.99",
         description: "Wide, shallow bowls with raised edges for pasta, rice bowls, saucy dishes, soups, salads, and everyday dinners.",
         image: "images/registry/pasta-bowl-set.jpg",
         url: "https://www.amazon.com/dp/B07ZFRRN62",
@@ -179,7 +145,6 @@ const registryItems = [
         title: "Serving Platter Set",
         category: "Kitchen & Dining",
         retailer: "Amazon",
-        price: "$63.99",
         description: "A set of serving platters in multiple sizes for hosting, holidays, dinner parties, and family gatherings.",
         image: "images/registry/serving-platter-set.jpg",
         url: "https://www.amazon.com/Famiware-Serving-Platters-Set-Sizes/dp/B0C88R51G4/ref=sr_1_20_sspa?crid=11SZB43LM7EK&dib_tag=se&keywords=serving%2Bset&qid=1795460938&sprefix=serving%2Bset%2Caps%2C165&sr=8-20-spons&th=1",
@@ -193,7 +158,6 @@ const registryItems = [
         title: "Airtight Food Storage Container Set",
         category: "Kitchen & Dining",
         retailer: "Amazon",
-        price: "$29.99",
         description: "A practical airtight container set for pantry organization, meal preparation, leftovers, and everyday storage.",
         image: "images/registry/food-storage-containers.jpg",
         url: "https://www.amazon.com/KOMUEE-Storage-Containers-Airtight-Microwave/dp/B0DLB57XWW/ref=sr_1_3_sspa?crid=35JKABGF6HRAI&dib_tag=se&keywords=food%2Bcontainers&qid=1795461180&sprefix=food%2Bcontainers%2Caps%2C229&sr=8-3-spons&th=1",
@@ -207,7 +171,6 @@ const registryItems = [
         title: "Luggage Set",
         category: "Experiences",
         retailer: "Amazon",
-        price: "$126.99",
         description: "A durable luggage set for our honeymoon and future adventures together.",
         image: "images/registry/luggage-set.jpg",
         url: "https://www.amazon.com/dp/B0BHDKH8S8",
@@ -221,7 +184,6 @@ const registryItems = [
         title: "Cozy Throw Blankets",
         category: "Home",
         retailer: "Amazon",
-        price: "$10.90",
         description: "Soft throws for quiet nights, movie marathons, and making our space feel like home.",
         image: "images/registry/throw-blankets.jpg",
         url: "https://www.amazon.com/dp/B00NA83RYU",
@@ -235,7 +197,6 @@ const registryItems = [
         title: "Cookware Set",
         category: "Kitchen & Dining",
         retailer: "Amazon",
-        price: "$59.99",
         description: "A versatile set for learning recipes, hosting dinners, and cooking together.",
         image: "images/registry/cookware-set.jpg",
         url: "https://www.amazon.com/dp/B0D41GF9CT",
@@ -615,7 +576,6 @@ function renderGifts() {
 
                     <div class="gift-meta">
                         <span>${escapeHTML(item.retailer)}</span>
-                        <span>${escapeHTML(item.price)}</span>
                     </div>
 
                     <p class="quantity-note">${escapeHTML(quantityLabel)}</p>
