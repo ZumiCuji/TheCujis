@@ -14,7 +14,7 @@ const paymentOptions = [
         title: "Pay with PayPal",
         description: "Use PayPal or an available debit or credit card checkout option.",
         buttonText: "Open PayPal",
-        url: "https://paypal.me/ZumiCuji"
+        url: "https://paypal.me/ZumiC"
     },
     {
         id: "venmo",
