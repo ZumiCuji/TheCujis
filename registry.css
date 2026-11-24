@@ -262,6 +262,32 @@ h3 {
     font-size: clamp(1.8rem, 5vw, 2.4rem);
 }
 
+.shipping-address {
+    max-width: 420px;
+    margin: 1.8rem auto 0;
+    padding: 0.9rem 1.2rem;
+    border: 1px solid var(--gold);
+    border-radius: 10px;
+    background: var(--cream);
+    color: var(--ink);
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+.shipping-label {
+    display: block;
+    color: var(--pear-dark);
+    font-family: var(--serif-font);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+}
+
+.shipping-street {
+    font-weight: 600;
+}
+
 /* =========================================================
    SEARCH / FILTERS
    ========================================================= */
