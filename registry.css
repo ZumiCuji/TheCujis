@@ -288,6 +288,29 @@ h3 {
     font-weight: 600;
 }
 
+.amazon-registry {
+    margin: 1.2rem auto 0;
+}
+
+.amazon-registry-link {
+    display: inline-block;
+    padding: 0.7rem 1.4rem;
+    border-radius: 999px;
+    background: var(--forest);
+    color: var(--paper);
+    font-family: var(--serif-font);
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
+.amazon-registry-link:hover,
+.amazon-registry-link:focus-visible {
+    background: var(--pear-dark);
+}
+
 /* =========================================================
    SEARCH / FILTERS
    ========================================================= */

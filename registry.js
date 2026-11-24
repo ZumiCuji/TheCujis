@@ -97,7 +97,7 @@ const registryItems = [
         image: "images/registry/gold-picture-frames.jpg",
         url: "https://www.amazon.com/ENJOYBASICS-Picture-Display-Without-Gallery/dp/B0CKLFNZ1R/ref=sr_1_1_sspa?crid=30SUKMVZYPB18&dib_tag=se&keywords=18x24%2Bframes%2Bgold&qid=1795460211&sprefix=18x24%2Bframes%2Bgol%2Caps%2C156&sr=8-1-spons&th=1",
         status: "available",
-        quantityNeeded: 1,
+        quantityNeeded: 2,
         quantityPurchased: 0,
         featured: false
     },
