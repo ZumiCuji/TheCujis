@@ -115,19 +115,6 @@ const registryItems = [
         featured: false
     },
     {
-        id: "milwaukee-drill-driver",
-        title: "Milwaukee M18 Compact 1/2\" Drill/Driver Kit",
-        category: "Newlywed Essentials",
-        retailer: "Amazon",
-        description: "A compact cordless drill/driver kit with two M18 batteries, charger, and bag — for drilling, driving screws, and everyday projects around our first home.",
-        image: "images/registry/milwaukee-drill-driver.jpg",
-        url: "https://www.amazon.com/dp/B00GLEWR96",
-        status: "available",
-        quantityNeeded: 1,
-        quantityPurchased: 0,
-        featured: false
-    },
-    {
         id: "milwaukee-impact-driver",
         title: "Milwaukee M18 Compact Brushless 1/4\" Impact Driver Kit",
         category: "Newlywed Essentials",
@@ -135,19 +122,6 @@ const registryItems = [
         description: "A compact brushless impact driver kit with an M18 battery, charger, and bag — for driving long screws and bolts with ease.",
         image: "images/registry/milwaukee-impact-driver.jpg",
         url: "https://www.amazon.com/dp/B0F2JG6LGL",
-        status: "available",
-        quantityNeeded: 1,
-        quantityPurchased: 0,
-        featured: false
-    },
-    {
-        id: "milwaukee-reciprocating-saw",
-        title: "Milwaukee M18 FUEL SAWZALL Reciprocating Saw Kit",
-        category: "Newlywed Essentials",
-        retailer: "Amazon",
-        description: "A brushless SAWZALL reciprocating saw kit with an M18 XC5.0 battery, charger, and case — for cutting lumber, pipe, and demolition work.",
-        image: "images/registry/milwaukee-reciprocating-saw.jpg",
-        url: "https://www.amazon.com/dp/B00FSG0SU8",
         status: "available",
         quantityNeeded: 1,
         quantityPurchased: 0,
