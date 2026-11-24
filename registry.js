@@ -243,6 +243,19 @@ const registryItems = [
         quantityNeeded: 2,
         quantityPurchased: 0,
         featured: false
+    },
+    {
+        id: "patio-furniture-set",
+        title: "4-Piece Outdoor Patio Furniture Set",
+        category: "Home",
+        retailer: "Amazon",
+        description: "A dark brown wicker patio set with beige cushions — a loveseat, two armchairs, and a glass-top coffee table for relaxing outside together.",
+        image: "images/registry/patio-furniture-set.jpg",
+        url: "https://www.amazon.com/dp/B0HN4R3K9W",
+        status: "available",
+        quantityNeeded: 1,
+        quantityPurchased: 0,
+        featured: false
     }
 ];
 
