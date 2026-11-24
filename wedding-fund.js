@@ -1,13 +1,8 @@
 /* =========================================================
-   EDIT PAYMENT METHODS HERE
+   PAYMENT METHODS
 
-   Replace each placeholder URL with your real secure link.
-
-   Suggested options:
-   - Stripe Payment Link for card / Apple Pay / Google Pay
-   - PayPal payment link
-   - Venmo payment link
-   - Cash App payment link
+   Live links for the wedding fund. Card payments are not
+   set up (no Stripe link), so that option is not shown.
 
    Do not collect payment, card, bank, income, or personal
    financial information directly through this website.
@@ -15,32 +10,25 @@
 
 const paymentOptions = [
     {
-        id: "stripe",
-        title: "Pay by Card",
-        description: "Use a credit card, debit card, or supported express checkout option.",
-        buttonText: "Pay by Card",
-        url: "PASTE_YOUR_STRIPE_PAYMENT_LINK_HERE"
-    },
-    {
         id: "paypal",
         title: "Pay with PayPal",
         description: "Use PayPal or an available debit or credit card checkout option.",
         buttonText: "Open PayPal",
-        url: "PASTE_YOUR_PAYPAL_PAYMENT_LINK_HERE"
+        url: "https://paypal.me/ZumiCuji"
     },
     {
         id: "venmo",
         title: "Pay with Venmo",
         description: "Send a contribution using Venmo.",
         buttonText: "Open Venmo",
-        url: "PASTE_YOUR_VENMO_LINK_HERE"
+        url: "https://venmo.com/u/Zumi-Cuji"
     },
     {
         id: "cashapp",
         title: "Pay with Cash App",
         description: "Send a contribution using Cash App.",
         buttonText: "Open Cash App",
-        url: "PASTE_YOUR_CASH_APP_LINK_HERE"
+        url: "https://cash.app/$ZumiCuji"
     }
 ];
 
